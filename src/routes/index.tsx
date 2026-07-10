@@ -26,25 +26,25 @@ function InstagramIcon({ className }: { className?: string }) {
 
 function Index() {
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background px-6 py-20 text-center">
-      {/* Subtle ambient background glow */}
+    <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 py-20 text-center">
+      {/* Subtle ambient background glow in brand colors */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-40"
+        className="pointer-events-none absolute inset-0 opacity-50"
         aria-hidden="true"
       >
         <div className="absolute left-1/2 top-1/2 h-[40rem] w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-blue/10 blur-[120px]" />
         <div className="absolute left-1/3 top-1/3 h-[30rem] w-[30rem] rounded-full bg-brand-green/8 blur-[100px]" />
-        <div className="absolute bottom-1/4 right-1/3 h-[25rem] w-[25rem] rounded-full bg-brand-yellow/6 blur-[100px]" />
+        <div className="absolute bottom-1/4 right-1/3 h-[25rem] w-[25rem] rounded-full bg-brand-yellow/8 blur-[100px]" />
       </div>
 
       {/* Content */}
       <div className="relative z-10 flex max-w-3xl flex-col items-center animate-fade-in">
-        {/* Logo */}
-        <div className="mb-10">
+        {/* Logo with glass base */}
+        <div className="group mb-10 rounded-[2rem] bg-white/60 p-8 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.08)] backdrop-blur-xl ring-1 ring-white/80 transition-transform duration-500 hover:scale-[1.02]">
           <img
             src={logoAsset.url}
             alt="RIQSIN logo"
-            className="h-40 w-auto sm:h-48 md:h-56 drop-shadow-2xl"
+            className="h-44 w-auto sm:h-52 md:h-60 drop-shadow-2xl"
           />
         </div>
 
@@ -78,7 +78,7 @@ function Index() {
           href="https://www.instagram.com/kev07_ok/"
           target="_blank"
           rel="noreferrer noopener"
-          className="mt-12 inline-flex items-center gap-3 rounded-full border border-border bg-secondary/50 px-8 py-3.5 text-sm font-medium text-foreground backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] hover:border-brand-blue/40 hover:bg-secondary hover:glow-brand-subtle focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+          className="mt-12 inline-flex items-center gap-3 rounded-full border border-border bg-white/70 px-8 py-3.5 text-sm font-medium text-foreground shadow-[0_4px_20px_-8px_rgba(0,0,0,0.1)] backdrop-blur-md transition-all duration-300 hover:scale-[1.02] hover:border-brand-blue/40 hover:bg-white hover:shadow-[0_8px_30px_-10px_rgba(0,0,0,0.15)] focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
         >
           <InstagramIcon className="h-4 w-4" />
           Seguinos en Instagram
