@@ -1,46 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import logoAsset from "../assets/riqsin-logo-transparent.png.asset.json";
 
 export const Route = createFileRoute("/")({
   component: Index,
 });
-
-function RiqsinLogo({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 120 120"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-label="RIQSIN logo"
-    >
-      {/* Outer ring with brand gradient */}
-      <circle
-        cx="60"
-        cy="60"
-        r="54"
-        stroke="url(#brand-gradient)"
-        strokeWidth="2"
-        strokeOpacity="0.9"
-      />
-      {/* Inner mark */}
-      <path
-        d="M60 30 L60 60 L84 60"
-        stroke="url(#brand-gradient)"
-        strokeWidth="6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <circle cx="60" cy="60" r="8" fill="url(#brand-gradient)" />
-      <defs>
-        <linearGradient id="brand-gradient" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
-          <stop stopColor="var(--brand-blue)" />
-          <stop offset="0.5" stopColor="var(--brand-green)" />
-          <stop offset="1" stopColor="var(--brand-yellow)" />
-        </linearGradient>
-      </defs>
-    </svg>
-  );
-}
 
 function InstagramIcon({ className }: { className?: string }) {
   return (
@@ -78,7 +41,11 @@ function Index() {
       <div className="relative z-10 flex max-w-3xl flex-col items-center animate-fade-in">
         {/* Logo */}
         <div className="mb-10">
-          <RiqsinLogo className="h-24 w-24 sm:h-28 sm:w-28 glow-brand-subtle rounded-full" />
+          <img
+            src={logoAsset.url}
+            alt="RIQSIN logo"
+            className="h-40 w-auto sm:h-48 md:h-56 drop-shadow-2xl"
+          />
         </div>
 
         {/* Main title */}
@@ -91,10 +58,15 @@ function Index() {
           Conócete. Contrólate. Evoluciona.
         </p>
 
-        {/* Description */}
-        <p className="mt-8 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg md:text-xl">
-          Estamos construyendo una experiencia para ayudarte a desarrollar disciplina, hábitos y sistemas que cambian vidas.
-        </p>
+        {/* Quote */}
+        <blockquote className="mt-8 max-w-2xl">
+          <p className="text-base leading-relaxed text-muted-foreground sm:text-lg md:text-xl">
+            “Todo cambio externo comienza con el autoconocimiento, continúa con el autocontrol y culmina con la evolución personal”
+          </p>
+          <footer className="mt-3 text-sm font-medium text-foreground/80">
+            — Kevin Arozamena
+          </footer>
+        </blockquote>
 
         {/* Coming soon */}
         <p className="mt-10 text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground/80">
@@ -103,7 +75,9 @@ function Index() {
 
         {/* Instagram button */}
         <a
-          href="#"
+          href="https://www.instagram.com/kev07_ok/"
+          target="_blank"
+          rel="noreferrer noopener"
           className="mt-12 inline-flex items-center gap-3 rounded-full border border-border bg-secondary/50 px-8 py-3.5 text-sm font-medium text-foreground backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] hover:border-brand-blue/40 hover:bg-secondary hover:glow-brand-subtle focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
         >
           <InstagramIcon className="h-4 w-4" />
