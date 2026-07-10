@@ -101,14 +101,25 @@
   --brand-yellow-subtle: oklch(0.78 0.16 85 / 12%);
 }
 
-body {
-  background: linear-gradient(
-    165deg,
-    oklch(0.99 0.005 260) 0%,
-    oklch(0.97 0.01 260) 40%,
-    oklch(0.93 0.015 260) 100%
-  );
-  min-height: 100vh;
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: linear-gradient(
+      165deg,
+      oklch(0.99 0.005 260) 0%,
+      oklch(0.97 0.01 260) 40%,
+      oklch(0.93 0.015 260) 100%
+    );
+    min-height: 100vh;
+  }
 }
 
 @utility gradient-brand {
