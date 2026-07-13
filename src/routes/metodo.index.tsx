@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { levels, type LevelStatus } from "../data/levels";
+import { toRoman } from "../data/site";
 
 export const Route = createFileRoute("/metodo/")({
   head: () => ({
@@ -33,7 +34,7 @@ function statusStyles(status: LevelStatus) {
 }
 
 function statusLabel(status: LevelStatus) {
-  if (status === "en proceso") return "Próximamente";
+  if (status === "en proceso") return "En desarrollo";
   if (status === "por invitación") return "Por invitación";
   return "Disponible";
 }
@@ -59,16 +60,69 @@ function MetodoIndex() {
         </p>
       </div>
 
+      {/* Pilares */}
+      <section className="mt-20">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">
+            Los pilares
+          </p>
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            ¿Por qué RIQSIN?
+          </h2>
+        </div>
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {PILLARS.map((p, i) => (
+            <div
+              key={p.title}
+              style={{ animationDelay: `${i * 60}ms` }}
+              className="rounded-2xl border border-border bg-white/60 p-6 backdrop-blur-md animate-fade-in"
+            >
+              <PillarIcon name={p.icon} className="h-6 w-6 text-brand-blue" />
+              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.2em] text-foreground">
+                {p.title}
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                {p.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Recorrido */}
+      <section className="mt-20">
+        <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-center gap-x-3 gap-y-3">
+          {levels.map((l, i) => (
+            <div key={l.slug} className="flex items-center gap-3">
+              <span
+                className="inline-flex h-10 min-w-[2.75rem] items-center justify-center rounded-full border border-border bg-white/70 px-3 text-sm font-semibold tracking-wider text-foreground backdrop-blur-md"
+                title={l.name}
+              >
+                {toRoman(l.id)}
+              </span>
+              {i < levels.length - 1 && (
+                <span aria-hidden="true" className="text-muted-foreground">→</span>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+
       <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {levels.map((level, i) => (
           <article
             key={level.slug}
             style={{ animationDelay: `${i * 60}ms` }}
-            className="group relative flex flex-col rounded-3xl border border-border bg-white/60 p-8 shadow-[0_4px_30px_-15px_rgba(0,0,0,0.1)] backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-brand-blue/40 hover:shadow-[0_20px_50px_-20px_rgba(0,0,0,0.2)] animate-fade-in"
+            className="group relative flex flex-col overflow-hidden rounded-3xl border border-border bg-white/60 p-8 shadow-[0_4px_30px_-15px_rgba(0,0,0,0.1)] backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-brand-blue/40 hover:shadow-[0_24px_60px_-20px_rgba(0,0,0,0.25)] animate-fade-in"
           >
+            {/* Línea de degradado en hover */}
+            <span
+              aria-hidden="true"
+              className="absolute inset-x-0 top-0 h-[2px] scale-x-0 bg-gradient-to-r from-brand-blue via-brand-green to-brand-yellow transition-transform duration-500 group-hover:scale-x-100"
+            />
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-muted-foreground">
-                Nivel {String(level.id).padStart(2, "0")}
+                Nivel {toRoman(level.id)}
               </span>
               <span
                 className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-wider ${statusStyles(level.status)}`}
@@ -79,6 +133,7 @@ function MetodoIndex() {
             <h2 className="mt-4 text-2xl font-semibold tracking-tight text-foreground">
               {level.name}
             </h2>
+            <p className="mt-1 text-sm text-gradient-brand">{level.subtitle}</p>
             <p className="mt-1 text-sm text-muted-foreground">{level.duration}</p>
             <p className="mt-5 flex-1 text-sm leading-relaxed text-foreground/70">
               {level.shortDescription}
@@ -100,5 +155,57 @@ function MetodoIndex() {
         ))}
       </div>
     </main>
+  );
+}
+
+const PILLARS = [
+  {
+    title: "Autoconocimiento",
+    icon: "eye" as const,
+    description:
+      "Comprender tu mente, tus decisiones y los patrones que dirigen tu vida.",
+  },
+  {
+    title: "Disciplina",
+    icon: "compass" as const,
+    description:
+      "Aprender a actuar con dirección incluso cuando la motivación desaparece.",
+  },
+  {
+    title: "Sistemas",
+    icon: "grid" as const,
+    description:
+      "Construir estructuras que faciliten el progreso y reduzcan la dependencia de la fuerza de voluntad.",
+  },
+  {
+    title: "Propósito",
+    icon: "target" as const,
+    description:
+      "Darles una dirección más profunda y consciente a tus acciones.",
+  },
+];
+
+function PillarIcon({ name, className }: { name: "eye" | "compass" | "grid" | "target"; className?: string }) {
+  const common = {
+    className,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.6,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    "aria-hidden": true,
+  };
+  if (name === "eye") return (
+    <svg {...common}><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" /><circle cx="12" cy="12" r="3" /></svg>
+  );
+  if (name === "compass") return (
+    <svg {...common}><circle cx="12" cy="12" r="9" /><path d="M15.5 8.5 13 13l-4.5 2.5L11 11z" /></svg>
+  );
+  if (name === "grid") return (
+    <svg {...common}><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg>
+  );
+  return (
+    <svg {...common}><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="1.5" fill="currentColor" /></svg>
   );
 }
