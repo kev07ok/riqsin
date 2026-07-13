@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { levels, type LevelStatus } from "../data/levels";
 
-export const Route = createFileRoute("/metodo")({
+export const Route = createFileRoute("/metodo/")({
   head: () => ({
     meta: [
       { title: "El Método RIQSIN — Niveles" },
