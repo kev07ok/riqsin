@@ -95,7 +95,7 @@ function LevelPage() {
             Preguntas frecuentes
           </h2>
           <div className="mt-4 space-y-4">
-            {level.faq.map((f) => (
+            {level.faq.map((f: { question: string; answer: string }) => (
               <div
                 key={f.question}
                 className="rounded-2xl border border-border bg-white/50 p-5 backdrop-blur-sm"

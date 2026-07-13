@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MetodoIndexRouteImport } from './routes/metodo.index'
+import { Route as MetodoSlugRouteImport } from './routes/metodo.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,30 +23,39 @@ const MetodoIndexRoute = MetodoIndexRouteImport.update({
   path: '/metodo/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MetodoSlugRoute = MetodoSlugRouteImport.update({
+  id: '/metodo/$slug',
+  path: '/metodo/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo': typeof MetodoIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/metodo/'
+  fullPaths: '/' | '/metodo/$slug' | '/metodo/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/metodo'
-  id: '__root__' | '/' | '/metodo/'
+  to: '/' | '/metodo/$slug' | '/metodo'
+  id: '__root__' | '/' | '/metodo/$slug' | '/metodo/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  MetodoSlugRoute: typeof MetodoSlugRoute
   MetodoIndexRoute: typeof MetodoIndexRoute
 }
 
@@ -65,11 +75,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MetodoIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/metodo/$slug': {
+      id: '/metodo/$slug'
+      path: '/metodo/$slug'
+      fullPath: '/metodo/$slug'
+      preLoaderRoute: typeof MetodoSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  MetodoSlugRoute: MetodoSlugRoute,
   MetodoIndexRoute: MetodoIndexRoute,
 }
 export const routeTree = rootRouteImport
