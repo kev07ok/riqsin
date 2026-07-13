@@ -14,6 +14,7 @@ import { Route as ReembolsosRouteImport } from './routes/reembolsos'
 import { Route as PropiedadIntelectualRouteImport } from './routes/propiedad-intelectual'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as MetodoRouteImport } from './routes/metodo'
+import { Route as AvisoLegalRouteImport } from './routes/aviso-legal'
 import { Route as AutorRouteImport } from './routes/autor'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MetodoIndexRouteImport } from './routes/metodo.index'
@@ -44,6 +45,11 @@ const MetodoRoute = MetodoRouteImport.update({
   path: '/metodo',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AvisoLegalRoute = AvisoLegalRouteImport.update({
+  id: '/aviso-legal',
+  path: '/aviso-legal',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AutorRoute = AutorRouteImport.update({
   id: '/autor',
   path: '/autor',
@@ -68,6 +74,7 @@ const MetodoSlugRoute = MetodoSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/autor': typeof AutorRoute
+  '/aviso-legal': typeof AvisoLegalRoute
   '/metodo': typeof MetodoRouteWithChildren
   '/privacidad': typeof PrivacidadRoute
   '/propiedad-intelectual': typeof PropiedadIntelectualRoute
@@ -79,6 +86,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/autor': typeof AutorRoute
+  '/aviso-legal': typeof AvisoLegalRoute
   '/privacidad': typeof PrivacidadRoute
   '/propiedad-intelectual': typeof PropiedadIntelectualRoute
   '/reembolsos': typeof ReembolsosRoute
@@ -90,6 +98,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/autor': typeof AutorRoute
+  '/aviso-legal': typeof AvisoLegalRoute
   '/metodo': typeof MetodoRouteWithChildren
   '/privacidad': typeof PrivacidadRoute
   '/propiedad-intelectual': typeof PropiedadIntelectualRoute
@@ -103,6 +112,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/autor'
+    | '/aviso-legal'
     | '/metodo'
     | '/privacidad'
     | '/propiedad-intelectual'
@@ -114,6 +124,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/autor'
+    | '/aviso-legal'
     | '/privacidad'
     | '/propiedad-intelectual'
     | '/reembolsos'
@@ -124,6 +135,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/autor'
+    | '/aviso-legal'
     | '/metodo'
     | '/privacidad'
     | '/propiedad-intelectual'
@@ -136,6 +148,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AutorRoute: typeof AutorRoute
+  AvisoLegalRoute: typeof AvisoLegalRoute
   MetodoRoute: typeof MetodoRouteWithChildren
   PrivacidadRoute: typeof PrivacidadRoute
   PropiedadIntelectualRoute: typeof PropiedadIntelectualRoute
@@ -178,6 +191,13 @@ declare module '@tanstack/react-router' {
       path: '/metodo'
       fullPath: '/metodo'
       preLoaderRoute: typeof MetodoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/aviso-legal': {
+      id: '/aviso-legal'
+      path: '/aviso-legal'
+      fullPath: '/aviso-legal'
+      preLoaderRoute: typeof AvisoLegalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/autor': {
@@ -227,6 +247,7 @@ const MetodoRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AutorRoute: AutorRoute,
+  AvisoLegalRoute: AvisoLegalRoute,
   MetodoRoute: MetodoRouteWithChildren,
   PrivacidadRoute: PrivacidadRoute,
   PropiedadIntelectualRoute: PropiedadIntelectualRoute,
