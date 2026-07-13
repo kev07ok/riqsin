@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TerminosRouteImport } from './routes/terminos'
+import { Route as ReembolsosRouteImport } from './routes/reembolsos'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as MetodoRouteImport } from './routes/metodo'
 import { Route as AutorRouteImport } from './routes/autor'
@@ -20,6 +21,11 @@ import { Route as MetodoSlugRouteImport } from './routes/metodo.$slug'
 const TerminosRoute = TerminosRouteImport.update({
   id: '/terminos',
   path: '/terminos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReembolsosRoute = ReembolsosRouteImport.update({
+  id: '/reembolsos',
+  path: '/reembolsos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacidadRoute = PrivacidadRouteImport.update({
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/autor': typeof AutorRoute
   '/metodo': typeof MetodoRouteWithChildren
   '/privacidad': typeof PrivacidadRoute
+  '/reembolsos': typeof ReembolsosRoute
   '/terminos': typeof TerminosRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/autor': typeof AutorRoute
   '/privacidad': typeof PrivacidadRoute
+  '/reembolsos': typeof ReembolsosRoute
   '/terminos': typeof TerminosRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo': typeof MetodoIndexRoute
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/autor': typeof AutorRoute
   '/metodo': typeof MetodoRouteWithChildren
   '/privacidad': typeof PrivacidadRoute
+  '/reembolsos': typeof ReembolsosRoute
   '/terminos': typeof TerminosRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
@@ -87,17 +96,26 @@ export interface FileRouteTypes {
     | '/autor'
     | '/metodo'
     | '/privacidad'
+    | '/reembolsos'
     | '/terminos'
     | '/metodo/$slug'
     | '/metodo/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/autor' | '/privacidad' | '/terminos' | '/metodo/$slug' | '/metodo'
+  to:
+    | '/'
+    | '/autor'
+    | '/privacidad'
+    | '/reembolsos'
+    | '/terminos'
+    | '/metodo/$slug'
+    | '/metodo'
   id:
     | '__root__'
     | '/'
     | '/autor'
     | '/metodo'
     | '/privacidad'
+    | '/reembolsos'
     | '/terminos'
     | '/metodo/$slug'
     | '/metodo/'
@@ -108,6 +126,7 @@ export interface RootRouteChildren {
   AutorRoute: typeof AutorRoute
   MetodoRoute: typeof MetodoRouteWithChildren
   PrivacidadRoute: typeof PrivacidadRoute
+  ReembolsosRoute: typeof ReembolsosRoute
   TerminosRoute: typeof TerminosRoute
 }
 
@@ -118,6 +137,13 @@ declare module '@tanstack/react-router' {
       path: '/terminos'
       fullPath: '/terminos'
       preLoaderRoute: typeof TerminosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reembolsos': {
+      id: '/reembolsos'
+      path: '/reembolsos'
+      fullPath: '/reembolsos'
+      preLoaderRoute: typeof ReembolsosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacidad': {
@@ -183,6 +209,7 @@ const rootRouteChildren: RootRouteChildren = {
   AutorRoute: AutorRoute,
   MetodoRoute: MetodoRouteWithChildren,
   PrivacidadRoute: PrivacidadRoute,
+  ReembolsosRoute: ReembolsosRoute,
   TerminosRoute: TerminosRoute,
 }
 export const routeTree = rootRouteImport
