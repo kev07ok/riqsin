@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { getLevelBySlug, levels } from "../data/levels";
+import { toRoman } from "../data/site";
 
 export const Route = createFileRoute("/metodo/$slug")({
   loader: ({ params }) => {
@@ -48,13 +49,13 @@ function LevelPage() {
 
       <header className="mt-8">
         <p className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">
-          Nivel {String(level.id).padStart(2, "0")}
+          Nivel {toRoman(level.id)}
         </p>
         <h1 className="mt-3 text-5xl font-semibold tracking-tight text-foreground sm:text-6xl">
           {level.name}
         </h1>
         <p className="mt-4 text-lg text-gradient-brand sm:text-xl">
-          {level.tagline}
+          {level.subtitle}
         </p>
         <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
           <span>
@@ -76,6 +77,9 @@ function LevelPage() {
       <Section title="Objetivos" items={level.objectives} />
       <Section title="Qué incluye" items={level.includes} />
       <Section title="Temas principales" items={level.topics} />
+      {level.subtopics && level.subtopics.length > 0 && (
+        <Section title="Subtemas" items={level.subtopics} />
+      )}
       {level.materials && level.materials.length > 0 && (
         <Section title="Materiales incluidos" items={level.materials} />
       )}
@@ -118,7 +122,7 @@ function LevelPage() {
 
         {isLegado ? (
           <span className="inline-flex cursor-not-allowed items-center justify-center rounded-full border border-brand-yellow/40 bg-brand-yellow-subtle px-8 py-3.5 text-sm font-medium text-foreground">
-            Acceso por invitación
+            Acceso únicamente por invitación
           </span>
         ) : hasPayment ? (
           <a
