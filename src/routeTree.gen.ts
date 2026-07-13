@@ -9,14 +9,50 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TerminosRouteImport } from './routes/terminos'
+import { Route as ReembolsosRouteImport } from './routes/reembolsos'
+import { Route as PropiedadIntelectualRouteImport } from './routes/propiedad-intelectual'
+import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as MetodoRouteImport } from './routes/metodo'
+import { Route as AvisoLegalRouteImport } from './routes/aviso-legal'
+import { Route as AutorRouteImport } from './routes/autor'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MetodoIndexRouteImport } from './routes/metodo.index'
 import { Route as MetodoSlugRouteImport } from './routes/metodo.$slug'
 
+const TerminosRoute = TerminosRouteImport.update({
+  id: '/terminos',
+  path: '/terminos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReembolsosRoute = ReembolsosRouteImport.update({
+  id: '/reembolsos',
+  path: '/reembolsos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PropiedadIntelectualRoute = PropiedadIntelectualRouteImport.update({
+  id: '/propiedad-intelectual',
+  path: '/propiedad-intelectual',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacidadRoute = PrivacidadRouteImport.update({
+  id: '/privacidad',
+  path: '/privacidad',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MetodoRoute = MetodoRouteImport.update({
   id: '/metodo',
   path: '/metodo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AvisoLegalRoute = AvisoLegalRouteImport.update({
+  id: '/aviso-legal',
+  path: '/aviso-legal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AutorRoute = AutorRouteImport.update({
+  id: '/autor',
+  path: '/autor',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -37,42 +73,138 @@ const MetodoSlugRoute = MetodoSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/autor': typeof AutorRoute
+  '/aviso-legal': typeof AvisoLegalRoute
   '/metodo': typeof MetodoRouteWithChildren
+  '/privacidad': typeof PrivacidadRoute
+  '/propiedad-intelectual': typeof PropiedadIntelectualRoute
+  '/reembolsos': typeof ReembolsosRoute
+  '/terminos': typeof TerminosRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/autor': typeof AutorRoute
+  '/aviso-legal': typeof AvisoLegalRoute
+  '/privacidad': typeof PrivacidadRoute
+  '/propiedad-intelectual': typeof PropiedadIntelectualRoute
+  '/reembolsos': typeof ReembolsosRoute
+  '/terminos': typeof TerminosRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo': typeof MetodoIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/autor': typeof AutorRoute
+  '/aviso-legal': typeof AvisoLegalRoute
   '/metodo': typeof MetodoRouteWithChildren
+  '/privacidad': typeof PrivacidadRoute
+  '/propiedad-intelectual': typeof PropiedadIntelectualRoute
+  '/reembolsos': typeof ReembolsosRoute
+  '/terminos': typeof TerminosRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/metodo' | '/metodo/$slug' | '/metodo/'
+  fullPaths:
+    | '/'
+    | '/autor'
+    | '/aviso-legal'
+    | '/metodo'
+    | '/privacidad'
+    | '/propiedad-intelectual'
+    | '/reembolsos'
+    | '/terminos'
+    | '/metodo/$slug'
+    | '/metodo/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/metodo/$slug' | '/metodo'
-  id: '__root__' | '/' | '/metodo' | '/metodo/$slug' | '/metodo/'
+  to:
+    | '/'
+    | '/autor'
+    | '/aviso-legal'
+    | '/privacidad'
+    | '/propiedad-intelectual'
+    | '/reembolsos'
+    | '/terminos'
+    | '/metodo/$slug'
+    | '/metodo'
+  id:
+    | '__root__'
+    | '/'
+    | '/autor'
+    | '/aviso-legal'
+    | '/metodo'
+    | '/privacidad'
+    | '/propiedad-intelectual'
+    | '/reembolsos'
+    | '/terminos'
+    | '/metodo/$slug'
+    | '/metodo/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AutorRoute: typeof AutorRoute
+  AvisoLegalRoute: typeof AvisoLegalRoute
   MetodoRoute: typeof MetodoRouteWithChildren
+  PrivacidadRoute: typeof PrivacidadRoute
+  PropiedadIntelectualRoute: typeof PropiedadIntelectualRoute
+  ReembolsosRoute: typeof ReembolsosRoute
+  TerminosRoute: typeof TerminosRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terminos': {
+      id: '/terminos'
+      path: '/terminos'
+      fullPath: '/terminos'
+      preLoaderRoute: typeof TerminosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reembolsos': {
+      id: '/reembolsos'
+      path: '/reembolsos'
+      fullPath: '/reembolsos'
+      preLoaderRoute: typeof ReembolsosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/propiedad-intelectual': {
+      id: '/propiedad-intelectual'
+      path: '/propiedad-intelectual'
+      fullPath: '/propiedad-intelectual'
+      preLoaderRoute: typeof PropiedadIntelectualRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacidad': {
+      id: '/privacidad'
+      path: '/privacidad'
+      fullPath: '/privacidad'
+      preLoaderRoute: typeof PrivacidadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/metodo': {
       id: '/metodo'
       path: '/metodo'
       fullPath: '/metodo'
       preLoaderRoute: typeof MetodoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/aviso-legal': {
+      id: '/aviso-legal'
+      path: '/aviso-legal'
+      fullPath: '/aviso-legal'
+      preLoaderRoute: typeof AvisoLegalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/autor': {
+      id: '/autor'
+      path: '/autor'
+      fullPath: '/autor'
+      preLoaderRoute: typeof AutorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -114,18 +246,14 @@ const MetodoRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AutorRoute: AutorRoute,
+  AvisoLegalRoute: AvisoLegalRoute,
   MetodoRoute: MetodoRouteWithChildren,
+  PrivacidadRoute: PrivacidadRoute,
+  PropiedadIntelectualRoute: PropiedadIntelectualRoute,
+  ReembolsosRoute: ReembolsosRoute,
+  TerminosRoute: TerminosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
