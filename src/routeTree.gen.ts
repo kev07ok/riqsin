@@ -9,12 +9,12 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as MetodoRouteRouteImport } from './routes/metodo.route'
+import { Route as MetodoRouteImport } from './routes/metodo'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MetodoIndexRouteImport } from './routes/metodo.index'
 import { Route as MetodoSlugRouteImport } from './routes/metodo.$slug'
 
-const MetodoRouteRoute = MetodoRouteRouteImport.update({
+const MetodoRoute = MetodoRouteImport.update({
   id: '/metodo',
   path: '/metodo',
   getParentRoute: () => rootRouteImport,
@@ -27,17 +27,17 @@ const IndexRoute = IndexRouteImport.update({
 const MetodoIndexRoute = MetodoIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => MetodoRouteRoute,
+  getParentRoute: () => MetodoRoute,
 } as any)
 const MetodoSlugRoute = MetodoSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
-  getParentRoute: () => MetodoRouteRoute,
+  getParentRoute: () => MetodoRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/metodo': typeof MetodoRouteRouteWithChildren
+  '/metodo': typeof MetodoRouteWithChildren
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
 }
@@ -49,7 +49,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/metodo': typeof MetodoRouteRouteWithChildren
+  '/metodo': typeof MetodoRouteWithChildren
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
 }
@@ -63,7 +63,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  MetodoRouteRoute: typeof MetodoRouteRouteWithChildren
+  MetodoRoute: typeof MetodoRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -72,7 +72,7 @@ declare module '@tanstack/react-router' {
       id: '/metodo'
       path: '/metodo'
       fullPath: '/metodo'
-      preLoaderRoute: typeof MetodoRouteRouteImport
+      preLoaderRoute: typeof MetodoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -87,35 +87,34 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/metodo/'
       preLoaderRoute: typeof MetodoIndexRouteImport
-      parentRoute: typeof MetodoRouteRoute
+      parentRoute: typeof MetodoRoute
     }
     '/metodo/$slug': {
       id: '/metodo/$slug'
       path: '/$slug'
       fullPath: '/metodo/$slug'
       preLoaderRoute: typeof MetodoSlugRouteImport
-      parentRoute: typeof MetodoRouteRoute
+      parentRoute: typeof MetodoRoute
     }
   }
 }
 
-interface MetodoRouteRouteChildren {
+interface MetodoRouteChildren {
   MetodoSlugRoute: typeof MetodoSlugRoute
   MetodoIndexRoute: typeof MetodoIndexRoute
 }
 
-const MetodoRouteRouteChildren: MetodoRouteRouteChildren = {
+const MetodoRouteChildren: MetodoRouteChildren = {
   MetodoSlugRoute: MetodoSlugRoute,
   MetodoIndexRoute: MetodoIndexRoute,
 }
 
-const MetodoRouteRouteWithChildren = MetodoRouteRoute._addFileChildren(
-  MetodoRouteRouteChildren,
-)
+const MetodoRouteWithChildren =
+  MetodoRoute._addFileChildren(MetodoRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  MetodoRouteRoute: MetodoRouteRouteWithChildren,
+  MetodoRoute: MetodoRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
