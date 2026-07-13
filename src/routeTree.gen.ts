@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TerminosRouteImport } from './routes/terminos'
 import { Route as ReembolsosRouteImport } from './routes/reembolsos'
+import { Route as PropiedadIntelectualRouteImport } from './routes/propiedad-intelectual'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as MetodoRouteImport } from './routes/metodo'
 import { Route as AutorRouteImport } from './routes/autor'
@@ -26,6 +27,11 @@ const TerminosRoute = TerminosRouteImport.update({
 const ReembolsosRoute = ReembolsosRouteImport.update({
   id: '/reembolsos',
   path: '/reembolsos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PropiedadIntelectualRoute = PropiedadIntelectualRouteImport.update({
+  id: '/propiedad-intelectual',
+  path: '/propiedad-intelectual',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacidadRoute = PrivacidadRouteImport.update({
@@ -64,6 +70,7 @@ export interface FileRoutesByFullPath {
   '/autor': typeof AutorRoute
   '/metodo': typeof MetodoRouteWithChildren
   '/privacidad': typeof PrivacidadRoute
+  '/propiedad-intelectual': typeof PropiedadIntelectualRoute
   '/reembolsos': typeof ReembolsosRoute
   '/terminos': typeof TerminosRoute
   '/metodo/$slug': typeof MetodoSlugRoute
@@ -73,6 +80,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/autor': typeof AutorRoute
   '/privacidad': typeof PrivacidadRoute
+  '/propiedad-intelectual': typeof PropiedadIntelectualRoute
   '/reembolsos': typeof ReembolsosRoute
   '/terminos': typeof TerminosRoute
   '/metodo/$slug': typeof MetodoSlugRoute
@@ -84,6 +92,7 @@ export interface FileRoutesById {
   '/autor': typeof AutorRoute
   '/metodo': typeof MetodoRouteWithChildren
   '/privacidad': typeof PrivacidadRoute
+  '/propiedad-intelectual': typeof PropiedadIntelectualRoute
   '/reembolsos': typeof ReembolsosRoute
   '/terminos': typeof TerminosRoute
   '/metodo/$slug': typeof MetodoSlugRoute
@@ -96,6 +105,7 @@ export interface FileRouteTypes {
     | '/autor'
     | '/metodo'
     | '/privacidad'
+    | '/propiedad-intelectual'
     | '/reembolsos'
     | '/terminos'
     | '/metodo/$slug'
@@ -105,6 +115,7 @@ export interface FileRouteTypes {
     | '/'
     | '/autor'
     | '/privacidad'
+    | '/propiedad-intelectual'
     | '/reembolsos'
     | '/terminos'
     | '/metodo/$slug'
@@ -115,6 +126,7 @@ export interface FileRouteTypes {
     | '/autor'
     | '/metodo'
     | '/privacidad'
+    | '/propiedad-intelectual'
     | '/reembolsos'
     | '/terminos'
     | '/metodo/$slug'
@@ -126,6 +138,7 @@ export interface RootRouteChildren {
   AutorRoute: typeof AutorRoute
   MetodoRoute: typeof MetodoRouteWithChildren
   PrivacidadRoute: typeof PrivacidadRoute
+  PropiedadIntelectualRoute: typeof PropiedadIntelectualRoute
   ReembolsosRoute: typeof ReembolsosRoute
   TerminosRoute: typeof TerminosRoute
 }
@@ -144,6 +157,13 @@ declare module '@tanstack/react-router' {
       path: '/reembolsos'
       fullPath: '/reembolsos'
       preLoaderRoute: typeof ReembolsosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/propiedad-intelectual': {
+      id: '/propiedad-intelectual'
+      path: '/propiedad-intelectual'
+      fullPath: '/propiedad-intelectual'
+      preLoaderRoute: typeof PropiedadIntelectualRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacidad': {
@@ -209,6 +229,7 @@ const rootRouteChildren: RootRouteChildren = {
   AutorRoute: AutorRoute,
   MetodoRoute: MetodoRouteWithChildren,
   PrivacidadRoute: PrivacidadRoute,
+  PropiedadIntelectualRoute: PropiedadIntelectualRoute,
   ReembolsosRoute: ReembolsosRoute,
   TerminosRoute: TerminosRoute,
 }
