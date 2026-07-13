@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import logoAsset from "../assets/riqsin-logo-transparent.png.asset.json";
 
 export const Route = createFileRoute("/")({
@@ -68,29 +69,34 @@ function Index() {
           </footer>
         </blockquote>
 
-        {/* Coming soon */}
+        {/* Status */}
         <p className="mt-10 text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground/80">
-          Próximamente
+          RIQSIN está en proceso.
+        </p>
+        <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+          Estamos construyendo un método progresivo para ayudarte a conocerte,
+          desarrollar disciplina y crear sistemas que puedas mantener en el tiempo.
         </p>
 
-        {/* Instagram button */}
-        <a
-          href="https://www.instagram.com/kev07_ok/"
-          target="_blank"
-          rel="noreferrer noopener"
-          className="mt-12 inline-flex items-center gap-3 rounded-full border border-border bg-white/70 px-8 py-3.5 text-sm font-medium text-foreground shadow-[0_4px_20px_-8px_rgba(0,0,0,0.1)] backdrop-blur-md transition-all duration-300 hover:scale-[1.02] hover:border-brand-blue/40 hover:bg-white hover:shadow-[0_8px_30px_-10px_rgba(0,0,0,0.15)] focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
-        >
-          <InstagramIcon className="h-4 w-4" />
-          Seguinos en Instagram
-        </a>
+        {/* CTA buttons */}
+        <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
+          <Link
+            to="/metodo"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-8 py-3.5 text-sm font-medium text-background shadow-[0_8px_30px_-10px_rgba(0,0,0,0.35)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.45)] focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+          >
+            Conocer el método
+          </Link>
+          <a
+            href="https://www.instagram.com/kev07_ok/"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="inline-flex items-center gap-3 rounded-full border border-border bg-white/70 px-8 py-3.5 text-sm font-medium text-foreground shadow-[0_4px_20px_-8px_rgba(0,0,0,0.1)] backdrop-blur-md transition-all duration-300 hover:scale-[1.02] hover:border-brand-blue/40 hover:bg-white hover:shadow-[0_8px_30px_-10px_rgba(0,0,0,0.15)] focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+          >
+            <InstagramIcon className="h-4 w-4" />
+            Seguinos en Instagram
+          </a>
+        </div>
       </div>
-
-      {/* Footer hint */}
-      <footer className="absolute bottom-6 left-0 right-0 text-center">
-        <p className="text-xs text-muted-foreground/60">
-          © {new Date().getFullYear()} RIQSIN
-        </p>
-      </footer>
     </main>
   );
 }
