@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TerminosRouteImport } from './routes/terminos'
 import { Route as MetodoRouteImport } from './routes/metodo'
 import { Route as AutorRouteImport } from './routes/autor'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MetodoIndexRouteImport } from './routes/metodo.index'
 import { Route as MetodoSlugRouteImport } from './routes/metodo.$slug'
 
+const TerminosRoute = TerminosRouteImport.update({
+  id: '/terminos',
+  path: '/terminos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MetodoRoute = MetodoRouteImport.update({
   id: '/metodo',
   path: '/metodo',
@@ -45,12 +51,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/autor': typeof AutorRoute
   '/metodo': typeof MetodoRouteWithChildren
+  '/terminos': typeof TerminosRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/autor': typeof AutorRoute
+  '/terminos': typeof TerminosRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo': typeof MetodoIndexRoute
 }
@@ -59,25 +67,47 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/autor': typeof AutorRoute
   '/metodo': typeof MetodoRouteWithChildren
+  '/terminos': typeof TerminosRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/autor' | '/metodo' | '/metodo/$slug' | '/metodo/'
+  fullPaths:
+    | '/'
+    | '/autor'
+    | '/metodo'
+    | '/terminos'
+    | '/metodo/$slug'
+    | '/metodo/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/autor' | '/metodo/$slug' | '/metodo'
-  id: '__root__' | '/' | '/autor' | '/metodo' | '/metodo/$slug' | '/metodo/'
+  to: '/' | '/autor' | '/terminos' | '/metodo/$slug' | '/metodo'
+  id:
+    | '__root__'
+    | '/'
+    | '/autor'
+    | '/metodo'
+    | '/terminos'
+    | '/metodo/$slug'
+    | '/metodo/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AutorRoute: typeof AutorRoute
   MetodoRoute: typeof MetodoRouteWithChildren
+  TerminosRoute: typeof TerminosRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terminos': {
+      id: '/terminos'
+      path: '/terminos'
+      fullPath: '/terminos'
+      preLoaderRoute: typeof TerminosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/metodo': {
       id: '/metodo'
       path: '/metodo'
@@ -133,6 +163,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AutorRoute: AutorRoute,
   MetodoRoute: MetodoRouteWithChildren,
+  TerminosRoute: TerminosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
