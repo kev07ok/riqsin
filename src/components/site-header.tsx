@@ -1,11 +1,19 @@
 import { Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import logoAsset from "../assets/riqsin-logo-transparent.png.asset.json";
 import { siteConfig } from "../data/site";
+import { supabase } from "@/integrations/supabase/client";
 
 export function SiteHeader() {
   const linkBase =
     "text-sm font-medium text-foreground/70 transition-colors hover:text-foreground";
   const activeClass = "text-foreground";
+  const [authed, setAuthed] = useState(false);
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setAuthed(!!data.session));
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => setAuthed(!!session));
+    return () => sub.subscription.unsubscribe();
+  }, []);
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/70 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
@@ -31,6 +39,15 @@ export function SiteHeader() {
             >
               Instagram
             </a>
+          )}
+          {authed ? (
+            <Link to="/cuenta" activeProps={{ className: activeClass }} className={linkBase}>
+              Mi cuenta
+            </Link>
+          ) : (
+            <Link to="/iniciar-sesion" className="rounded-full border border-border bg-white px-4 py-1.5 text-sm font-medium text-foreground transition hover:bg-white/60">
+              Iniciar sesión
+            </Link>
           )}
         </nav>
       </div>

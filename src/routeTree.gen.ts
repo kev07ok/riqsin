@@ -10,24 +10,45 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TerminosRouteImport } from './routes/terminos'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as RegistroRouteImport } from './routes/registro'
 import { Route as ReembolsosRouteImport } from './routes/reembolsos'
+import { Route as RecuperarContrasenaRouteImport } from './routes/recuperar-contrasena'
 import { Route as PropiedadIntelectualRouteImport } from './routes/propiedad-intelectual'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as MetodoRouteImport } from './routes/metodo'
+import { Route as IniciarSesionRouteImport } from './routes/iniciar-sesion'
 import { Route as AvisoLegalRouteImport } from './routes/aviso-legal'
 import { Route as AutorRouteImport } from './routes/autor'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MetodoIndexRouteImport } from './routes/metodo.index'
 import { Route as MetodoSlugRouteImport } from './routes/metodo.$slug'
+import { Route as AuthenticatedCuentaRouteImport } from './routes/_authenticated/cuenta'
 
 const TerminosRoute = TerminosRouteImport.update({
   id: '/terminos',
   path: '/terminos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegistroRoute = RegistroRouteImport.update({
+  id: '/registro',
+  path: '/registro',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReembolsosRoute = ReembolsosRouteImport.update({
   id: '/reembolsos',
   path: '/reembolsos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecuperarContrasenaRoute = RecuperarContrasenaRouteImport.update({
+  id: '/recuperar-contrasena',
+  path: '/recuperar-contrasena',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PropiedadIntelectualRoute = PropiedadIntelectualRouteImport.update({
@@ -45,6 +66,11 @@ const MetodoRoute = MetodoRouteImport.update({
   path: '/metodo',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IniciarSesionRoute = IniciarSesionRouteImport.update({
+  id: '/iniciar-sesion',
+  path: '/iniciar-sesion',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AvisoLegalRoute = AvisoLegalRouteImport.update({
   id: '/aviso-legal',
   path: '/aviso-legal',
@@ -53,6 +79,10 @@ const AvisoLegalRoute = AvisoLegalRouteImport.update({
 const AutorRoute = AutorRouteImport.update({
   id: '/autor',
   path: '/autor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -70,16 +100,26 @@ const MetodoSlugRoute = MetodoSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => MetodoRoute,
 } as any)
+const AuthenticatedCuentaRoute = AuthenticatedCuentaRouteImport.update({
+  id: '/cuenta',
+  path: '/cuenta',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/autor': typeof AutorRoute
   '/aviso-legal': typeof AvisoLegalRoute
+  '/iniciar-sesion': typeof IniciarSesionRoute
   '/metodo': typeof MetodoRouteWithChildren
   '/privacidad': typeof PrivacidadRoute
   '/propiedad-intelectual': typeof PropiedadIntelectualRoute
+  '/recuperar-contrasena': typeof RecuperarContrasenaRoute
   '/reembolsos': typeof ReembolsosRoute
+  '/registro': typeof RegistroRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/terminos': typeof TerminosRoute
+  '/cuenta': typeof AuthenticatedCuentaRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
 }
@@ -87,23 +127,34 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/autor': typeof AutorRoute
   '/aviso-legal': typeof AvisoLegalRoute
+  '/iniciar-sesion': typeof IniciarSesionRoute
   '/privacidad': typeof PrivacidadRoute
   '/propiedad-intelectual': typeof PropiedadIntelectualRoute
+  '/recuperar-contrasena': typeof RecuperarContrasenaRoute
   '/reembolsos': typeof ReembolsosRoute
+  '/registro': typeof RegistroRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/terminos': typeof TerminosRoute
+  '/cuenta': typeof AuthenticatedCuentaRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo': typeof MetodoIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/autor': typeof AutorRoute
   '/aviso-legal': typeof AvisoLegalRoute
+  '/iniciar-sesion': typeof IniciarSesionRoute
   '/metodo': typeof MetodoRouteWithChildren
   '/privacidad': typeof PrivacidadRoute
   '/propiedad-intelectual': typeof PropiedadIntelectualRoute
+  '/recuperar-contrasena': typeof RecuperarContrasenaRoute
   '/reembolsos': typeof ReembolsosRoute
+  '/registro': typeof RegistroRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/terminos': typeof TerminosRoute
+  '/_authenticated/cuenta': typeof AuthenticatedCuentaRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
 }
@@ -113,11 +164,16 @@ export interface FileRouteTypes {
     | '/'
     | '/autor'
     | '/aviso-legal'
+    | '/iniciar-sesion'
     | '/metodo'
     | '/privacidad'
     | '/propiedad-intelectual'
+    | '/recuperar-contrasena'
     | '/reembolsos'
+    | '/registro'
+    | '/reset-password'
     | '/terminos'
+    | '/cuenta'
     | '/metodo/$slug'
     | '/metodo/'
   fileRoutesByTo: FileRoutesByTo
@@ -125,34 +181,50 @@ export interface FileRouteTypes {
     | '/'
     | '/autor'
     | '/aviso-legal'
+    | '/iniciar-sesion'
     | '/privacidad'
     | '/propiedad-intelectual'
+    | '/recuperar-contrasena'
     | '/reembolsos'
+    | '/registro'
+    | '/reset-password'
     | '/terminos'
+    | '/cuenta'
     | '/metodo/$slug'
     | '/metodo'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/autor'
     | '/aviso-legal'
+    | '/iniciar-sesion'
     | '/metodo'
     | '/privacidad'
     | '/propiedad-intelectual'
+    | '/recuperar-contrasena'
     | '/reembolsos'
+    | '/registro'
+    | '/reset-password'
     | '/terminos'
+    | '/_authenticated/cuenta'
     | '/metodo/$slug'
     | '/metodo/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AutorRoute: typeof AutorRoute
   AvisoLegalRoute: typeof AvisoLegalRoute
+  IniciarSesionRoute: typeof IniciarSesionRoute
   MetodoRoute: typeof MetodoRouteWithChildren
   PrivacidadRoute: typeof PrivacidadRoute
   PropiedadIntelectualRoute: typeof PropiedadIntelectualRoute
+  RecuperarContrasenaRoute: typeof RecuperarContrasenaRoute
   ReembolsosRoute: typeof ReembolsosRoute
+  RegistroRoute: typeof RegistroRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   TerminosRoute: typeof TerminosRoute
 }
 
@@ -165,11 +237,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TerminosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/registro': {
+      id: '/registro'
+      path: '/registro'
+      fullPath: '/registro'
+      preLoaderRoute: typeof RegistroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reembolsos': {
       id: '/reembolsos'
       path: '/reembolsos'
       fullPath: '/reembolsos'
       preLoaderRoute: typeof ReembolsosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recuperar-contrasena': {
+      id: '/recuperar-contrasena'
+      path: '/recuperar-contrasena'
+      fullPath: '/recuperar-contrasena'
+      preLoaderRoute: typeof RecuperarContrasenaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/propiedad-intelectual': {
@@ -193,6 +286,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MetodoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/iniciar-sesion': {
+      id: '/iniciar-sesion'
+      path: '/iniciar-sesion'
+      fullPath: '/iniciar-sesion'
+      preLoaderRoute: typeof IniciarSesionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/aviso-legal': {
       id: '/aviso-legal'
       path: '/aviso-legal'
@@ -205,6 +305,13 @@ declare module '@tanstack/react-router' {
       path: '/autor'
       fullPath: '/autor'
       preLoaderRoute: typeof AutorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -228,8 +335,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MetodoSlugRouteImport
       parentRoute: typeof MetodoRoute
     }
+    '/_authenticated/cuenta': {
+      id: '/_authenticated/cuenta'
+      path: '/cuenta'
+      fullPath: '/cuenta'
+      preLoaderRoute: typeof AuthenticatedCuentaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedCuentaRoute: typeof AuthenticatedCuentaRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedCuentaRoute: AuthenticatedCuentaRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface MetodoRouteChildren {
   MetodoSlugRoute: typeof MetodoSlugRoute
@@ -246,24 +371,19 @@ const MetodoRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AutorRoute: AutorRoute,
   AvisoLegalRoute: AvisoLegalRoute,
+  IniciarSesionRoute: IniciarSesionRoute,
   MetodoRoute: MetodoRouteWithChildren,
   PrivacidadRoute: PrivacidadRoute,
   PropiedadIntelectualRoute: PropiedadIntelectualRoute,
+  RecuperarContrasenaRoute: RecuperarContrasenaRoute,
   ReembolsosRoute: ReembolsosRoute,
+  RegistroRoute: RegistroRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   TerminosRoute: TerminosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
