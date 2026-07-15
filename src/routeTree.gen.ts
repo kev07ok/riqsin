@@ -24,7 +24,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MetodoIndexRouteImport } from './routes/metodo.index'
 import { Route as MetodoSlugRouteImport } from './routes/metodo.$slug'
-import { Route as AuthenticatedCuentaRouteImport } from './routes/_authenticated/cuenta'
+import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
 
 const TerminosRoute = TerminosRouteImport.update({
   id: '/terminos',
@@ -100,9 +100,9 @@ const MetodoSlugRoute = MetodoSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => MetodoRoute,
 } as any)
-const AuthenticatedCuentaRoute = AuthenticatedCuentaRouteImport.update({
-  id: '/cuenta',
-  path: '/cuenta',
+const AuthenticatedPerfilRoute = AuthenticatedPerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 
@@ -119,7 +119,7 @@ export interface FileRoutesByFullPath {
   '/registro': typeof RegistroRoute
   '/reset-password': typeof ResetPasswordRoute
   '/terminos': typeof TerminosRoute
-  '/cuenta': typeof AuthenticatedCuentaRoute
+  '/perfil': typeof AuthenticatedPerfilRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
 }
@@ -135,7 +135,7 @@ export interface FileRoutesByTo {
   '/registro': typeof RegistroRoute
   '/reset-password': typeof ResetPasswordRoute
   '/terminos': typeof TerminosRoute
-  '/cuenta': typeof AuthenticatedCuentaRoute
+  '/perfil': typeof AuthenticatedPerfilRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo': typeof MetodoIndexRoute
 }
@@ -154,7 +154,7 @@ export interface FileRoutesById {
   '/registro': typeof RegistroRoute
   '/reset-password': typeof ResetPasswordRoute
   '/terminos': typeof TerminosRoute
-  '/_authenticated/cuenta': typeof AuthenticatedCuentaRoute
+  '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
 }
@@ -173,7 +173,7 @@ export interface FileRouteTypes {
     | '/registro'
     | '/reset-password'
     | '/terminos'
-    | '/cuenta'
+    | '/perfil'
     | '/metodo/$slug'
     | '/metodo/'
   fileRoutesByTo: FileRoutesByTo
@@ -189,7 +189,7 @@ export interface FileRouteTypes {
     | '/registro'
     | '/reset-password'
     | '/terminos'
-    | '/cuenta'
+    | '/perfil'
     | '/metodo/$slug'
     | '/metodo'
   id:
@@ -207,7 +207,7 @@ export interface FileRouteTypes {
     | '/registro'
     | '/reset-password'
     | '/terminos'
-    | '/_authenticated/cuenta'
+    | '/_authenticated/perfil'
     | '/metodo/$slug'
     | '/metodo/'
   fileRoutesById: FileRoutesById
@@ -335,22 +335,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MetodoSlugRouteImport
       parentRoute: typeof MetodoRoute
     }
-    '/_authenticated/cuenta': {
-      id: '/_authenticated/cuenta'
-      path: '/cuenta'
-      fullPath: '/cuenta'
-      preLoaderRoute: typeof AuthenticatedCuentaRouteImport
+    '/_authenticated/perfil': {
+      id: '/_authenticated/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof AuthenticatedPerfilRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedCuentaRoute: typeof AuthenticatedCuentaRoute
+  AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedCuentaRoute: AuthenticatedCuentaRoute,
+  AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
