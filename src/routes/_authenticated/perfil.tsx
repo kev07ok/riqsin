@@ -40,7 +40,7 @@ function PerfilPage() {
       }
       const { data: prog } = await supabase
         .from("user_level_progress")
-        .select("percent_complete, levels(name, position)")
+        .select("progress_percentage, levels(name, position)")
         .eq("user_id", u.user.id)
         .order("updated_at", { ascending: false })
         .limit(1)
@@ -48,7 +48,7 @@ function PerfilPage() {
       if (prog?.levels) {
         // @ts-expect-error nested select
         setCurrentLevel(prog.levels.name);
-        setPercent(Number(prog.percent_complete) || 0);
+        setPercent(Number(prog.progress_percentage) || 0);
       }
     })();
   }, []);
