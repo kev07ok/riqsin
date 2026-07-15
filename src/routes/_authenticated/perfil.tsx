@@ -46,8 +46,8 @@ function PerfilPage() {
         .limit(1)
         .maybeSingle();
       if (prog?.levels) {
-        // @ts-expect-error nested select
-        setCurrentLevel(prog.levels.name);
+        const lv = prog.levels as unknown as { name: string };
+        setCurrentLevel(lv.name);
         setPercent(Number(prog.progress_percentage) || 0);
       }
     })();
