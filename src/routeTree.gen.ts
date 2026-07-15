@@ -24,6 +24,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MetodoIndexRouteImport } from './routes/metodo.index'
 import { Route as MetodoSlugRouteImport } from './routes/metodo.$slug'
+import { Route as AuthenticatedProgresoRouteImport } from './routes/_authenticated/progreso'
 import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
 import { Route as AuthenticatedConfiguracionRouteImport } from './routes/_authenticated/configuracion'
 
@@ -101,6 +102,11 @@ const MetodoSlugRoute = MetodoSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => MetodoRoute,
 } as any)
+const AuthenticatedProgresoRoute = AuthenticatedProgresoRouteImport.update({
+  id: '/progreso',
+  path: '/progreso',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedPerfilRoute = AuthenticatedPerfilRouteImport.update({
   id: '/perfil',
   path: '/perfil',
@@ -128,6 +134,7 @@ export interface FileRoutesByFullPath {
   '/terminos': typeof TerminosRoute
   '/configuracion': typeof AuthenticatedConfiguracionRoute
   '/perfil': typeof AuthenticatedPerfilRoute
+  '/progreso': typeof AuthenticatedProgresoRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
 }
@@ -145,6 +152,7 @@ export interface FileRoutesByTo {
   '/terminos': typeof TerminosRoute
   '/configuracion': typeof AuthenticatedConfiguracionRoute
   '/perfil': typeof AuthenticatedPerfilRoute
+  '/progreso': typeof AuthenticatedProgresoRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo': typeof MetodoIndexRoute
 }
@@ -165,6 +173,7 @@ export interface FileRoutesById {
   '/terminos': typeof TerminosRoute
   '/_authenticated/configuracion': typeof AuthenticatedConfiguracionRoute
   '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
+  '/_authenticated/progreso': typeof AuthenticatedProgresoRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
 }
@@ -185,6 +194,7 @@ export interface FileRouteTypes {
     | '/terminos'
     | '/configuracion'
     | '/perfil'
+    | '/progreso'
     | '/metodo/$slug'
     | '/metodo/'
   fileRoutesByTo: FileRoutesByTo
@@ -202,6 +212,7 @@ export interface FileRouteTypes {
     | '/terminos'
     | '/configuracion'
     | '/perfil'
+    | '/progreso'
     | '/metodo/$slug'
     | '/metodo'
   id:
@@ -221,6 +232,7 @@ export interface FileRouteTypes {
     | '/terminos'
     | '/_authenticated/configuracion'
     | '/_authenticated/perfil'
+    | '/_authenticated/progreso'
     | '/metodo/$slug'
     | '/metodo/'
   fileRoutesById: FileRoutesById
@@ -348,6 +360,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MetodoSlugRouteImport
       parentRoute: typeof MetodoRoute
     }
+    '/_authenticated/progreso': {
+      id: '/_authenticated/progreso'
+      path: '/progreso'
+      fullPath: '/progreso'
+      preLoaderRoute: typeof AuthenticatedProgresoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/perfil': {
       id: '/_authenticated/perfil'
       path: '/perfil'
@@ -368,11 +387,13 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedConfiguracionRoute: typeof AuthenticatedConfiguracionRoute
   AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
+  AuthenticatedProgresoRoute: typeof AuthenticatedProgresoRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedConfiguracionRoute: AuthenticatedConfiguracionRoute,
   AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
+  AuthenticatedProgresoRoute: AuthenticatedProgresoRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
