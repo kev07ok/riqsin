@@ -44,7 +44,7 @@ function RegisterPage() {
     });
     setLoading(false);
     if (error) return setError(error.message);
-    navigate({ to: "/cuenta" });
+    navigate({ to: "/perfil" });
   }
 
   async function onGoogle() {
@@ -52,7 +52,7 @@ function RegisterPage() {
     const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
     if (result.error) return setError(result.error.message);
     if (result.redirected) return;
-    navigate({ to: "/cuenta" });
+    navigate({ to: "/perfil" });
   }
 
   return (

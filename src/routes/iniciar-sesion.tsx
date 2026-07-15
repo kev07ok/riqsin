@@ -1,15 +1,19 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 
 export const Route = createFileRoute("/iniciar-sesion")({
+  validateSearch: z.object({ redirect: z.string().optional() }),
   head: () => ({ meta: [{ title: "Iniciar sesión — RIQSIN" }] }),
   component: LoginPage,
 });
 
 function LoginPage() {
   const navigate = useNavigate();
+  const search = Route.useSearch();
+  const redirectTo = search.redirect && search.redirect.startsWith("/") ? search.redirect : "/perfil";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -22,7 +26,7 @@ function LoginPage() {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (error) return setError(error.message);
-    navigate({ to: "/cuenta" });
+    navigate({ to: redirectTo as string as "/" });
   }
 
   async function onGoogle() {
@@ -32,7 +36,7 @@ function LoginPage() {
     });
     if (result.error) return setError(result.error.message);
     if (result.redirected) return;
-    navigate({ to: "/cuenta" });
+    navigate({ to: redirectTo as string as "/" });
   }
 
   return (

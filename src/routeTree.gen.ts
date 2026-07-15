@@ -24,7 +24,9 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MetodoIndexRouteImport } from './routes/metodo.index'
 import { Route as MetodoSlugRouteImport } from './routes/metodo.$slug'
-import { Route as AuthenticatedCuentaRouteImport } from './routes/_authenticated/cuenta'
+import { Route as AuthenticatedProgresoRouteImport } from './routes/_authenticated/progreso'
+import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
+import { Route as AuthenticatedConfiguracionRouteImport } from './routes/_authenticated/configuracion'
 
 const TerminosRoute = TerminosRouteImport.update({
   id: '/terminos',
@@ -100,11 +102,22 @@ const MetodoSlugRoute = MetodoSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => MetodoRoute,
 } as any)
-const AuthenticatedCuentaRoute = AuthenticatedCuentaRouteImport.update({
-  id: '/cuenta',
-  path: '/cuenta',
+const AuthenticatedProgresoRoute = AuthenticatedProgresoRouteImport.update({
+  id: '/progreso',
+  path: '/progreso',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPerfilRoute = AuthenticatedPerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedConfiguracionRoute =
+  AuthenticatedConfiguracionRouteImport.update({
+    id: '/configuracion',
+    path: '/configuracion',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -119,7 +132,9 @@ export interface FileRoutesByFullPath {
   '/registro': typeof RegistroRoute
   '/reset-password': typeof ResetPasswordRoute
   '/terminos': typeof TerminosRoute
-  '/cuenta': typeof AuthenticatedCuentaRoute
+  '/configuracion': typeof AuthenticatedConfiguracionRoute
+  '/perfil': typeof AuthenticatedPerfilRoute
+  '/progreso': typeof AuthenticatedProgresoRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
 }
@@ -135,7 +150,9 @@ export interface FileRoutesByTo {
   '/registro': typeof RegistroRoute
   '/reset-password': typeof ResetPasswordRoute
   '/terminos': typeof TerminosRoute
-  '/cuenta': typeof AuthenticatedCuentaRoute
+  '/configuracion': typeof AuthenticatedConfiguracionRoute
+  '/perfil': typeof AuthenticatedPerfilRoute
+  '/progreso': typeof AuthenticatedProgresoRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo': typeof MetodoIndexRoute
 }
@@ -154,7 +171,9 @@ export interface FileRoutesById {
   '/registro': typeof RegistroRoute
   '/reset-password': typeof ResetPasswordRoute
   '/terminos': typeof TerminosRoute
-  '/_authenticated/cuenta': typeof AuthenticatedCuentaRoute
+  '/_authenticated/configuracion': typeof AuthenticatedConfiguracionRoute
+  '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
+  '/_authenticated/progreso': typeof AuthenticatedProgresoRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
 }
@@ -173,7 +192,9 @@ export interface FileRouteTypes {
     | '/registro'
     | '/reset-password'
     | '/terminos'
-    | '/cuenta'
+    | '/configuracion'
+    | '/perfil'
+    | '/progreso'
     | '/metodo/$slug'
     | '/metodo/'
   fileRoutesByTo: FileRoutesByTo
@@ -189,7 +210,9 @@ export interface FileRouteTypes {
     | '/registro'
     | '/reset-password'
     | '/terminos'
-    | '/cuenta'
+    | '/configuracion'
+    | '/perfil'
+    | '/progreso'
     | '/metodo/$slug'
     | '/metodo'
   id:
@@ -207,7 +230,9 @@ export interface FileRouteTypes {
     | '/registro'
     | '/reset-password'
     | '/terminos'
-    | '/_authenticated/cuenta'
+    | '/_authenticated/configuracion'
+    | '/_authenticated/perfil'
+    | '/_authenticated/progreso'
     | '/metodo/$slug'
     | '/metodo/'
   fileRoutesById: FileRoutesById
@@ -335,22 +360,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MetodoSlugRouteImport
       parentRoute: typeof MetodoRoute
     }
-    '/_authenticated/cuenta': {
-      id: '/_authenticated/cuenta'
-      path: '/cuenta'
-      fullPath: '/cuenta'
-      preLoaderRoute: typeof AuthenticatedCuentaRouteImport
+    '/_authenticated/progreso': {
+      id: '/_authenticated/progreso'
+      path: '/progreso'
+      fullPath: '/progreso'
+      preLoaderRoute: typeof AuthenticatedProgresoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/perfil': {
+      id: '/_authenticated/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof AuthenticatedPerfilRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/configuracion': {
+      id: '/_authenticated/configuracion'
+      path: '/configuracion'
+      fullPath: '/configuracion'
+      preLoaderRoute: typeof AuthenticatedConfiguracionRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedCuentaRoute: typeof AuthenticatedCuentaRoute
+  AuthenticatedConfiguracionRoute: typeof AuthenticatedConfiguracionRoute
+  AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
+  AuthenticatedProgresoRoute: typeof AuthenticatedProgresoRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedCuentaRoute: AuthenticatedCuentaRoute,
+  AuthenticatedConfiguracionRoute: AuthenticatedConfiguracionRoute,
+  AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
+  AuthenticatedProgresoRoute: AuthenticatedProgresoRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

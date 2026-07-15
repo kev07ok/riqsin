@@ -23,7 +23,7 @@ function ResetPage() {
     const { error } = await supabase.auth.updateUser({ password });
     setLoading(false);
     if (error) return setError(error.message);
-    navigate({ to: "/cuenta" });
+    navigate({ to: "/perfil" });
   }
 
   return (
