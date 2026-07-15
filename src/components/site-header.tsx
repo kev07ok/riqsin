@@ -3,11 +3,9 @@ import { useEffect, useState } from "react";
 import logoAsset from "../assets/riqsin-logo-transparent.png.asset.json";
 import { siteConfig } from "../data/site";
 import { supabase } from "@/integrations/supabase/client";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export function SiteHeader() {
-  const linkBase =
-    "text-sm font-medium text-foreground/70 transition-colors hover:text-foreground";
-  const activeClass = "text-foreground";
   const [authed, setAuthed] = useState(false);
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => setAuthed(!!data.session));
@@ -15,41 +13,22 @@ export function SiteHeader() {
     return () => sub.subscription.unsubscribe();
   }, []);
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/70 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-        <Link to="/" aria-label="Ir al inicio" className="flex items-center">
-          <img src={logoAsset.url} alt="RIQSIN" className="h-10 w-auto sm:h-11" />
-        </Link>
-        <nav className="flex items-center gap-4 sm:gap-7">
-          <Link to="/" activeOptions={{ exact: true }} activeProps={{ className: activeClass }} className={linkBase}>
-            Inicio
+    <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/70 backdrop-blur-xl">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
+        <div className="flex items-center gap-2 min-w-0">
+          <SidebarTrigger className="shrink-0" />
+          <Link to="/" aria-label="Ir al inicio" className="flex items-center">
+            <img src={logoAsset.url} alt="RIQSIN" className="h-9 w-auto sm:h-10" />
           </Link>
-          <Link to="/metodo" activeProps={{ className: activeClass }} className={linkBase}>
-            El método
+        </div>
+        {!authed && (
+          <Link
+            to="/iniciar-sesion"
+            className="rounded-full border border-border bg-white/70 px-4 py-1.5 text-sm font-medium text-foreground transition hover:bg-white"
+          >
+            Iniciar sesión
           </Link>
-          <Link to="/autor" activeProps={{ className: activeClass }} className={linkBase}>
-            Autor
-          </Link>
-          {siteConfig.instagramUrl && (
-            <a
-              href={siteConfig.instagramUrl}
-              target="_blank"
-              rel="noreferrer noopener"
-              className={linkBase}
-            >
-              Instagram
-            </a>
-          )}
-          {authed ? (
-            <Link to="/cuenta" activeProps={{ className: activeClass }} className={linkBase}>
-              Mi cuenta
-            </Link>
-          ) : (
-            <Link to="/iniciar-sesion" className="rounded-full border border-border bg-white px-4 py-1.5 text-sm font-medium text-foreground transition hover:bg-white/60">
-              Iniciar sesión
-            </Link>
-          )}
-        </nav>
+        )}
       </div>
     </header>
   );
