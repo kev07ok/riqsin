@@ -3,7 +3,11 @@
 // - supportEmail: correo de contacto público (dejar vacío si no querés mostrarlo).
 // - mainDomain / alternateDomain: dominios de referencia (no rompen rutas internas).
 export const siteConfig = {
-  instagramUrl: "https://www.instagram.com/kev07_ok/",
+  instagramUrl: "https://www.instagram.com/metodoriqsin/",
+  instagramOfficialUrl: "https://www.instagram.com/metodoriqsin/",
+  instagramPersonalUrl: "https://www.instagram.com/kev07_ok/",
+  instagramOfficialHandle: "@metodoriqsin",
+  instagramPersonalHandle: "@kev07_ok",
   supportEmail: "",
   mainDomain: "riqsin.com.ar",
   alternateDomain: "riqsin.ar",

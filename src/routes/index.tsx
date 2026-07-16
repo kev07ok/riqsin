@@ -1,6 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
-import logoAsset from "../assets/riqsin-logo-transparent.png.asset.json";
+import { siteConfig } from "../data/site";
+import { author } from "../data/author";
+
+// Pegá aquí la URL de YouTube (formato embed) o dejá "" para mostrar un
+// placeholder. Ejemplo: "https://www.youtube.com/embed/VIDEO_ID"
+const videoEmbedUrl = "";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -27,7 +32,7 @@ function InstagramIcon({ className }: { className?: string }) {
 
 function Index() {
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 py-20 text-center">
+    <main className="relative flex min-h-screen flex-col items-center overflow-hidden px-6 py-20 text-center">
       {/* Subtle ambient background glow in brand colors */}
       <div
         className="pointer-events-none absolute inset-0 opacity-50"
@@ -38,28 +43,16 @@ function Index() {
         <div className="absolute bottom-1/4 right-1/3 h-[25rem] w-[25rem] rounded-full bg-brand-yellow/8 blur-[100px]" />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 flex max-w-3xl flex-col items-center animate-fade-in">
-        {/* Logo with glass base */}
-        <div className="group mb-10 rounded-[2rem] bg-white/60 p-8 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.08)] backdrop-blur-xl ring-1 ring-white/80 transition-transform duration-500 hover:scale-[1.02]">
-          <img
-            src={logoAsset.url}
-            alt="RIQSIN logo"
-            className="h-44 w-auto sm:h-52 md:h-60 drop-shadow-2xl"
-          />
-        </div>
-
-        {/* Main title */}
+      {/* HERO */}
+      <section className="relative z-10 flex min-h-[80vh] max-w-3xl flex-col items-center justify-center animate-fade-in">
         <h1 className="text-6xl font-semibold tracking-tight text-foreground sm:text-7xl md:text-8xl lg:text-9xl">
           RIQSIN
         </h1>
 
-        {/* Tagline */}
         <p className="mt-6 text-lg font-medium tracking-wide text-gradient-brand sm:text-xl md:text-2xl">
           Conócete. Contrólate. Evoluciona.
         </p>
 
-        {/* Quote */}
         <blockquote className="mt-8 max-w-2xl">
           <p className="text-base leading-relaxed text-muted-foreground sm:text-lg md:text-xl">
             “Todo cambio externo comienza con el autoconocimiento, continúa con el autocontrol y culmina con la evolución personal”
@@ -69,7 +62,6 @@ function Index() {
           </footer>
         </blockquote>
 
-        {/* Status */}
         <p className="mt-10 text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground/80">
           RIQSIN está en proceso.
         </p>
@@ -78,25 +70,92 @@ function Index() {
           desarrollar disciplina y crear sistemas que puedas mantener en el tiempo.
         </p>
 
-        {/* CTA buttons */}
         <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
           <Link
             to="/metodo"
             className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-8 py-3.5 text-sm font-medium text-background shadow-[0_8px_30px_-10px_rgba(0,0,0,0.35)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.45)] focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
           >
-            Conocer el método
+            Conocé el método
           </Link>
           <a
-            href="https://www.instagram.com/kev07_ok/"
+            href={siteConfig.instagramOfficialUrl}
             target="_blank"
             rel="noreferrer noopener"
             className="inline-flex items-center gap-3 rounded-full border border-border bg-white/70 px-8 py-3.5 text-sm font-medium text-foreground shadow-[0_4px_20px_-8px_rgba(0,0,0,0.1)] backdrop-blur-md transition-all duration-300 hover:scale-[1.02] hover:border-brand-blue/40 hover:bg-white hover:shadow-[0_8px_30px_-10px_rgba(0,0,0,0.15)] focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
           >
             <InstagramIcon className="h-4 w-4" />
-            Seguinos en Instagram
+            Instagram {siteConfig.instagramOfficialHandle}
           </a>
         </div>
-      </div>
+      </section>
+
+      {/* VIDEO */}
+      <section className="relative z-10 mt-24 w-full max-w-4xl animate-fade-in">
+        <p className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">
+          Video
+        </p>
+        <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+          Conocé Riqsin
+        </h2>
+        <div className="mt-8 overflow-hidden rounded-3xl border border-border bg-white/60 shadow-[0_8px_40px_-15px_rgba(0,0,0,0.1)] backdrop-blur-md">
+          <div className="relative aspect-video w-full bg-muted">
+            {videoEmbedUrl ? (
+              <iframe
+                src={videoEmbedUrl}
+                title="Conocé Riqsin"
+                className="h-full w-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            ) : (
+              <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-muted-foreground">
+                <div className="grid h-14 w-14 place-items-center rounded-full border border-border bg-white/70 backdrop-blur">
+                  <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+                </div>
+                <p className="text-sm">Video próximamente</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* SOBRE EL AUTOR */}
+      <section className="relative z-10 mt-24 w-full max-w-4xl text-left animate-fade-in">
+        <p className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">
+          Sobre el autor
+        </p>
+        <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+          {author.name}
+        </h2>
+        <p className="mt-3 text-base text-gradient-brand sm:text-lg">{author.role}</p>
+
+        <div className="mt-8 space-y-5 rounded-3xl border border-border bg-white/60 p-8 shadow-[0_4px_30px_-15px_rgba(0,0,0,0.08)] backdrop-blur-md">
+          {author.biography.split("\n\n").map((p, i) => (
+            <p key={i} className="text-base leading-relaxed text-foreground/80 sm:text-lg">
+              {p}
+            </p>
+          ))}
+        </div>
+
+        <h3 className="mt-10 text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+          Principios
+        </h3>
+        <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+          {author.principles.map((p) => (
+            <li
+              key={p}
+              className="flex items-center gap-3 rounded-2xl border border-border bg-white/50 px-5 py-4 text-sm text-foreground/80 backdrop-blur-sm"
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-brand-blue" />
+              {p}
+            </li>
+          ))}
+        </ul>
+
+        <p className="mt-10 rounded-2xl border border-border bg-brand-yellow-subtle/40 p-5 text-sm leading-relaxed text-foreground/80">
+          {author.disclaimer}
+        </p>
+      </section>
     </main>
   );
 }
