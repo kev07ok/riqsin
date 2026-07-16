@@ -70,52 +70,102 @@ function PerfilPage() {
   const initial = (profile.full_name || email || "R").trim().charAt(0).toUpperCase();
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-14 animate-fade-in">
+    <main className="mx-auto w-full max-w-6xl px-6 py-14 animate-fade-in">
       <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">Cuenta</p>
-      <h1 className="mt-2 text-4xl font-semibold tracking-tight text-foreground">Mi perfil</h1>
+      <h1 className="mt-2 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+        Mi perfil
+      </h1>
+      <p className="mt-3 max-w-2xl text-muted-foreground">
+        Tu información personal, el estado de tu cuenta y tu avance dentro del método RIQSIN.
+      </p>
 
-      <section className="mt-10 rounded-3xl border border-border/60 bg-white/70 p-8 backdrop-blur-xl">
-        <div className="flex items-center gap-5">
-          {profile.avatar_url ? (
-            <img src={profile.avatar_url} alt="" className="h-20 w-20 rounded-full object-cover ring-2 ring-border" />
-          ) : (
-            <div className="grid h-20 w-20 place-items-center rounded-full bg-gradient-to-br from-brand-blue to-brand-green text-2xl font-semibold text-white">
-              {initial}
+      <div className="mt-10 grid gap-6 lg:grid-cols-3">
+        {/* Tarjeta de identidad */}
+        <section className="lg:col-span-1 rounded-3xl border border-border/60 bg-white/70 p-8 backdrop-blur-xl">
+          <div className="flex flex-col items-center text-center">
+            {profile.avatar_url ? (
+              <img
+                src={profile.avatar_url}
+                alt=""
+                className="h-28 w-28 rounded-full object-cover ring-2 ring-border"
+              />
+            ) : (
+              <div className="grid h-28 w-28 place-items-center rounded-full bg-gradient-to-br from-brand-blue to-brand-green text-4xl font-semibold text-white">
+                {initial}
+              </div>
+            )}
+            <p className="mt-5 text-xl font-semibold text-foreground">
+              {profile.full_name || "Sin nombre"}
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">{email}</p>
+            <span className="mt-4 inline-flex items-center gap-2 rounded-full border border-border bg-brand-green-subtle px-3 py-1 text-xs font-medium text-foreground">
+              <span className="h-1.5 w-1.5 rounded-full bg-brand-green" />
+              Cuenta activa
+            </span>
+          </div>
+
+          <div className="mt-8 space-y-3">
+            <Info label="Miembro desde" value={createdAt ? new Date(createdAt).toLocaleDateString("es-AR") : "—"} />
+            <Info label="Nivel actual" value={currentLevel} />
+            <Info label="Progreso del nivel activo" value={`${Math.round(percent)}%`} />
+          </div>
+        </section>
+
+        {/* Formulario y datos */}
+        <section className="lg:col-span-2 space-y-6">
+          <div className="rounded-3xl border border-border/60 bg-white/70 p-8 backdrop-blur-xl">
+            <h2 className="text-lg font-semibold text-foreground">Datos personales</h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Editá cómo te ven los demás dentro de la plataforma.
+            </p>
+            <form onSubmit={onSave} className="mt-6 grid gap-5 sm:grid-cols-2">
+              <label className="block sm:col-span-2">
+                <span className="text-sm font-medium text-foreground/80">Nombre público</span>
+                <input
+                  value={alias}
+                  onChange={(e) => setAlias(e.target.value)}
+                  placeholder="Ej. Kevin A."
+                  maxLength={40}
+                  className="mt-1.5 w-full rounded-xl border border-border bg-white px-4 py-2.5 text-sm shadow-sm outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20"
+                />
+              </label>
+              <Info label="Nombre completo" value={profile.full_name || "—"} />
+              <Info label="Correo" value={email} />
+              <div className="sm:col-span-2 flex flex-wrap items-center gap-3 pt-2">
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="rounded-full bg-foreground px-6 py-2.5 text-sm font-medium text-background transition hover:opacity-90 disabled:opacity-60"
+                >
+                  {saving ? "Guardando..." : "Guardar cambios"}
+                </button>
+                {status && <span className="text-sm text-muted-foreground">{status}</span>}
+              </div>
+            </form>
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-2">
+            <div className="rounded-3xl border border-border/60 bg-white/70 p-6 backdrop-blur-xl">
+              <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Estado del método</p>
+              <p className="mt-2 text-2xl font-semibold text-foreground">{currentLevel}</p>
+              <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-muted">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-brand-blue via-brand-green to-brand-yellow transition-all"
+                  style={{ width: `${Math.round(percent)}%` }}
+                />
+              </div>
+              <p className="mt-2 text-xs text-muted-foreground">{Math.round(percent)}% completado</p>
             </div>
-          )}
-          <div className="min-w-0">
-            <p className="truncate text-xl font-semibold text-foreground">{profile.full_name || "Sin nombre"}</p>
-            <p className="truncate text-sm text-muted-foreground">{email}</p>
+            <div className="rounded-3xl border border-border/60 bg-white/70 p-6 backdrop-blur-xl">
+              <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Fecha de registro</p>
+              <p className="mt-2 text-2xl font-semibold text-foreground">
+                {createdAt ? new Date(createdAt).toLocaleDateString("es-AR") : "—"}
+              </p>
+              <p className="mt-2 text-xs text-muted-foreground">Gracias por acompañar este proceso.</p>
+            </div>
           </div>
-        </div>
-
-        <form onSubmit={onSave} className="mt-8 grid gap-5 sm:grid-cols-2">
-          <label className="block sm:col-span-2">
-            <span className="text-sm font-medium text-foreground/80">Nombre público</span>
-            <input
-              value={alias}
-              onChange={(e) => setAlias(e.target.value)}
-              placeholder="Ej. Kevin A."
-              maxLength={40}
-              className="mt-1.5 w-full rounded-xl border border-border bg-white px-4 py-2.5 text-sm shadow-sm outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20"
-            />
-          </label>
-          <Info label="Correo" value={email} />
-          <Info label="Miembro desde" value={createdAt ? new Date(createdAt).toLocaleDateString("es-AR") : "—"} />
-          <Info label="Nivel actual" value={currentLevel} />
-          <Info label="Estado general" value={`${Math.round(percent)}% de tu nivel activo`} />
-          <div className="sm:col-span-2 flex items-center gap-3">
-            <button
-              type="submit"
-              disabled={saving}
-              className="rounded-full bg-foreground px-6 py-2.5 text-sm font-medium text-background transition hover:opacity-90 disabled:opacity-60"
-            >
-              {saving ? "Guardando..." : "Guardar cambios"}
-            </button>
-            {status && <span className="text-sm text-muted-foreground">{status}</span>}
-          </div>
-        </form>
-      </section>
+        </section>
+      </div>
     </main>
   );
 }
