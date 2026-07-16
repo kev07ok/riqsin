@@ -1,6 +1,5 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import logoAsset from "../assets/riqsin-logo-transparent.png.asset.json";
 import { siteConfig } from "../data/site";
 import { supabase } from "@/integrations/supabase/client";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -17,8 +16,12 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <div className="flex items-center gap-2 min-w-0">
           <SidebarTrigger className="shrink-0" />
-          <Link to="/" aria-label="Ir al inicio" className="flex items-center">
-            <img src={logoAsset.url} alt="RIQSIN" className="h-9 w-auto sm:h-10" />
+          <Link
+            to="/"
+            aria-label="Ir al inicio"
+            className="flex items-center text-lg font-semibold tracking-[0.28em] text-foreground sm:text-xl"
+          >
+            RIQSIN
           </Link>
         </div>
         {!authed && (
@@ -53,19 +56,26 @@ export function SiteFooter() {
             <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
               <li><Link to="/" className="hover:text-foreground">Inicio</Link></li>
               <li><Link to="/metodo" className="hover:text-foreground">El método</Link></li>
-              <li><Link to="/autor" className="hover:text-foreground">Autor</Link></li>
-              {siteConfig.instagramUrl && (
-                <li>
-                  <a
-                    href={siteConfig.instagramUrl}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="hover:text-foreground"
-                  >
-                    Instagram
-                  </a>
-                </li>
-              )}
+              <li>
+                <a
+                  href={siteConfig.instagramOfficialUrl}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="hover:text-foreground"
+                >
+                  Instagram oficial {siteConfig.instagramOfficialHandle}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={siteConfig.instagramPersonalUrl}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="hover:text-foreground"
+                >
+                  Instagram del creador {siteConfig.instagramPersonalHandle}
+                </a>
+              </li>
             </ul>
           </div>
           <div>

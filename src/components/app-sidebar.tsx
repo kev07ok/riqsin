@@ -1,5 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, BookOpen, Activity, User, Settings } from "lucide-react";
+import { Home, BookOpen, Activity, User, Settings, ShieldCheck } from "lucide-react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import {
   Sidebar,
   SidebarContent,
@@ -12,7 +14,6 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import logoAsset from "../assets/riqsin-logo-transparent.png.asset.json";
 
 const items = [
   { title: "Inicio", url: "/", icon: Home },
@@ -28,14 +29,32 @@ export function AppSidebar() {
   const closeIfMobile = () => {
     if (isMobile) setOpenMobile(false);
   };
+  const [isAdmin, setIsAdmin] = useState(false);
+  useEffect(() => {
+    let cancelled = false;
+    async function check() {
+      const { data: u } = await supabase.auth.getUser();
+      if (!u.user) { if (!cancelled) setIsAdmin(false); return; }
+      const { data } = await supabase.rpc("has_role", { _user_id: u.user.id, _role: "admin" });
+      if (!cancelled) setIsAdmin(!!data);
+    }
+    check();
+    const { data: sub } = supabase.auth.onAuthStateChange(() => check());
+    return () => { cancelled = true; sub.subscription.unsubscribe(); };
+  }, []);
+  const allItems = isAdmin
+    ? [...items, { title: "Admin", url: "/admin", icon: ShieldCheck } as const]
+    : items;
 
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <Link to="/" onClick={closeIfMobile} className="flex items-center gap-2 px-2 py-1.5">
-          <img src={logoAsset.url} alt="RIQSIN" className="h-8 w-auto" />
-          <span className="text-sm font-semibold tracking-[0.2em] text-foreground group-data-[collapsible=icon]:hidden">
+        <Link to="/" onClick={closeIfMobile} className="flex items-center px-2 py-2">
+          <span className="text-base font-semibold tracking-[0.28em] text-foreground group-data-[collapsible=icon]:hidden">
             RIQSIN
+          </span>
+          <span className="hidden text-sm font-bold tracking-widest text-foreground group-data-[collapsible=icon]:inline">
+            R
           </span>
         </Link>
       </SidebarHeader>
@@ -43,7 +62,7 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => {
+              {allItems.map((item) => {
                 const active =
                   item.url === "/"
                     ? pathname === "/"
