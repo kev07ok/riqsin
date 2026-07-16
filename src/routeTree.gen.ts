@@ -19,7 +19,6 @@ import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as MetodoRouteImport } from './routes/metodo'
 import { Route as IniciarSesionRouteImport } from './routes/iniciar-sesion'
 import { Route as AvisoLegalRouteImport } from './routes/aviso-legal'
-import { Route as AutorRouteImport } from './routes/autor'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MetodoIndexRouteImport } from './routes/metodo.index'
@@ -78,11 +77,6 @@ const AvisoLegalRoute = AvisoLegalRouteImport.update({
   path: '/aviso-legal',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AutorRoute = AutorRouteImport.update({
-  id: '/autor',
-  path: '/autor',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
@@ -121,7 +115,6 @@ const AuthenticatedConfiguracionRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/autor': typeof AutorRoute
   '/aviso-legal': typeof AvisoLegalRoute
   '/iniciar-sesion': typeof IniciarSesionRoute
   '/metodo': typeof MetodoRouteWithChildren
@@ -140,7 +133,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/autor': typeof AutorRoute
   '/aviso-legal': typeof AvisoLegalRoute
   '/iniciar-sesion': typeof IniciarSesionRoute
   '/privacidad': typeof PrivacidadRoute
@@ -160,7 +152,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/autor': typeof AutorRoute
   '/aviso-legal': typeof AvisoLegalRoute
   '/iniciar-sesion': typeof IniciarSesionRoute
   '/metodo': typeof MetodoRouteWithChildren
@@ -181,7 +172,6 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/autor'
     | '/aviso-legal'
     | '/iniciar-sesion'
     | '/metodo'
@@ -200,7 +190,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/autor'
     | '/aviso-legal'
     | '/iniciar-sesion'
     | '/privacidad'
@@ -219,7 +208,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authenticated'
-    | '/autor'
     | '/aviso-legal'
     | '/iniciar-sesion'
     | '/metodo'
@@ -240,7 +228,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
-  AutorRoute: typeof AutorRoute
   AvisoLegalRoute: typeof AvisoLegalRoute
   IniciarSesionRoute: typeof IniciarSesionRoute
   MetodoRoute: typeof MetodoRouteWithChildren
@@ -323,13 +310,6 @@ declare module '@tanstack/react-router' {
       path: '/aviso-legal'
       fullPath: '/aviso-legal'
       preLoaderRoute: typeof AvisoLegalRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/autor': {
-      id: '/autor'
-      path: '/autor'
-      fullPath: '/autor'
-      preLoaderRoute: typeof AutorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -415,7 +395,6 @@ const MetodoRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
-  AutorRoute: AutorRoute,
   AvisoLegalRoute: AvisoLegalRoute,
   IniciarSesionRoute: IniciarSesionRoute,
   MetodoRoute: MetodoRouteWithChildren,
@@ -430,13 +409,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
