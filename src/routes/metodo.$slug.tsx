@@ -1,4 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import { getLevelBySlug, levels } from "../data/levels";
 import { toRoman } from "../data/site";
 
@@ -37,6 +39,36 @@ function LevelPage() {
   const { level } = Route.useLoaderData();
   const isLegado = level.slug === "legado";
   const hasPayment = level.paymentUrl.trim().length > 0;
+  const [percent, setPercent] = useState(0);
+  const [hasAccess, setHasAccess] = useState(false);
+  const [modules, setModules] = useState<Array<{ id: string; title: string; description: string | null; position: number }>>([]);
+
+  useEffect(() => {
+    (async () => {
+      const { data: lvl } = await supabase
+        .from("levels")
+        .select("id, modules(id, title, description, position, is_active)")
+        .eq("slug", level.slug)
+        .maybeSingle();
+      if (lvl) {
+        const mods = ((lvl as any).modules ?? [])
+          .filter((m: any) => m.is_active)
+          .sort((a: any, b: any) => a.position - b.position);
+        setModules(mods);
+        const { data: u } = await supabase.auth.getUser();
+        if (u.user) {
+          const { data: prog } = await supabase
+            .from("user_level_progress")
+            .select("progress_percentage")
+            .eq("user_id", u.user.id)
+            .eq("level_id", (lvl as any).id)
+            .maybeSingle();
+          setPercent(Number(prog?.progress_percentage ?? 0));
+          setHasAccess(!!prog);
+        }
+      }
+    })();
+  }, [level.slug]);
 
   return (
     <main className="mx-auto max-w-4xl px-6 py-16 sm:py-24 animate-fade-in">
@@ -66,6 +98,68 @@ function LevelPage() {
           </span>
         </div>
       </header>
+
+      {/* Progreso del nivel */}
+      <section className="mt-10 rounded-3xl border border-border/60 bg-white/70 p-6 backdrop-blur-xl">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">Tu progreso</p>
+            <p className="mt-1 text-2xl font-semibold text-foreground">{Math.round(percent)}%</p>
+          </div>
+          <span
+            className={`rounded-full border px-3 py-1 text-xs font-medium ${
+              hasAccess
+                ? "border-brand-green/40 bg-brand-green-subtle text-foreground"
+                : "border-border bg-muted text-muted-foreground"
+            }`}
+          >
+            {hasAccess ? "Acceso activo" : "Sin acceso"}
+          </span>
+        </div>
+        <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-muted">
+          <div
+            className="h-full rounded-full bg-gradient-to-r from-brand-blue via-brand-green to-brand-yellow transition-all"
+            style={{ width: `${Math.max(2, Math.round(percent))}%` }}
+          />
+        </div>
+        {!hasAccess && !isLegado && (
+          <p className="mt-3 text-sm text-muted-foreground">
+            Todavía no tenés acceso a este nivel. Podés revisar el contenido general debajo.
+            Los módulos y evaluaciones se desbloquean una vez que adquirís el nivel.
+          </p>
+        )}
+      </section>
+
+      {/* Módulos (bloqueados si no hay acceso) */}
+      {modules.length > 0 && (
+        <section className="mt-10">
+          <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+            Módulos del nivel
+          </h2>
+          <ul className="mt-4 space-y-3">
+            {modules.map((m) => (
+              <li
+                key={m.id}
+                className="flex items-start justify-between gap-4 rounded-2xl border border-border bg-white/60 p-5 backdrop-blur-sm"
+              >
+                <div>
+                  <p className="font-medium text-foreground">
+                    {m.position}. {m.title}
+                  </p>
+                  {m.description && (
+                    <p className="mt-1 text-sm text-muted-foreground">{m.description}</p>
+                  )}
+                </div>
+                {!hasAccess && (
+                  <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-border bg-muted px-3 py-1 text-xs text-muted-foreground">
+                    🔒 Bloqueado
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <section className="mt-10 rounded-3xl border border-border bg-white/60 p-8 shadow-[0_4px_30px_-15px_rgba(0,0,0,0.1)] backdrop-blur-md">
         <p className="text-base leading-relaxed text-foreground/80 sm:text-lg">
