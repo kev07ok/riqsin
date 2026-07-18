@@ -48,16 +48,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader>
-        <Link to="/" onClick={closeIfMobile} className="flex items-center px-2 py-2">
-          <span className="text-base font-semibold tracking-[0.28em] text-foreground group-data-[collapsible=icon]:hidden">
-            RIQSIN
-          </span>
-          <span className="hidden text-sm font-bold tracking-widest text-foreground group-data-[collapsible=icon]:inline">
-            R
-          </span>
-        </Link>
-      </SidebarHeader>
+      <SidebarHeader />
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
