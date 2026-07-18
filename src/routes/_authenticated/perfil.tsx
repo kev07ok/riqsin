@@ -82,7 +82,7 @@ function PerfilPage() {
       .from("profiles")
       .update({
         public_alias: alias.trim() || null,
-        full_name: fullName.trim() || null,
+        full_name: fullName.trim() || "",
       })
       .eq("id", u.user.id);
     setSaving(false);
