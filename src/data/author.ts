@@ -23,19 +23,21 @@ export interface CollaboratorItem {
 
 export const author = {
   name: "Kevin Arozamena",
-  role: "Creador y autor del Método RIQSIN",
+  role: "Creador de RIQSIN",
   biography:
-    "Kevin Arozamena es el creador y autor del Método RIQSIN, un sistema progresivo de desarrollo personal orientado al autoconocimiento, la disciplina, la construcción de hábitos, la psicología aplicada y el propósito.\n\nEl método nace a partir del estudio, la observación del comportamiento humano, la experiencia personal y la búsqueda de herramientas prácticas que puedan ayudar a las personas a construir cambios sostenibles.",
+    "Soy Kevin Arozamena, creador de RIQSIN. Actualmente soy estudiante y aspirante a creador de contenido. Todavía estoy construyendo mi camino, y RIQSIN es una parte fundamental de ese proceso.\n\nEste proyecto nace de mi propio interés por la disciplina, los hábitos, la organización y el crecimiento personal. Con el tiempo empecé a estudiar y aplicar herramientas que me ayudaron a mejorar mi vida, y quise convertir todo eso en un método claro para compartirlo con otras personas.\n\nMi objetivo es construir una comunidad enfocada en el desarrollo personal: gente que quiera conocerse mejor, tomar el control de su día a día y evolucionar de forma sostenida. No prometo atajos ni fórmulas mágicas. Sí comparto sistemas prácticos que se pueden aplicar y sostener en el tiempo.",
   education: [] as EducationItem[],
   experience: [] as ExperienceItem[],
   collaborators: [] as CollaboratorItem[],
   principles: [
-    "Responsabilidad personal",
     "Disciplina",
-    "Aprendizaje continuo",
-    "Pensamiento crítico",
-    "Aplicación práctica",
-    "Evolución personal",
+    "Constancia",
+    "Responsabilidad",
+    "Sistemas",
+    "Mejora continua",
+    "Autoconocimiento",
+    "Acción",
+    "Evolución",
   ],
   disclaimer:
     "El Método RIQSIN no sustituye la atención psicológica, psiquiátrica, médica o profesional. Sus contenidos tienen fines educativos y de desarrollo personal.",
