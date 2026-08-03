@@ -40,7 +40,7 @@ export const author = {
     "Evolución",
   ],
   disclaimer:
-    "El Método RIQSIN no sustituye la atención psicológica, psiquiátrica, médica o profesional. Sus contenidos tienen fines educativos y de desarrollo personal.",
+    "El Método RIQSIN no sustituye la atención Psicológica, Psiquiátrica, Médica o Profesional. Sus contenidos tienen fines educativos y de desarrollo personal.",
   socialLinks: {
     instagram: "",
     youtube: "",
