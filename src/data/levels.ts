@@ -31,7 +31,7 @@ export const levels: Level[] = [
     slug: "despertar",
     name: "Despertar",
     subtitle: "El inicio del autoconocimiento",
-    duration: "2 semanas",
+    duration: "1 mes",
     price: "$30.000 ARS",
     status: "en proceso",
     tagline: "El inicio del autoconocimiento.",
