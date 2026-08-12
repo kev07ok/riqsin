@@ -14,6 +14,50 @@ export type Database = {
   }
   public: {
     Tables: {
+      compras: {
+        Row: {
+          created_at: string
+          estado: Database["public"]["Enums"]["compra_estado"]
+          id: string
+          monto: number | null
+          nivel_id: string
+          payment_id: string | null
+          preference_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          estado?: Database["public"]["Enums"]["compra_estado"]
+          id?: string
+          monto?: number | null
+          nivel_id: string
+          payment_id?: string | null
+          preference_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          estado?: Database["public"]["Enums"]["compra_estado"]
+          id?: string
+          monto?: number | null
+          nivel_id?: string
+          payment_id?: string | null
+          preference_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "compras_nivel_id_fkey"
+            columns: ["nivel_id"]
+            isOneToOne: false
+            referencedRelation: "niveles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       daily_questions: {
         Row: {
           active_date: string
@@ -202,6 +246,30 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      niveles: {
+        Row: {
+          created_at: string
+          id: string
+          nombre: string
+          precio: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          nombre: string
+          precio: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          nombre?: string
+          precio?: number
+          updated_at?: string
+        }
+        Relationships: []
       }
       profiles: {
         Row: {
@@ -647,6 +715,7 @@ export type Database = {
     }
     Enums: {
       app_role: "user" | "admin"
+      compra_estado: "pending" | "approved" | "rejected"
       daily_answer_type: "text" | "single_choice"
       module_status: "not_started" | "in_progress" | "completed"
     }
@@ -777,6 +846,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["user", "admin"],
+      compra_estado: ["pending", "approved", "rejected"],
       daily_answer_type: ["text", "single_choice"],
       module_status: ["not_started", "in_progress", "completed"],
     },
