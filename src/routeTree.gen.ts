@@ -27,6 +27,7 @@ import { Route as AuthenticatedProgresoRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
 import { Route as AuthenticatedConfiguracionRouteImport } from './routes/_authenticated/configuracion'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as ApiPublicWebhookMpRouteImport } from './routes/api/public/webhook-mp'
 
 const TerminosRoute = TerminosRouteImport.update({
   id: '/terminos',
@@ -118,6 +119,11 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiPublicWebhookMpRoute = ApiPublicWebhookMpRouteImport.update({
+  id: '/api/public/webhook-mp',
+  path: '/api/public/webhook-mp',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -137,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/progreso': typeof AuthenticatedProgresoRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
+  '/api/public/webhook-mp': typeof ApiPublicWebhookMpRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -155,6 +162,7 @@ export interface FileRoutesByTo {
   '/progreso': typeof AuthenticatedProgresoRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo': typeof MetodoIndexRoute
+  '/api/public/webhook-mp': typeof ApiPublicWebhookMpRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -176,6 +184,7 @@ export interface FileRoutesById {
   '/_authenticated/progreso': typeof AuthenticatedProgresoRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
+  '/api/public/webhook-mp': typeof ApiPublicWebhookMpRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -197,6 +206,7 @@ export interface FileRouteTypes {
     | '/progreso'
     | '/metodo/$slug'
     | '/metodo/'
+    | '/api/public/webhook-mp'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -215,6 +225,7 @@ export interface FileRouteTypes {
     | '/progreso'
     | '/metodo/$slug'
     | '/metodo'
+    | '/api/public/webhook-mp'
   id:
     | '__root__'
     | '/'
@@ -235,6 +246,7 @@ export interface FileRouteTypes {
     | '/_authenticated/progreso'
     | '/metodo/$slug'
     | '/metodo/'
+    | '/api/public/webhook-mp'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -250,6 +262,7 @@ export interface RootRouteChildren {
   RegistroRoute: typeof RegistroRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   TerminosRoute: typeof TerminosRoute
+  ApiPublicWebhookMpRoute: typeof ApiPublicWebhookMpRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -380,6 +393,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/webhook-mp': {
+      id: '/api/public/webhook-mp'
+      path: '/api/public/webhook-mp'
+      fullPath: '/api/public/webhook-mp'
+      preLoaderRoute: typeof ApiPublicWebhookMpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -426,6 +446,7 @@ const rootRouteChildren: RootRouteChildren = {
   RegistroRoute: RegistroRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   TerminosRoute: TerminosRoute,
+  ApiPublicWebhookMpRoute: ApiPublicWebhookMpRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
