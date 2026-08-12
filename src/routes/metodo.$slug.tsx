@@ -1,6 +1,8 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
+import { crearPago } from "@/lib/pagos.functions";
 import { getLevelBySlug, levels } from "../data/levels";
 import { toRoman } from "../data/site";
 
@@ -38,10 +40,29 @@ export const Route = createFileRoute("/metodo/$slug")({
 function LevelPage() {
   const { level } = Route.useLoaderData();
   const isLegado = level.slug === "legado";
-  const hasPayment = level.paymentUrl.trim().length > 0;
   const [percent, setPercent] = useState(0);
   const [hasAccess, setHasAccess] = useState(false);
   const [modules, setModules] = useState<Array<{ id: string; title: string; description: string | null; position: number }>>([]);
+  const [buying, setBuying] = useState(false);
+  const [buyError, setBuyError] = useState<string | null>(null);
+  const iniciarPago = useServerFn(crearPago);
+
+  async function onComprar() {
+    setBuyError(null);
+    setBuying(true);
+    try {
+      const { data: u } = await supabase.auth.getUser();
+      if (!u.user) {
+        window.location.href = `/iniciar-sesion?redirect=${encodeURIComponent(`/metodo/${level.slug}`)}`;
+        return;
+      }
+      const res = await iniciarPago({ data: { nivel: level.slug } });
+      window.location.href = res.initPoint;
+    } catch (e: any) {
+      setBuyError(e?.message ?? "No se pudo iniciar el pago. Intentá de nuevo.");
+      setBuying(false);
+    }
+  }
 
   useEffect(() => {
     (async () => {
@@ -218,22 +239,18 @@ function LevelPage() {
           <span className="inline-flex cursor-not-allowed items-center justify-center rounded-full border border-brand-yellow/40 bg-brand-yellow-subtle px-8 py-3.5 text-sm font-medium text-foreground">
             Acceso únicamente por invitación
           </span>
-        ) : hasPayment ? (
-          <a
-            href={level.paymentUrl}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="inline-flex items-center justify-center rounded-full bg-foreground px-8 py-3.5 text-sm font-medium text-background shadow-[0_8px_30px_-10px_rgba(0,0,0,0.35)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.45)]"
-          >
-            Comprar este nivel
-          </a>
         ) : (
-          <span
-            aria-disabled="true"
-            className="inline-flex cursor-not-allowed items-center justify-center rounded-full border border-border bg-muted px-8 py-3.5 text-sm font-medium text-muted-foreground"
-          >
-            Compra disponible próximamente
-          </span>
+          <div className="flex flex-col items-center gap-2 sm:items-end">
+            <button
+              type="button"
+              onClick={onComprar}
+              disabled={buying}
+              className="inline-flex items-center justify-center rounded-full bg-foreground px-8 py-3.5 text-sm font-medium text-background shadow-[0_8px_30px_-10px_rgba(0,0,0,0.35)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.45)] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {buying ? "Redirigiendo a Mercado Pago…" : "Comprar este nivel"}
+            </button>
+            {buyError && <span className="text-xs text-destructive">{buyError}</span>}
+          </div>
         )}
       </div>
     </main>
