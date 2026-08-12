@@ -137,20 +137,6 @@ function Index() {
           ))}
         </div>
 
-        <h3 className="mt-10 text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-          Principios
-        </h3>
-        <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-          {author.principles.map((p) => (
-            <li
-              key={p}
-              className="flex items-center gap-3 rounded-2xl border border-border bg-white/50 px-5 py-4 text-sm text-foreground/80 backdrop-blur-sm"
-            >
-              <span className="h-1.5 w-1.5 rounded-full bg-brand-blue" />
-              {p}
-            </li>
-          ))}
-        </ul>
 
         <p className="mt-10 rounded-2xl border border-border bg-brand-yellow-subtle/40 p-5 text-sm leading-relaxed text-foreground/80">
           {author.disclaimer}
