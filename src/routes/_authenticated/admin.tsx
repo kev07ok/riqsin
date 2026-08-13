@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
+import { supabase } from "@/integrations/supabase/client";
+import { listarComprasAdmin, type CompraAdmin } from "@/lib/pagos.functions";
+import { levels } from "@/data/levels";
 import {
   isAdmin as isAdminFn,
   listLevelsForAdmin,
@@ -303,7 +306,176 @@ function AdminPage() {
           )}
         </div>
       </section>
+
+      <ComprasPanel />
+      <PdfsPanel />
     </main>
+  );
+}
+
+const NIVELES_COMPRABLES = levels.filter((l) => l.slug !== "legado");
+
+function ComprasPanel() {
+  const cargar = useServerFn(listarComprasAdmin);
+  const [rows, setRows] = useState<CompraAdmin[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    cargar()
+      .then((r) => setRows(r))
+      .catch(() => setRows([]))
+      .finally(() => setLoading(false));
+  }, []);
+
+  return (
+    <section className="mt-16">
+      <h2 className="text-2xl font-semibold tracking-tight text-foreground">Compras</h2>
+      <p className="mt-2 text-sm text-muted-foreground">
+        Qué usuario compró qué nivel y en qué estado está el pago.
+      </p>
+      {loading ? (
+        <p className="mt-4 text-sm text-muted-foreground">Cargando…</p>
+      ) : rows.length === 0 ? (
+        <p className="mt-4 text-sm text-muted-foreground">Todavía no hay compras registradas.</p>
+      ) : (
+        <div className="mt-4 overflow-x-auto rounded-3xl border border-border/60 bg-white/70 backdrop-blur-xl">
+          <table className="w-full min-w-[640px] text-left text-sm">
+            <thead>
+              <tr className="border-b border-border/60 text-[11px] uppercase tracking-widest text-muted-foreground">
+                <th className="px-5 py-3 font-medium">Usuario</th>
+                <th className="px-5 py-3 font-medium">Nivel</th>
+                <th className="px-5 py-3 font-medium">Estado</th>
+                <th className="px-5 py-3 font-medium">Monto</th>
+                <th className="px-5 py-3 font-medium">Fecha</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((r) => (
+                <tr key={r.id} className="border-b border-border/40 last:border-0">
+                  <td className="px-5 py-3">
+                    <p className="font-medium text-foreground">{r.nombre ?? "—"}</p>
+                    <p className="text-xs text-muted-foreground">{r.email ?? "—"}</p>
+                  </td>
+                  <td className="px-5 py-3 capitalize text-foreground/80">{r.nivel}</td>
+                  <td className="px-5 py-3">
+                    <span className="capitalize text-foreground/80">{r.estado}</span>
+                  </td>
+                  <td className="px-5 py-3 text-foreground/80">
+                    {r.monto === null ? "—" : `$${r.monto.toLocaleString("es-AR")}`}
+                  </td>
+                  <td className="px-5 py-3 text-muted-foreground">
+                    {new Date(r.createdAt).toLocaleDateString("es-AR")}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
+  );
+}
+
+function PdfsPanel() {
+  const [slug, setSlug] = useState(NIVELES_COMPRABLES[0]?.slug ?? "despertar");
+  const [files, setFiles] = useState<string[]>([]);
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  async function refresh(folder: string) {
+    const { data } = await supabase.storage
+      .from("niveles-pdf")
+      .list(folder, { limit: 100, sortBy: { column: "name", order: "asc" } });
+    setFiles((data ?? []).filter((f) => f.name.toLowerCase().endsWith(".pdf")).map((f) => f.name));
+  }
+
+  useEffect(() => {
+    refresh(slug);
+  }, [slug]);
+
+  async function onUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const selected = Array.from(e.target.files ?? []);
+    if (selected.length === 0) return;
+    setBusy(true);
+    setMsg(null);
+    for (const file of selected) {
+      const { error } = await supabase.storage
+        .from("niveles-pdf")
+        .upload(`${slug}/${file.name}`, file, { upsert: true, contentType: "application/pdf" });
+      if (error) {
+        setMsg(`Error subiendo ${file.name}: ${error.message}`);
+        setBusy(false);
+        return;
+      }
+    }
+    await refresh(slug);
+    setBusy(false);
+    setMsg("Archivos subidos ✓");
+    if (inputRef.current) inputRef.current.value = "";
+  }
+
+  async function onDelete(name: string) {
+    if (!confirm(`¿Eliminar ${name}?`)) return;
+    await supabase.storage.from("niveles-pdf").remove([`${slug}/${name}`]);
+    await refresh(slug);
+  }
+
+  return (
+    <section className="mt-16">
+      <h2 className="text-2xl font-semibold tracking-tight text-foreground">Materiales (PDFs)</h2>
+      <p className="mt-2 text-sm text-muted-foreground">
+        Subí los 6 PDFs de cada nivel. Se guardan en una carpeta privada por nivel y solo los ven los
+        usuarios con la compra aprobada, mediante enlaces temporales.
+      </p>
+
+      <div className="mt-5 flex flex-wrap items-end gap-3">
+        <label className="block">
+          <span className="text-sm font-medium text-foreground/80">Nivel</span>
+          <select
+            value={slug}
+            onChange={(e) => { setSlug(e.target.value); setMsg(null); }}
+            className="mt-1.5 rounded-xl border border-border bg-white px-4 py-2.5 text-sm shadow-sm outline-none focus:border-brand-blue"
+          >
+            {NIVELES_COMPRABLES.map((l) => (
+              <option key={l.slug} value={l.slug}>{l.name}</option>
+            ))}
+          </select>
+        </label>
+        <input
+          ref={inputRef}
+          type="file"
+          accept="application/pdf"
+          multiple
+          onChange={onUpload}
+          disabled={busy}
+          className="rounded-xl border border-border bg-white px-4 py-2.5 text-sm shadow-sm"
+        />
+        {busy && <span className="text-sm text-muted-foreground">Subiendo…</span>}
+        {msg && <span className="text-sm text-muted-foreground">{msg}</span>}
+      </div>
+
+      <ul className="mt-5 space-y-2">
+        {files.length === 0 ? (
+          <li className="text-sm text-muted-foreground">Este nivel todavía no tiene PDFs.</li>
+        ) : (
+          files.map((f) => (
+            <li
+              key={f}
+              className="flex items-center justify-between gap-3 rounded-xl border border-border/60 bg-white/60 px-4 py-3 text-sm"
+            >
+              <span className="truncate text-foreground">{f}</span>
+              <button
+                onClick={() => onDelete(f)}
+                className="shrink-0 rounded-full border border-destructive/40 bg-white px-4 py-1.5 text-xs font-medium text-destructive hover:bg-destructive/10"
+              >
+                Eliminar
+              </button>
+            </li>
+          ))
+        )}
+      </ul>
+    </section>
   );
 }
 

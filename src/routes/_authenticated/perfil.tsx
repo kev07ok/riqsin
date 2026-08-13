@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
+import { misNiveles, type NivelComprado } from "@/lib/pagos.functions";
+import { levels } from "@/data/levels";
 
 export const Route = createFileRoute("/_authenticated/perfil")({
   head: () => ({ meta: [{ title: "Mi perfil — RIQSIN" }] }),
@@ -27,6 +30,16 @@ function PerfilPage() {
   const [userId, setUserId] = useState<string | null>(null);
   const [currentLevel, setCurrentLevel] = useState<string>("Sin comenzar");
   const [percent, setPercent] = useState(0);
+  const [compras, setCompras] = useState<NivelComprado[]>([]);
+  const [loadingCompras, setLoadingCompras] = useState(true);
+  const cargarNiveles = useServerFn(misNiveles);
+
+  useEffect(() => {
+    cargarNiveles()
+      .then((r) => setCompras(r))
+      .catch(() => setCompras([]))
+      .finally(() => setLoadingCompras(false));
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -230,7 +243,92 @@ function PerfilPage() {
           </div>
         </section>
       </div>
+
+      <section className="mt-14">
+        <h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">Mis niveles</h2>
+        <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+          Acá aparecen los niveles que compraste. Los enlaces de descarga son personales y temporales:
+          si expiran, recargá la página para generar nuevos.
+        </p>
+
+        {loadingCompras ? (
+          <p className="mt-6 text-sm text-muted-foreground">Cargando tus niveles…</p>
+        ) : compras.length === 0 ? (
+          <div className="mt-6 rounded-3xl border border-border/60 bg-white/60 p-8 text-sm text-muted-foreground backdrop-blur-xl">
+            Todavía no compraste ningún nivel.{" "}
+            <a href="/metodo" className="font-medium text-foreground underline decoration-brand-blue/50">
+              Ver el método
+            </a>
+          </div>
+        ) : (
+          <div className="mt-6 grid gap-5 lg:grid-cols-2">
+            {compras.map((c) => (
+              <article
+                key={`${c.nombre}-${c.createdAt}`}
+                className="rounded-3xl border border-border/60 bg-white/70 p-6 backdrop-blur-xl"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Nivel</p>
+                    <p className="mt-1 text-xl font-semibold capitalize text-foreground">
+                      {levels.find((l) => l.slug === c.nombre)?.name ?? c.nombre}
+                    </p>
+                  </div>
+                  <EstadoBadge estado={c.estado} />
+                </div>
+
+                {c.estado === "approved" ? (
+                  c.pdfs.length > 0 ? (
+                    <ul className="mt-5 space-y-2">
+                      {c.pdfs.map((p) => (
+                        <li key={p.name}>
+                          <a
+                            href={p.url}
+                            target="_blank"
+                            rel="noreferrer noopener"
+                            className="flex items-center justify-between gap-3 rounded-xl border border-border/60 bg-white/60 px-4 py-3 text-sm font-medium text-foreground transition hover:border-brand-blue/50 hover:bg-white"
+                          >
+                            <span className="truncate">{p.name}</span>
+                            <span className="shrink-0 text-xs text-muted-foreground">Descargar</span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="mt-5 text-sm text-muted-foreground">
+                      Los materiales de este nivel se están cargando. Vas a poder descargarlos muy pronto.
+                    </p>
+                  )
+                ) : c.estado === "pending" ? (
+                  <p className="mt-5 text-sm text-muted-foreground">
+                    Estamos esperando la confirmación del pago. Cuando se acredite, los PDFs aparecen acá
+                    automáticamente.
+                  </p>
+                ) : (
+                  <p className="mt-5 text-sm text-muted-foreground">
+                    El pago fue rechazado o cancelado. Podés volver a intentarlo desde la página del nivel.
+                  </p>
+                )}
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
     </main>
+  );
+}
+
+function EstadoBadge({ estado }: { estado: string }) {
+  const map: Record<string, { label: string; className: string }> = {
+    approved: { label: "Activo", className: "bg-brand-green-subtle text-foreground" },
+    pending: { label: "Pago pendiente", className: "bg-brand-yellow-subtle text-foreground" },
+    rejected: { label: "Rechazado", className: "bg-muted text-muted-foreground" },
+  };
+  const s = map[estado] ?? map["pending"]!;
+  return (
+    <span className={`inline-flex shrink-0 items-center rounded-full border border-border px-3 py-1 text-xs font-medium ${s.className}`}>
+      {s.label}
+    </span>
   );
 }
 
