@@ -290,6 +290,10 @@ function LevelPage() {
           <span className="inline-flex cursor-not-allowed items-center justify-center rounded-full border border-brand-yellow/40 bg-brand-yellow-subtle px-8 py-3.5 text-sm font-medium text-foreground">
             Acceso únicamente por invitación
           </span>
+        ) : level.id >= 2 && level.id <= 5 ? (
+          <span className="inline-flex cursor-not-allowed items-center justify-center rounded-full border border-border bg-muted px-8 py-3.5 text-sm font-medium text-muted-foreground">
+            Nivel en proceso
+          </span>
         ) : (
           <div className="flex flex-col items-center gap-2 sm:items-end">
             <button
