@@ -37,6 +37,23 @@ export const Route = createFileRoute("/metodo/$slug")({
   errorComponent: LevelError,
 });
 
+function statusBadgeStyles(status: "disponible" | "en proceso" | "por invitación") {
+  switch (status) {
+    case "disponible":
+      return "bg-brand-green-subtle text-brand-green";
+    case "por invitación":
+      return "bg-brand-yellow-subtle text-foreground/80";
+    default:
+      return "bg-brand-blue-subtle text-brand-blue";
+  }
+}
+
+function statusBadgeLabel(status: "disponible" | "en proceso" | "por invitación") {
+  if (status === "en proceso") return "En proceso";
+  if (status === "por invitación") return "Por invitación";
+  return "Disponible";
+}
+
 function LevelPage() {
   const { level } = Route.useLoaderData();
   const isLegado = level.slug === "legado";
