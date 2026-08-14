@@ -110,12 +110,15 @@ function LevelPage() {
         <p className="mt-4 text-lg text-gradient-brand sm:text-xl">
           {level.subtitle}
         </p>
-        <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
+        <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
           <span>
             <span className="font-medium text-foreground">Duración:</span> {level.duration}
           </span>
           <span>
             <span className="font-medium text-foreground">Precio:</span> {level.price}
+          </span>
+          <span className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-wider ${statusBadgeStyles(level.status)}`}>
+            {statusBadgeLabel(level.status)}
           </span>
         </div>
       </header>
