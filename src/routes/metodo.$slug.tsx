@@ -4,7 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { crearPago } from "@/lib/pagos.functions";
 import { getLevelBySlug, levels } from "../data/levels";
-import { toRoman } from "../data/site";
+import { siteConfig, toRoman } from "../data/site";
 
 export const Route = createFileRoute("/metodo/$slug")({
   loader: ({ params }) => {
