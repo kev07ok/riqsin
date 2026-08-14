@@ -208,49 +208,74 @@ function LevelPage() {
         </section>
       )}
 
-      <section className="mt-10 rounded-3xl border border-border bg-white/60 p-8 shadow-[0_4px_30px_-15px_rgba(0,0,0,0.1)] backdrop-blur-md">
-        <p className="text-base leading-relaxed text-foreground/80 sm:text-lg">
-          {level.fullDescription}
-        </p>
-      </section>
-
-      <Section title="A quién está dirigido" items={level.audience} />
-      <Section title="Objetivos" items={level.objectives} />
-      <Section title="Qué incluye" items={level.includes} />
-      <Section title="Temas principales" items={level.topics} />
-      {level.subtopics && level.subtopics.length > 0 && (
-        <Section title="Subtemas" items={level.subtopics} />
-      )}
-      {level.materials && level.materials.length > 0 && (
-        <Section title="Materiales incluidos" items={level.materials} />
-      )}
-
-      {level.access && (
-        <div className="mt-10">
-          <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            Forma de acceso
+      {level.id >= 2 && level.id <= 5 ? (
+        <section className="mt-16 flex flex-col items-center rounded-3xl border border-border bg-white/60 px-8 py-16 text-center shadow-[0_4px_30px_-15px_rgba(0,0,0,0.1)] backdrop-blur-md animate-fade-in">
+          <p className="text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">
+            Nivel {toRoman(level.id)} — {level.name}
+          </p>
+          <h2 className="mt-5 max-w-2xl text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            Este nivel está en proceso.
           </h2>
-          <p className="mt-3 text-base text-foreground/80">{level.access}</p>
-        </div>
-      )}
+          <p className="mt-4 max-w-md text-base text-muted-foreground sm:text-lg">
+            Para más información, seguí nuestro Instagram oficial.
+          </p>
+          <a
+            href={siteConfig.instagramOfficialUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-8 py-3.5 text-sm font-medium text-background shadow-[0_8px_30px_-10px_rgba(0,0,0,0.35)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.45)]"
+          >
+            Seguir {siteConfig.instagramOfficialHandle}
+            <span aria-hidden="true">→</span>
+          </a>
+        </section>
+      ) : (
+        <>
+          <section className="mt-10 rounded-3xl border border-border bg-white/60 p-8 shadow-[0_4px_30px_-15px_rgba(0,0,0,0.1)] backdrop-blur-md">
+            <p className="text-base leading-relaxed text-foreground/80 sm:text-lg">
+              {level.fullDescription}
+            </p>
+          </section>
 
-      {level.faq && level.faq.length > 0 && (
-        <div className="mt-12">
-          <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            Preguntas frecuentes
-          </h2>
-          <div className="mt-4 space-y-4">
-            {level.faq.map((f: { question: string; answer: string }) => (
-              <div
-                key={f.question}
-                className="rounded-2xl border border-border bg-white/50 p-5 backdrop-blur-sm"
-              >
-                <p className="font-medium text-foreground">{f.question}</p>
-                <p className="mt-2 text-sm text-muted-foreground">{f.answer}</p>
+          <Section title="A quién está dirigido" items={level.audience} />
+          <Section title="Objetivos" items={level.objectives} />
+          <Section title="Qué incluye" items={level.includes} />
+          <Section title="Temas principales" items={level.topics} />
+          {level.subtopics && level.subtopics.length > 0 && (
+            <Section title="Subtemas" items={level.subtopics} />
+          )}
+          {level.materials && level.materials.length > 0 && (
+            <Section title="Materiales incluidos" items={level.materials} />
+          )}
+
+          {level.access && (
+            <div className="mt-10">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                Forma de acceso
+              </h2>
+              <p className="mt-3 text-base text-foreground/80">{level.access}</p>
+            </div>
+          )}
+
+          {level.faq && level.faq.length > 0 && (
+            <div className="mt-12">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                Preguntas frecuentes
+              </h2>
+              <div className="mt-4 space-y-4">
+                {level.faq.map((f: { question: string; answer: string }) => (
+                  <div
+                    key={f.question}
+                    className="rounded-2xl border border-border bg-white/50 p-5 backdrop-blur-sm"
+                  >
+                    <p className="font-medium text-foreground">{f.question}</p>
+                    <p className="mt-2 text-sm text-muted-foreground">{f.answer}</p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
+          )}
+        </>
       )}
 
       <div className="mt-14 flex flex-col items-center gap-4 border-t border-border/60 pt-10 sm:flex-row sm:justify-between">
