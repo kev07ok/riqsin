@@ -163,7 +163,13 @@ function LevelPage() {
             style={{ width: `${Math.max(2, Math.round(percent))}%` }}
           />
         </div>
-        {!hasAccess && !isLegado && (
+        {!hasAccess && !isLegado && level.status === "en proceso" && (
+          <p className="mt-3 text-sm text-muted-foreground">
+            El nivel {toRoman(level.id)} — {level.name} aún está en proceso.
+            Los contenidos, módulos y evaluaciones se irán habilitando próximamente.
+          </p>
+        )}
+        {!hasAccess && !isLegado && level.status !== "en proceso" && (
           <p className="mt-3 text-sm text-muted-foreground">
             Todavía no tenés acceso a este nivel. Podés revisar el contenido general debajo.
             Los módulos y evaluaciones se desbloquean una vez que adquirís el nivel.
