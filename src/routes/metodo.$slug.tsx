@@ -37,6 +37,23 @@ export const Route = createFileRoute("/metodo/$slug")({
   errorComponent: LevelError,
 });
 
+function statusBadgeStyles(status: "disponible" | "en proceso" | "por invitación") {
+  switch (status) {
+    case "disponible":
+      return "bg-brand-green-subtle text-brand-green";
+    case "por invitación":
+      return "bg-brand-yellow-subtle text-foreground/80";
+    default:
+      return "bg-brand-blue-subtle text-brand-blue";
+  }
+}
+
+function statusBadgeLabel(status: "disponible" | "en proceso" | "por invitación") {
+  if (status === "en proceso") return "En proceso";
+  if (status === "por invitación") return "Por invitación";
+  return "Disponible";
+}
+
 function LevelPage() {
   const { level } = Route.useLoaderData();
   const isLegado = level.slug === "legado";
@@ -110,12 +127,15 @@ function LevelPage() {
         <p className="mt-4 text-lg text-gradient-brand sm:text-xl">
           {level.subtitle}
         </p>
-        <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
+        <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
           <span>
             <span className="font-medium text-foreground">Duración:</span> {level.duration}
           </span>
           <span>
             <span className="font-medium text-foreground">Precio:</span> {level.price}
+          </span>
+          <span className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-wider ${statusBadgeStyles(level.status)}`}>
+            {statusBadgeLabel(level.status)}
           </span>
         </div>
       </header>
@@ -143,7 +163,13 @@ function LevelPage() {
             style={{ width: `${Math.max(2, Math.round(percent))}%` }}
           />
         </div>
-        {!hasAccess && !isLegado && (
+        {!hasAccess && !isLegado && level.status === "en proceso" && (
+          <p className="mt-3 text-sm text-muted-foreground">
+            El nivel {toRoman(level.id)} — {level.name} aún está en proceso.
+            Los contenidos, módulos y evaluaciones se irán habilitando próximamente.
+          </p>
+        )}
+        {!hasAccess && !isLegado && level.status !== "en proceso" && (
           <p className="mt-3 text-sm text-muted-foreground">
             Todavía no tenés acceso a este nivel. Podés revisar el contenido general debajo.
             Los módulos y evaluaciones se desbloquean una vez que adquirís el nivel.
