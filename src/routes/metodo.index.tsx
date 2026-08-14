@@ -108,19 +108,19 @@ function MetodoIndex() {
         </div>
       </section>
 
-      <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-16 flex flex-col gap-8">
         {levels.map((level, i) => (
           <article
             key={level.slug}
             style={{ animationDelay: `${i * 60}ms` }}
-            className="group relative flex flex-col overflow-hidden rounded-3xl border border-border bg-white/60 p-8 shadow-[0_4px_30px_-15px_rgba(0,0,0,0.1)] backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-brand-blue/40 hover:shadow-[0_24px_60px_-20px_rgba(0,0,0,0.25)] animate-fade-in"
+            className="group relative flex flex-col overflow-hidden rounded-3xl border border-border bg-white/60 p-10 sm:p-12 shadow-[0_4px_30px_-15px_rgba(0,0,0,0.1)] backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-brand-blue/40 hover:shadow-[0_24px_60px_-20px_rgba(0,0,0,0.25)] animate-fade-in"
           >
             {/* Línea de degradado en hover */}
             <span
               aria-hidden="true"
               className="absolute inset-x-0 top-0 h-[2px] scale-x-0 bg-gradient-to-r from-brand-blue via-brand-green to-brand-yellow transition-transform duration-500 group-hover:scale-x-100"
             />
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-4">
               <span className="text-sm font-medium text-muted-foreground">
                 Nivel {toRoman(level.id)}
               </span>
@@ -130,22 +130,21 @@ function MetodoIndex() {
                 {statusLabel(level.status)}
               </span>
             </div>
-            <h2 className="mt-4 text-2xl font-semibold tracking-tight text-foreground">
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
               {level.name}
             </h2>
-            <p className="mt-1 text-sm text-gradient-brand">{level.subtitle}</p>
-            <p className="mt-1 text-sm text-muted-foreground">{level.duration}</p>
-            <p className="mt-5 flex-1 text-sm leading-relaxed text-foreground/70">
-              {level.shortDescription}
-            </p>
-            <div className="mt-6 flex items-center justify-between border-t border-border/60 pt-5">
-              <span className="text-sm font-medium text-foreground">
-                {level.price}
-              </span>
+            <p className="mt-1 text-base text-gradient-brand">{level.subtitle}</p>
+            <p className="mt-1 text-base text-muted-foreground">{level.duration}</p>
+            {level.id !== 2 && level.id !== 3 && level.id !== 4 && level.id !== 5 && (
+              <p className="mt-6 max-w-3xl text-base leading-relaxed text-foreground/70 sm:text-lg">
+                {level.shortDescription}
+              </p>
+            )}
+            <div className="mt-8 flex items-center justify-end border-t border-border/60 pt-6">
               <Link
                 to="/metodo/$slug"
                 params={{ slug: level.slug }}
-                className="inline-flex items-center gap-1 text-sm font-medium text-foreground transition-colors group-hover:text-brand-blue"
+                className="inline-flex items-center gap-2 text-base font-medium text-foreground transition-colors group-hover:text-brand-blue"
               >
                 Ver nivel
                 <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">→</span>
