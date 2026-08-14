@@ -134,7 +134,7 @@ function MetodoIndex() {
               {level.name}
             </h2>
             <p className="mt-1 text-base text-gradient-brand">{level.subtitle}</p>
-            <p className="mt-1 text-base text-muted-foreground">{level.duration}</p>
+
             {level.id !== 2 && level.id !== 3 && level.id !== 4 && level.id !== 5 && (
               <p className="mt-6 max-w-3xl text-base leading-relaxed text-foreground/70 sm:text-lg">
                 {level.shortDescription}
