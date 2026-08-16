@@ -31,8 +31,13 @@ function LoginPage() {
 
   async function onGoogle() {
     setError(null);
+    try {
+      sessionStorage.setItem("riqsin:redirect", redirectTo);
+    } catch {
+      /* almacenamiento no disponible */
+    }
     const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
+      redirect_uri: `${window.location.origin}/auth/callback`,
     });
     if (result.error) return setError(result.error.message);
     if (result.redirected) return;

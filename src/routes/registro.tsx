@@ -35,7 +35,7 @@ function RegisterPage() {
       email: parsed.data.email,
       password: parsed.data.password,
       options: {
-        emailRedirectTo: window.location.origin,
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
         data: {
           full_name: parsed.data.fullName,
           public_alias: parsed.data.publicAlias ?? "",
@@ -49,7 +49,14 @@ function RegisterPage() {
 
   async function onGoogle() {
     setError(null);
-    const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
+    try {
+      sessionStorage.setItem("riqsin:redirect", "/perfil");
+    } catch {
+      /* almacenamiento no disponible */
+    }
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: `${window.location.origin}/auth/callback`,
+    });
     if (result.error) return setError(result.error.message);
     if (result.redirected) return;
     navigate({ to: "/perfil" });
