@@ -23,6 +23,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MetodoIndexRouteImport } from './routes/metodo.index'
 import { Route as MetodoSlugRouteImport } from './routes/metodo.$slug'
+import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AuthenticatedProgresoRouteImport } from './routes/_authenticated/progreso'
 import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
 import { Route as AuthenticatedConfiguracionRouteImport } from './routes/_authenticated/configuracion'
@@ -98,6 +99,11 @@ const MetodoSlugRoute = MetodoSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => MetodoRoute,
 } as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/auth/callback',
+  path: '/auth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedProgresoRoute = AuthenticatedProgresoRouteImport.update({
   id: '/progreso',
   path: '/progreso',
@@ -141,6 +147,7 @@ export interface FileRoutesByFullPath {
   '/configuracion': typeof AuthenticatedConfiguracionRoute
   '/perfil': typeof AuthenticatedPerfilRoute
   '/progreso': typeof AuthenticatedProgresoRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
   '/api/public/webhook-mp': typeof ApiPublicWebhookMpRoute
@@ -160,6 +167,7 @@ export interface FileRoutesByTo {
   '/configuracion': typeof AuthenticatedConfiguracionRoute
   '/perfil': typeof AuthenticatedPerfilRoute
   '/progreso': typeof AuthenticatedProgresoRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo': typeof MetodoIndexRoute
   '/api/public/webhook-mp': typeof ApiPublicWebhookMpRoute
@@ -182,6 +190,7 @@ export interface FileRoutesById {
   '/_authenticated/configuracion': typeof AuthenticatedConfiguracionRoute
   '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
   '/_authenticated/progreso': typeof AuthenticatedProgresoRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
   '/api/public/webhook-mp': typeof ApiPublicWebhookMpRoute
@@ -204,6 +213,7 @@ export interface FileRouteTypes {
     | '/configuracion'
     | '/perfil'
     | '/progreso'
+    | '/auth/callback'
     | '/metodo/$slug'
     | '/metodo/'
     | '/api/public/webhook-mp'
@@ -223,6 +233,7 @@ export interface FileRouteTypes {
     | '/configuracion'
     | '/perfil'
     | '/progreso'
+    | '/auth/callback'
     | '/metodo/$slug'
     | '/metodo'
     | '/api/public/webhook-mp'
@@ -244,6 +255,7 @@ export interface FileRouteTypes {
     | '/_authenticated/configuracion'
     | '/_authenticated/perfil'
     | '/_authenticated/progreso'
+    | '/auth/callback'
     | '/metodo/$slug'
     | '/metodo/'
     | '/api/public/webhook-mp'
@@ -262,6 +274,7 @@ export interface RootRouteChildren {
   RegistroRoute: typeof RegistroRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   TerminosRoute: typeof TerminosRoute
+  AuthCallbackRoute: typeof AuthCallbackRoute
   ApiPublicWebhookMpRoute: typeof ApiPublicWebhookMpRoute
 }
 
@@ -365,6 +378,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MetodoSlugRouteImport
       parentRoute: typeof MetodoRoute
     }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/progreso': {
       id: '/_authenticated/progreso'
       path: '/progreso'
@@ -446,6 +466,7 @@ const rootRouteChildren: RootRouteChildren = {
   RegistroRoute: RegistroRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   TerminosRoute: TerminosRoute,
+  AuthCallbackRoute: AuthCallbackRoute,
   ApiPublicWebhookMpRoute: ApiPublicWebhookMpRoute,
 }
 export const routeTree = rootRouteImport
