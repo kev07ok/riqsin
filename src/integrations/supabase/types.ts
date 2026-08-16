@@ -665,6 +665,24 @@ export type Database = {
         }
         Relationships: []
       }
+      leaderboard_public: {
+        Row: {
+          avatar_url: string | null
+          id: string | null
+          public_alias: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          id?: string | null
+          public_alias?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          id?: string | null
+          public_alias?: string | null
+        }
+        Relationships: []
+      }
       quiz_options_public: {
         Row: {
           id: string | null
@@ -704,6 +722,14 @@ export type Database = {
           position: number
           question_id: string
         }[]
+      }
+      has_level_access: {
+        Args: { _level_id: string; _user_id: string }
+        Returns: boolean
+      }
+      has_module_access: {
+        Args: { _module_id: string; _user_id: string }
+        Returns: boolean
       }
       has_role: {
         Args: {
