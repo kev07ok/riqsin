@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { siteConfig } from "../data/site";
 import { author } from "../data/author";
+import { ParticlesBackground } from "../components/particles-background";
 
 // Pegá aquí la URL de YouTube (formato embed) o dejá "" para mostrar un
 // placeholder. Ejemplo: "https://www.youtube.com/embed/VIDEO_ID"
@@ -42,6 +43,9 @@ function Index() {
         <div className="absolute left-1/3 top-1/3 h-[30rem] w-[30rem] rounded-full bg-brand-green/8 blur-[100px]" />
         <div className="absolute bottom-1/4 right-1/3 h-[25rem] w-[25rem] rounded-full bg-brand-yellow/8 blur-[100px]" />
       </div>
+
+      {/* Fondo animado interactivo (partículas) */}
+      <ParticlesBackground />
 
       {/* HERO */}
       <section className="relative z-10 flex min-h-[80vh] max-w-3xl flex-col items-center justify-center animate-fade-in">
