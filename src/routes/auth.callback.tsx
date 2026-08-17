@@ -35,25 +35,46 @@ function CallbackPage() {
         return;
       }
 
-      const code = url.searchParams.get("code");
-      if (code) {
-        const { error } = await supabase.auth.exchangeCodeForSession(code);
-        if (error && !cancelled) {
-          setError(error.message);
-          return;
+      let { data: sessionData } = await supabase.auth.getSession();
+      if (!sessionData.session) {
+        const accessToken = hash.get("access_token");
+        const refreshToken = hash.get("refresh_token");
+        const code = url.searchParams.get("code");
+
+        if (accessToken && refreshToken) {
+          const { data, error: sessionError } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken,
+          });
+          if (sessionError && !cancelled) {
+            setError(sessionError.message);
+            return;
+          }
+          sessionData = data;
+        } else if (code) {
+          const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+          if (exchangeError && !cancelled) {
+            const current = await supabase.auth.getSession();
+            if (!current.data.session) {
+              setError(exchangeError.message);
+              return;
+            }
+            sessionData = current.data;
+          } else {
+            sessionData = data;
+          }
         }
       }
 
-      // Give detectSessionInUrl / setSession a moment to land.
-      for (let i = 0; i < 20; i += 1) {
-        const { data } = await supabase.auth.getSession();
-        if (data.session) break;
+      for (let i = 0; i < 20 && !sessionData.session; i += 1) {
         await new Promise((r) => setTimeout(r, 150));
+        const current = await supabase.auth.getSession();
+        sessionData = current.data;
       }
       if (cancelled) return;
 
-      const { data } = await supabase.auth.getSession();
-      if (!data.session) {
+      const { data: userData, error: userError } = await supabase.auth.getUser();
+      if (userError || !userData.user) {
         setError("No pudimos completar el inicio de sesión. Intentá de nuevo.");
         return;
       }
