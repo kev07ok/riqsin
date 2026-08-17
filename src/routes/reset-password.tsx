@@ -34,24 +34,48 @@ function ResetPage() {
         return;
       }
 
-      const code = url.searchParams.get("code");
-      const tokenHash = url.searchParams.get("token_hash");
-      if (code) {
-        const { error } = await supabase.auth.exchangeCodeForSession(code);
-        if (error && !cancelled) return setLinkError(error.message);
-      } else if (tokenHash) {
-        const { error } = await supabase.auth.verifyOtp({ type: "recovery", token_hash: tokenHash });
-        if (error && !cancelled) return setLinkError(error.message);
+      const hashType = hash.get("type");
+      if (hashType && hashType !== "recovery") {
+        setLinkError("Este enlace no corresponde a una recuperación de contraseña.");
+        return;
       }
 
-      for (let i = 0; i < 20; i += 1) {
-        const { data } = await supabase.auth.getSession();
-        if (data.session) break;
+      const code = url.searchParams.get("code");
+      const tokenHash = url.searchParams.get("token_hash");
+      const accessToken = hash.get("access_token");
+      const refreshToken = hash.get("refresh_token");
+      let { data: sessionData } = await supabase.auth.getSession();
+
+      if (!sessionData.session && accessToken && refreshToken) {
+        const { data, error: sessionError } = await supabase.auth.setSession({
+          access_token: accessToken,
+          refresh_token: refreshToken,
+        });
+        if (sessionError && !cancelled) return setLinkError(sessionError.message);
+        sessionData = data;
+      } else if (!sessionData.session && code) {
+        const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+        if (exchangeError && !cancelled) {
+          const current = await supabase.auth.getSession();
+          if (!current.data.session) return setLinkError(exchangeError.message);
+          sessionData = current.data;
+        } else {
+          sessionData = data;
+        }
+      } else if (!sessionData.session && tokenHash) {
+        const { data, error: verifyError } = await supabase.auth.verifyOtp({ type: "recovery", token_hash: tokenHash });
+        if (verifyError && !cancelled) return setLinkError(verifyError.message);
+        sessionData = { session: data.session };
+      }
+
+      for (let i = 0; i < 20 && !sessionData.session; i += 1) {
         await new Promise((r) => setTimeout(r, 150));
+        const current = await supabase.auth.getSession();
+        sessionData = current.data;
       }
       if (cancelled) return;
-      const { data } = await supabase.auth.getSession();
-      if (!data.session) {
+      const { data: userData, error: userError } = await supabase.auth.getUser();
+      if (userError || !userData.user) {
         setLinkError("El enlace es inválido o ya expiró. Pedí uno nuevo desde “¿Olvidaste tu contraseña?”.");
         return;
       }
