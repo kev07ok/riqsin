@@ -1,7 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { useTheme, type Theme } from "@/lib/theme";
 
 export const Route = createFileRoute("/_authenticated/configuracion")({
   head: () => ({ meta: [{ title: "Configuración — RIQSIN" }] }),
@@ -10,7 +9,6 @@ export const Route = createFileRoute("/_authenticated/configuracion")({
 
 function ConfigPage() {
   const navigate = useNavigate();
-  const { theme, setTheme } = useTheme();
   const [email, setEmail] = useState("");
   const [provider, setProvider] = useState<string>("email");
   const [alias, setAlias] = useState("");
@@ -65,7 +63,7 @@ function ConfigPage() {
         <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">Ajustes</p>
         <h1 className="mt-2 text-4xl font-semibold tracking-tight text-foreground">Configuración</h1>
         <p className="mt-3 max-w-2xl text-muted-foreground">
-          Administrá tu cuenta, apariencia, seguridad y privacidad.
+          Administrá tu cuenta, seguridad y privacidad.
         </p>
       </div>
 
@@ -115,24 +113,6 @@ function ConfigPage() {
             />
             <button className="rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition hover:opacity-90">Solicitar cambio</button>
           </form>
-        </Section>
-      </Group>
-
-      <Group title="Apariencia" subtitle="Elegí el tema visual de la web.">
-        <Section title="Tema" description="El modo Sistema sigue la configuración de tu dispositivo.">
-          <div className="flex flex-wrap gap-2">
-            {(["light", "dark", "system"] as Theme[]).map((t) => (
-              <button
-                key={t}
-                onClick={() => setTheme(t)}
-                className={`rounded-full border px-4 py-2 text-sm transition ${
-                  theme === t ? "border-foreground bg-foreground text-background" : "border-border bg-white hover:bg-white/70"
-                }`}
-              >
-                {t === "light" ? "Claro" : t === "dark" ? "Oscuro" : "Sistema"}
-              </button>
-            ))}
-          </div>
         </Section>
       </Group>
 
