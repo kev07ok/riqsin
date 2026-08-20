@@ -271,6 +271,45 @@ export type Database = {
         }
         Relationships: []
       }
+      pedidos: {
+        Row: {
+          created_at: string
+          email: string
+          estado: string
+          id: string
+          monto: number | null
+          nivel_slug: string
+          nombre: string
+          payment_id: string | null
+          preference_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          estado?: string
+          id?: string
+          monto?: number | null
+          nivel_slug: string
+          nombre?: string
+          payment_id?: string | null
+          preference_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          estado?: string
+          id?: string
+          monto?: number | null
+          nivel_slug?: string
+          nombre?: string
+          payment_id?: string | null
+          preference_id?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
