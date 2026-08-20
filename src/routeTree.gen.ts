@@ -10,24 +10,15 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TerminosRouteImport } from './routes/terminos'
-import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as RegistroRouteImport } from './routes/registro'
 import { Route as ReembolsosRouteImport } from './routes/reembolsos'
-import { Route as RecuperarContrasenaRouteImport } from './routes/recuperar-contrasena'
 import { Route as PropiedadIntelectualRouteImport } from './routes/propiedad-intelectual'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as MetodoRouteImport } from './routes/metodo'
-import { Route as IniciarSesionRouteImport } from './routes/iniciar-sesion'
+import { Route as GraciasRouteImport } from './routes/gracias'
 import { Route as AvisoLegalRouteImport } from './routes/aviso-legal'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MetodoIndexRouteImport } from './routes/metodo.index'
 import { Route as MetodoSlugRouteImport } from './routes/metodo.$slug'
-import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
-import { Route as AuthenticatedProgresoRouteImport } from './routes/_authenticated/progreso'
-import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
-import { Route as AuthenticatedConfiguracionRouteImport } from './routes/_authenticated/configuracion'
-import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ApiPublicWebhookMpRouteImport } from './routes/api/public/webhook-mp'
 
 const TerminosRoute = TerminosRouteImport.update({
@@ -35,24 +26,9 @@ const TerminosRoute = TerminosRouteImport.update({
   path: '/terminos',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ResetPasswordRoute = ResetPasswordRouteImport.update({
-  id: '/reset-password',
-  path: '/reset-password',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RegistroRoute = RegistroRouteImport.update({
-  id: '/registro',
-  path: '/registro',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ReembolsosRoute = ReembolsosRouteImport.update({
   id: '/reembolsos',
   path: '/reembolsos',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RecuperarContrasenaRoute = RecuperarContrasenaRouteImport.update({
-  id: '/recuperar-contrasena',
-  path: '/recuperar-contrasena',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PropiedadIntelectualRoute = PropiedadIntelectualRouteImport.update({
@@ -70,18 +46,14 @@ const MetodoRoute = MetodoRouteImport.update({
   path: '/metodo',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IniciarSesionRoute = IniciarSesionRouteImport.update({
-  id: '/iniciar-sesion',
-  path: '/iniciar-sesion',
+const GraciasRoute = GraciasRouteImport.update({
+  id: '/gracias',
+  path: '/gracias',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AvisoLegalRoute = AvisoLegalRouteImport.update({
   id: '/aviso-legal',
   path: '/aviso-legal',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -99,32 +71,6 @@ const MetodoSlugRoute = MetodoSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => MetodoRoute,
 } as any)
-const AuthCallbackRoute = AuthCallbackRouteImport.update({
-  id: '/auth/callback',
-  path: '/auth/callback',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedProgresoRoute = AuthenticatedProgresoRouteImport.update({
-  id: '/progreso',
-  path: '/progreso',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedPerfilRoute = AuthenticatedPerfilRouteImport.update({
-  id: '/perfil',
-  path: '/perfil',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedConfiguracionRoute =
-  AuthenticatedConfiguracionRouteImport.update({
-    id: '/configuracion',
-    path: '/configuracion',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const ApiPublicWebhookMpRoute = ApiPublicWebhookMpRouteImport.update({
   id: '/api/public/webhook-mp',
   path: '/api/public/webhook-mp',
@@ -134,20 +80,12 @@ const ApiPublicWebhookMpRoute = ApiPublicWebhookMpRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/aviso-legal': typeof AvisoLegalRoute
-  '/iniciar-sesion': typeof IniciarSesionRoute
+  '/gracias': typeof GraciasRoute
   '/metodo': typeof MetodoRouteWithChildren
   '/privacidad': typeof PrivacidadRoute
   '/propiedad-intelectual': typeof PropiedadIntelectualRoute
-  '/recuperar-contrasena': typeof RecuperarContrasenaRoute
   '/reembolsos': typeof ReembolsosRoute
-  '/registro': typeof RegistroRoute
-  '/reset-password': typeof ResetPasswordRoute
   '/terminos': typeof TerminosRoute
-  '/admin': typeof AuthenticatedAdminRoute
-  '/configuracion': typeof AuthenticatedConfiguracionRoute
-  '/perfil': typeof AuthenticatedPerfilRoute
-  '/progreso': typeof AuthenticatedProgresoRoute
-  '/auth/callback': typeof AuthCallbackRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
   '/api/public/webhook-mp': typeof ApiPublicWebhookMpRoute
@@ -155,19 +93,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/aviso-legal': typeof AvisoLegalRoute
-  '/iniciar-sesion': typeof IniciarSesionRoute
+  '/gracias': typeof GraciasRoute
   '/privacidad': typeof PrivacidadRoute
   '/propiedad-intelectual': typeof PropiedadIntelectualRoute
-  '/recuperar-contrasena': typeof RecuperarContrasenaRoute
   '/reembolsos': typeof ReembolsosRoute
-  '/registro': typeof RegistroRoute
-  '/reset-password': typeof ResetPasswordRoute
   '/terminos': typeof TerminosRoute
-  '/admin': typeof AuthenticatedAdminRoute
-  '/configuracion': typeof AuthenticatedConfiguracionRoute
-  '/perfil': typeof AuthenticatedPerfilRoute
-  '/progreso': typeof AuthenticatedProgresoRoute
-  '/auth/callback': typeof AuthCallbackRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo': typeof MetodoIndexRoute
   '/api/public/webhook-mp': typeof ApiPublicWebhookMpRoute
@@ -175,22 +105,13 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/aviso-legal': typeof AvisoLegalRoute
-  '/iniciar-sesion': typeof IniciarSesionRoute
+  '/gracias': typeof GraciasRoute
   '/metodo': typeof MetodoRouteWithChildren
   '/privacidad': typeof PrivacidadRoute
   '/propiedad-intelectual': typeof PropiedadIntelectualRoute
-  '/recuperar-contrasena': typeof RecuperarContrasenaRoute
   '/reembolsos': typeof ReembolsosRoute
-  '/registro': typeof RegistroRoute
-  '/reset-password': typeof ResetPasswordRoute
   '/terminos': typeof TerminosRoute
-  '/_authenticated/admin': typeof AuthenticatedAdminRoute
-  '/_authenticated/configuracion': typeof AuthenticatedConfiguracionRoute
-  '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
-  '/_authenticated/progreso': typeof AuthenticatedProgresoRoute
-  '/auth/callback': typeof AuthCallbackRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
   '/api/public/webhook-mp': typeof ApiPublicWebhookMpRoute
@@ -200,20 +121,12 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/aviso-legal'
-    | '/iniciar-sesion'
+    | '/gracias'
     | '/metodo'
     | '/privacidad'
     | '/propiedad-intelectual'
-    | '/recuperar-contrasena'
     | '/reembolsos'
-    | '/registro'
-    | '/reset-password'
     | '/terminos'
-    | '/admin'
-    | '/configuracion'
-    | '/perfil'
-    | '/progreso'
-    | '/auth/callback'
     | '/metodo/$slug'
     | '/metodo/'
     | '/api/public/webhook-mp'
@@ -221,41 +134,24 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/aviso-legal'
-    | '/iniciar-sesion'
+    | '/gracias'
     | '/privacidad'
     | '/propiedad-intelectual'
-    | '/recuperar-contrasena'
     | '/reembolsos'
-    | '/registro'
-    | '/reset-password'
     | '/terminos'
-    | '/admin'
-    | '/configuracion'
-    | '/perfil'
-    | '/progreso'
-    | '/auth/callback'
     | '/metodo/$slug'
     | '/metodo'
     | '/api/public/webhook-mp'
   id:
     | '__root__'
     | '/'
-    | '/_authenticated'
     | '/aviso-legal'
-    | '/iniciar-sesion'
+    | '/gracias'
     | '/metodo'
     | '/privacidad'
     | '/propiedad-intelectual'
-    | '/recuperar-contrasena'
     | '/reembolsos'
-    | '/registro'
-    | '/reset-password'
     | '/terminos'
-    | '/_authenticated/admin'
-    | '/_authenticated/configuracion'
-    | '/_authenticated/perfil'
-    | '/_authenticated/progreso'
-    | '/auth/callback'
     | '/metodo/$slug'
     | '/metodo/'
     | '/api/public/webhook-mp'
@@ -263,18 +159,13 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AvisoLegalRoute: typeof AvisoLegalRoute
-  IniciarSesionRoute: typeof IniciarSesionRoute
+  GraciasRoute: typeof GraciasRoute
   MetodoRoute: typeof MetodoRouteWithChildren
   PrivacidadRoute: typeof PrivacidadRoute
   PropiedadIntelectualRoute: typeof PropiedadIntelectualRoute
-  RecuperarContrasenaRoute: typeof RecuperarContrasenaRoute
   ReembolsosRoute: typeof ReembolsosRoute
-  RegistroRoute: typeof RegistroRoute
-  ResetPasswordRoute: typeof ResetPasswordRoute
   TerminosRoute: typeof TerminosRoute
-  AuthCallbackRoute: typeof AuthCallbackRoute
   ApiPublicWebhookMpRoute: typeof ApiPublicWebhookMpRoute
 }
 
@@ -287,32 +178,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TerminosRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/reset-password': {
-      id: '/reset-password'
-      path: '/reset-password'
-      fullPath: '/reset-password'
-      preLoaderRoute: typeof ResetPasswordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/registro': {
-      id: '/registro'
-      path: '/registro'
-      fullPath: '/registro'
-      preLoaderRoute: typeof RegistroRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/reembolsos': {
       id: '/reembolsos'
       path: '/reembolsos'
       fullPath: '/reembolsos'
       preLoaderRoute: typeof ReembolsosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/recuperar-contrasena': {
-      id: '/recuperar-contrasena'
-      path: '/recuperar-contrasena'
-      fullPath: '/recuperar-contrasena'
-      preLoaderRoute: typeof RecuperarContrasenaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/propiedad-intelectual': {
@@ -336,11 +206,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MetodoRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/iniciar-sesion': {
-      id: '/iniciar-sesion'
-      path: '/iniciar-sesion'
-      fullPath: '/iniciar-sesion'
-      preLoaderRoute: typeof IniciarSesionRouteImport
+    '/gracias': {
+      id: '/gracias'
+      path: '/gracias'
+      fullPath: '/gracias'
+      preLoaderRoute: typeof GraciasRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/aviso-legal': {
@@ -348,13 +218,6 @@ declare module '@tanstack/react-router' {
       path: '/aviso-legal'
       fullPath: '/aviso-legal'
       preLoaderRoute: typeof AvisoLegalRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated': {
-      id: '/_authenticated'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -378,41 +241,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MetodoSlugRouteImport
       parentRoute: typeof MetodoRoute
     }
-    '/auth/callback': {
-      id: '/auth/callback'
-      path: '/auth/callback'
-      fullPath: '/auth/callback'
-      preLoaderRoute: typeof AuthCallbackRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/progreso': {
-      id: '/_authenticated/progreso'
-      path: '/progreso'
-      fullPath: '/progreso'
-      preLoaderRoute: typeof AuthenticatedProgresoRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/perfil': {
-      id: '/_authenticated/perfil'
-      path: '/perfil'
-      fullPath: '/perfil'
-      preLoaderRoute: typeof AuthenticatedPerfilRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/configuracion': {
-      id: '/_authenticated/configuracion'
-      path: '/configuracion'
-      fullPath: '/configuracion'
-      preLoaderRoute: typeof AuthenticatedConfiguracionRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/admin': {
-      id: '/_authenticated/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AuthenticatedAdminRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/api/public/webhook-mp': {
       id: '/api/public/webhook-mp'
       path: '/api/public/webhook-mp'
@@ -422,23 +250,6 @@ declare module '@tanstack/react-router' {
     }
   }
 }
-
-interface AuthenticatedRouteRouteChildren {
-  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
-  AuthenticatedConfiguracionRoute: typeof AuthenticatedConfiguracionRoute
-  AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
-  AuthenticatedProgresoRoute: typeof AuthenticatedProgresoRoute
-}
-
-const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
-  AuthenticatedConfiguracionRoute: AuthenticatedConfiguracionRoute,
-  AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
-  AuthenticatedProgresoRoute: AuthenticatedProgresoRoute,
-}
-
-const AuthenticatedRouteRouteWithChildren =
-  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface MetodoRouteChildren {
   MetodoSlugRoute: typeof MetodoSlugRoute
@@ -455,18 +266,13 @@ const MetodoRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AvisoLegalRoute: AvisoLegalRoute,
-  IniciarSesionRoute: IniciarSesionRoute,
+  GraciasRoute: GraciasRoute,
   MetodoRoute: MetodoRouteWithChildren,
   PrivacidadRoute: PrivacidadRoute,
   PropiedadIntelectualRoute: PropiedadIntelectualRoute,
-  RecuperarContrasenaRoute: RecuperarContrasenaRoute,
   ReembolsosRoute: ReembolsosRoute,
-  RegistroRoute: RegistroRoute,
-  ResetPasswordRoute: ResetPasswordRoute,
   TerminosRoute: TerminosRoute,
-  AuthCallbackRoute: AuthCallbackRoute,
   ApiPublicWebhookMpRoute: ApiPublicWebhookMpRoute,
 }
 export const routeTree = rootRouteImport

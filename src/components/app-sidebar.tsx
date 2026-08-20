@@ -1,7 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, BookOpen, Activity, User, Settings, ShieldCheck } from "lucide-react";
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { Home, BookOpen } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -18,9 +16,6 @@ import {
 const items = [
   { title: "Inicio", url: "/", icon: Home },
   { title: "Método", url: "/metodo", icon: BookOpen },
-  { title: "Progreso", url: "/progreso", icon: Activity },
-  { title: "Mi perfil", url: "/perfil", icon: User },
-  { title: "Configuración", url: "/configuracion", icon: Settings },
 ] as const;
 
 export function AppSidebar() {
@@ -29,22 +24,6 @@ export function AppSidebar() {
   const closeIfMobile = () => {
     if (isMobile) setOpenMobile(false);
   };
-  const [isAdmin, setIsAdmin] = useState(false);
-  useEffect(() => {
-    let cancelled = false;
-    async function check() {
-      const { data: u } = await supabase.auth.getUser();
-      if (!u.user) { if (!cancelled) setIsAdmin(false); return; }
-      const { data } = await supabase.rpc("has_role", { _user_id: u.user.id, _role: "admin" });
-      if (!cancelled) setIsAdmin(!!data);
-    }
-    check();
-    const { data: sub } = supabase.auth.onAuthStateChange(() => check());
-    return () => { cancelled = true; sub.subscription.unsubscribe(); };
-  }, []);
-  const allItems = isAdmin
-    ? [...items, { title: "Admin", url: "/admin", icon: ShieldCheck } as const]
-    : items;
 
   return (
     <Sidebar collapsible="icon">
@@ -53,7 +32,7 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {allItems.map((item) => {
+              {items.map((item) => {
                 const active =
                   item.url === "/"
                     ? pathname === "/"

@@ -16,6 +16,7 @@ export async function createPreference(args: {
   title: string;
   amount: number;
   externalReference: string;
+  email: string;
   origin: string;
   notificationUrl: string;
 }): Promise<MpPreference> {
@@ -35,10 +36,11 @@ export async function createPreference(args: {
         },
       ],
       external_reference: args.externalReference,
+      payer: { email: args.email },
       notification_url: args.notificationUrl,
       back_urls: {
-        success: `${args.origin}/perfil`,
-        pending: `${args.origin}/perfil`,
+        success: `${args.origin}/gracias`,
+        pending: `${args.origin}/gracias`,
         failure: `${args.origin}/metodo`,
       },
       auto_return: "approved",

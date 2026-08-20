@@ -1,16 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
 import { siteConfig } from "../data/site";
-import { supabase } from "@/integrations/supabase/client";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export function SiteHeader() {
-  const [authed, setAuthed] = useState(false);
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => setAuthed(!!data.session));
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => setAuthed(!!session));
-    return () => sub.subscription.unsubscribe();
-  }, []);
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/70 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
@@ -24,18 +16,17 @@ export function SiteHeader() {
             RIQSIN
           </Link>
         </div>
-        {!authed && (
-          <Link
-            to="/iniciar-sesion"
-            className="rounded-full border border-border bg-white/70 px-4 py-1.5 text-sm font-medium text-foreground transition hover:bg-white"
-          >
-            Iniciar sesión
-          </Link>
-        )}
+        <Link
+          to="/metodo"
+          className="rounded-full border border-border bg-white/10 px-4 py-1.5 text-sm font-medium text-foreground transition hover:bg-white/20"
+        >
+          El método
+        </Link>
       </div>
     </header>
   );
 }
+
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
