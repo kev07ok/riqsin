@@ -14,6 +14,7 @@ import { Route as ReembolsosRouteImport } from './routes/reembolsos'
 import { Route as PropiedadIntelectualRouteImport } from './routes/propiedad-intelectual'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as MetodoRouteImport } from './routes/metodo'
+import { Route as GraciasRouteImport } from './routes/gracias'
 import { Route as AvisoLegalRouteImport } from './routes/aviso-legal'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MetodoIndexRouteImport } from './routes/metodo.index'
@@ -45,6 +46,11 @@ const MetodoRoute = MetodoRouteImport.update({
   path: '/metodo',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GraciasRoute = GraciasRouteImport.update({
+  id: '/gracias',
+  path: '/gracias',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AvisoLegalRoute = AvisoLegalRouteImport.update({
   id: '/aviso-legal',
   path: '/aviso-legal',
@@ -74,6 +80,7 @@ const ApiPublicWebhookMpRoute = ApiPublicWebhookMpRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/aviso-legal': typeof AvisoLegalRoute
+  '/gracias': typeof GraciasRoute
   '/metodo': typeof MetodoRouteWithChildren
   '/privacidad': typeof PrivacidadRoute
   '/propiedad-intelectual': typeof PropiedadIntelectualRoute
@@ -86,6 +93,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/aviso-legal': typeof AvisoLegalRoute
+  '/gracias': typeof GraciasRoute
   '/privacidad': typeof PrivacidadRoute
   '/propiedad-intelectual': typeof PropiedadIntelectualRoute
   '/reembolsos': typeof ReembolsosRoute
@@ -98,6 +106,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/aviso-legal': typeof AvisoLegalRoute
+  '/gracias': typeof GraciasRoute
   '/metodo': typeof MetodoRouteWithChildren
   '/privacidad': typeof PrivacidadRoute
   '/propiedad-intelectual': typeof PropiedadIntelectualRoute
@@ -112,6 +121,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/aviso-legal'
+    | '/gracias'
     | '/metodo'
     | '/privacidad'
     | '/propiedad-intelectual'
@@ -124,6 +134,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/aviso-legal'
+    | '/gracias'
     | '/privacidad'
     | '/propiedad-intelectual'
     | '/reembolsos'
@@ -135,6 +146,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/aviso-legal'
+    | '/gracias'
     | '/metodo'
     | '/privacidad'
     | '/propiedad-intelectual'
@@ -148,6 +160,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AvisoLegalRoute: typeof AvisoLegalRoute
+  GraciasRoute: typeof GraciasRoute
   MetodoRoute: typeof MetodoRouteWithChildren
   PrivacidadRoute: typeof PrivacidadRoute
   PropiedadIntelectualRoute: typeof PropiedadIntelectualRoute
@@ -191,6 +204,13 @@ declare module '@tanstack/react-router' {
       path: '/metodo'
       fullPath: '/metodo'
       preLoaderRoute: typeof MetodoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gracias': {
+      id: '/gracias'
+      path: '/gracias'
+      fullPath: '/gracias'
+      preLoaderRoute: typeof GraciasRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/aviso-legal': {
@@ -247,6 +267,7 @@ const MetodoRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AvisoLegalRoute: AvisoLegalRoute,
+  GraciasRoute: GraciasRoute,
   MetodoRoute: MetodoRouteWithChildren,
   PrivacidadRoute: PrivacidadRoute,
   PropiedadIntelectualRoute: PropiedadIntelectualRoute,
