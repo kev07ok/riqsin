@@ -5,11 +5,8 @@ async function processNotification(paymentId: string) {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
   const payment = await getPayment(paymentId);
-  const ref = payment.external_reference;
-  if (!ref) return;
-
-  const [userId, nivelId, compraId] = ref.split("|");
-  if (!userId || !nivelId) return;
+  const pedidoId = payment.external_reference;
+  if (!pedidoId) return;
 
   const estado =
     payment.status === "approved"
@@ -18,18 +15,10 @@ async function processNotification(paymentId: string) {
         ? "rejected"
         : "pending";
 
-  const update = { estado, payment_id: payment.id } as const;
-
-  if (compraId) {
-    await supabaseAdmin.from("compras").update(update).eq("id", compraId).eq("user_id", userId);
-  } else {
-    await supabaseAdmin
-      .from("compras")
-      .update(update)
-      .eq("user_id", userId)
-      .eq("nivel_id", nivelId)
-      .eq("estado", "pending");
-  }
+  await supabaseAdmin
+    .from("pedidos")
+    .update({ estado, payment_id: payment.id })
+    .eq("id", pedidoId);
 }
 
 export const Route = createFileRoute("/api/public/webhook-mp")({
