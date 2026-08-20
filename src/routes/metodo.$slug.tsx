@@ -57,56 +57,26 @@ function statusBadgeLabel(status: "disponible" | "en proceso" | "por invitación
 function LevelPage() {
   const { level } = Route.useLoaderData();
   const isLegado = level.slug === "legado";
-  const [percent, setPercent] = useState(0);
-  const [hasAccess, setHasAccess] = useState(false);
-  const [modules, setModules] = useState<Array<{ id: string; title: string; description: string | null; position: number }>>([]);
   const [buying, setBuying] = useState(false);
   const [buyError, setBuyError] = useState<string | null>(null);
+  const [showForm, setShowForm] = useState(false);
+  const [nombre, setNombre] = useState("");
+  const [email, setEmail] = useState("");
   const iniciarPago = useServerFn(crearPago);
 
-  async function onComprar() {
+  async function onComprar(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     setBuyError(null);
     setBuying(true);
     try {
-      const { data: u } = await supabase.auth.getUser();
-      if (!u.user) {
-        window.location.href = `/iniciar-sesion?redirect=${encodeURIComponent(`/metodo/${level.slug}`)}`;
-        return;
-      }
-      const res = await iniciarPago({ data: { nivel: level.slug } });
+      const res = await iniciarPago({ data: { nivel: level.slug, nombre, email } });
       window.location.href = res.initPoint;
-    } catch (e: any) {
-      setBuyError(e?.message ?? "No se pudo iniciar el pago. Intentá de nuevo.");
+    } catch (err: any) {
+      setBuyError(err?.message ?? "No se pudo iniciar el pago. Intentá de nuevo.");
       setBuying(false);
     }
   }
 
-  useEffect(() => {
-    (async () => {
-      const { data: lvl } = await supabase
-        .from("levels")
-        .select("id, modules(id, title, description, position, is_active)")
-        .eq("slug", level.slug)
-        .maybeSingle();
-      if (lvl) {
-        const mods = ((lvl as any).modules ?? [])
-          .filter((m: any) => m.is_active)
-          .sort((a: any, b: any) => a.position - b.position);
-        setModules(mods);
-        const { data: u } = await supabase.auth.getUser();
-        if (u.user) {
-          const { data: prog } = await supabase
-            .from("user_level_progress")
-            .select("progress_percentage")
-            .eq("user_id", u.user.id)
-            .eq("level_id", (lvl as any).id)
-            .maybeSingle();
-          setPercent(Number(prog?.progress_percentage ?? 0));
-          setHasAccess(!!prog);
-        }
-      }
-    })();
-  }, [level.slug]);
 
   return (
     <main className="mx-auto max-w-4xl px-6 py-16 sm:py-24 animate-fade-in">
