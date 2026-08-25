@@ -204,19 +204,56 @@ function LevelPage() {
           <span className="inline-flex cursor-not-allowed items-center justify-center rounded-full border border-border bg-muted px-8 py-3.5 text-sm font-medium text-muted-foreground">
             Nivel en proceso
           </span>
+        ) : !showForm ? (
+          <button
+            type="button"
+            onClick={() => setShowForm(true)}
+            className="inline-flex items-center justify-center rounded-full bg-foreground px-8 py-3.5 text-sm font-medium text-background shadow-[0_8px_30px_-10px_rgba(0,0,0,0.35)] transition-all duration-300 hover:scale-[1.02]"
+          >
+            Comprar este nivel
+          </button>
         ) : (
-          <div className="flex flex-col items-center gap-2 sm:items-end">
+          <form onSubmit={onComprar} className="w-full max-w-sm space-y-3 sm:w-80">
+            <div>
+              <label htmlFor="nombre" className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                Nombre
+              </label>
+              <input
+                id="nombre"
+                required
+                minLength={2}
+                value={nombre}
+                onChange={(e) => setNombre(e.target.value)}
+                className="mt-1 w-full rounded-2xl border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none focus:border-foreground/40"
+              />
+            </div>
+            <div>
+              <label htmlFor="email" className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                Correo electrónico
+              </label>
+              <input
+                id="email"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-1 w-full rounded-2xl border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none focus:border-foreground/40"
+              />
+              <p className="mt-1 text-xs text-muted-foreground">
+                Te enviamos el material a este correo.
+              </p>
+            </div>
             <button
-              type="button"
-              onClick={onComprar}
+              type="submit"
               disabled={buying}
-              className="inline-flex items-center justify-center rounded-full bg-foreground px-8 py-3.5 text-sm font-medium text-background shadow-[0_8px_30px_-10px_rgba(0,0,0,0.35)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.45)] disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex w-full items-center justify-center rounded-full bg-foreground px-8 py-3.5 text-sm font-medium text-background transition-all duration-300 hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {buying ? "Redirigiendo a Mercado Pago…" : "Comprar este nivel"}
+              {buying ? "Redirigiendo a Mercado Pago…" : "Continuar al pago"}
             </button>
-            {buyError && <span className="text-xs text-destructive">{buyError}</span>}
-          </div>
+            {buyError && <span className="block text-xs text-destructive">{buyError}</span>}
+          </form>
         )}
+
       </div>
     </main>
   );
