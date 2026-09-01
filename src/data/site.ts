@@ -12,10 +12,10 @@ export const siteConfig = {
   mainDomain: "riqsin.com.ar",
   alternateDomain: "riqsin.ar",
   // PDF de la circular: reemplazar esta URL para cambiar el archivo descargable.
-  // (se sube como asset y se pega acá la URL /__l5e/assets-v1/...)
-  circularPdfUrl: "",
-  circularPdfFileName: "RIQSIN-Circular.pdf",
+  circularPdfUrl: "/__l5e/assets-v1/da384269-e9ce-434b-bfb8-c822a17172f1/bienvenido-al-metodo-riqsin.pdf",
+  circularPdfFileName: "Bienvenido-al-Metodo-RIQSIN.pdf",
 };
+
 
 
 // Utilidad: convierte 1..10 en número romano.
