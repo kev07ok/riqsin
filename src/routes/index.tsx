@@ -111,7 +111,7 @@ function Index() {
           </a>
           {siteConfig.circularPdfUrl ? (
             <a
-              href={siteConfig.circularPdfUrl}
+              href="/api/public/circular"
               download={siteConfig.circularPdfFileName}
               className="inline-flex items-center gap-3 rounded-full border border-border bg-white/70 px-8 py-3.5 text-sm font-medium text-foreground shadow-[0_4px_20px_-8px_rgba(0,0,0,0.1)] backdrop-blur-md transition-all duration-300 hover:scale-[1.02] hover:border-brand-blue/40 hover:bg-white hover:shadow-[0_8px_30px_-10px_rgba(0,0,0,0.15)] focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
             >
