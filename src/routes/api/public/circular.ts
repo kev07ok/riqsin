@@ -21,11 +21,15 @@ export const Route = createFileRoute("/api/public/circular")({
         }
 
         const fileName = siteConfig.circularPdfFileName || "circular.pdf";
+        // ?inline=1 abre el PDF en el visor del navegador (evita bloqueos de
+        // descarga por políticas del dispositivo); por defecto fuerza descarga.
+        const inline =
+          new URL(request.url).searchParams.get("inline") === "1";
         const headers = new Headers();
         headers.set("Content-Type", "application/pdf");
         headers.set(
           "Content-Disposition",
-          `attachment; filename="${fileName}"`,
+          `${inline ? "inline" : "attachment"}; filename="${fileName}"`,
         );
         const length = upstream.headers.get("content-length");
         if (length) headers.set("Content-Length", length);
