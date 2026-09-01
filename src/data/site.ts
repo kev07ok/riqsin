@@ -11,7 +11,12 @@ export const siteConfig = {
   supportEmail: "",
   mainDomain: "riqsin.com.ar",
   alternateDomain: "riqsin.ar",
+  // PDF de la circular: reemplazar esta URL para cambiar el archivo descargable.
+  // (se sube como asset y se pega acá la URL /__l5e/assets-v1/...)
+  circularPdfUrl: "",
+  circularPdfFileName: "RIQSIN-Circular.pdf",
 };
+
 
 // Utilidad: convierte 1..10 en número romano.
 export function toRoman(num: number): string {
