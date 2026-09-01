@@ -31,6 +31,25 @@ function InstagramIcon({ className }: { className?: string }) {
   );
 }
 
+function DownloadIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="7 10 12 15 17 10" />
+      <line x1="12" x2="12" y1="3" y2="15" />
+    </svg>
+  );
+}
+
 function Index() {
   return (
     <main className="relative flex min-h-screen flex-col items-center overflow-hidden px-6 py-20 text-center">
@@ -90,6 +109,17 @@ function Index() {
             <InstagramIcon className="h-4 w-4" />
             Instagram {siteConfig.instagramOfficialHandle}
           </a>
+          {siteConfig.circularPdfUrl ? (
+            <a
+              href={siteConfig.circularPdfUrl}
+              download={siteConfig.circularPdfFileName}
+              className="inline-flex items-center gap-3 rounded-full border border-border bg-white/70 px-8 py-3.5 text-sm font-medium text-foreground shadow-[0_4px_20px_-8px_rgba(0,0,0,0.1)] backdrop-blur-md transition-all duration-300 hover:scale-[1.02] hover:border-brand-blue/40 hover:bg-white hover:shadow-[0_8px_30px_-10px_rgba(0,0,0,0.15)] focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+            >
+              <DownloadIcon className="h-4 w-4" />
+              Descargar Circular
+            </a>
+          ) : null}
+
         </div>
       </section>
 
