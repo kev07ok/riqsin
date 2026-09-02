@@ -1,3 +1,5 @@
+import circularPdfAsset from "../assets/circular-riqsin-v1.pdf.asset.json";
+
 // Configuración global editable del sitio.
 // - instagramUrl: enlace externo del botón/menú de Instagram.
 // - supportEmail: correo de contacto público (dejar vacío si no querés mostrarlo).
@@ -11,9 +13,9 @@ export const siteConfig = {
   supportEmail: "",
   mainDomain: "riqsin.com.ar",
   alternateDomain: "riqsin.ar",
-  // PDF de la circular: reemplazar esta URL para cambiar el archivo descargable.
-  circularPdfUrl: "/__l5e/assets-v1/da384269-e9ce-434b-bfb8-c822a17172f1/bienvenido-al-metodo-riqsin.pdf",
-  circularPdfFileName: "Bienvenido-al-Metodo-RIQSIN.pdf",
+  // PDF original de la circular almacenado de forma persistente.
+  circularPdfUrl: circularPdfAsset.url,
+  circularPdfFileName: "bienvenido al metodo riqsin v1.pdf",
 };
 
 
