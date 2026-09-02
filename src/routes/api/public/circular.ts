@@ -1,9 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { siteConfig } from "../../../data/site";
 
-// Sirve la circular en PDF forzando la descarga (Content-Disposition: attachment).
-// Así funciona igual en desktop, móvil e incógnito, sin depender del atributo
-// `download` del navegador ni abrir el visor de PDF integrado.
+// Conserva la ruta histórica sin volver a solicitar el asset desde el servidor.
 export const Route = createFileRoute("/api/public/circular")({
   server: {
     handlers: {
@@ -11,31 +9,10 @@ export const Route = createFileRoute("/api/public/circular")({
         const source = siteConfig.circularPdfUrl;
         if (!source) return new Response("Not found", { status: 404 });
 
-        const absolute = source.startsWith("http")
+        const destination = source.startsWith("http")
           ? source
           : new URL(source, new URL(request.url).origin).toString();
-
-        const upstream = await fetch(absolute);
-        if (!upstream.ok || !upstream.body) {
-          return new Response("PDF no disponible", { status: 502 });
-        }
-
-        const fileName = siteConfig.circularPdfFileName || "circular.pdf";
-        // ?inline=1 abre el PDF en el visor del navegador (evita bloqueos de
-        // descarga por políticas del dispositivo); por defecto fuerza descarga.
-        const inline =
-          new URL(request.url).searchParams.get("inline") === "1";
-        const headers = new Headers();
-        headers.set("Content-Type", "application/pdf");
-        headers.set(
-          "Content-Disposition",
-          `${inline ? "inline" : "attachment"}; filename="${fileName}"`,
-        );
-        const length = upstream.headers.get("content-length");
-        if (length) headers.set("Content-Length", length);
-        headers.set("Cache-Control", "public, max-age=3600");
-
-        return new Response(upstream.body, { status: 200, headers });
+        return Response.redirect(destination, 302);
       },
     },
   },
