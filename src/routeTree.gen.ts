@@ -20,7 +20,6 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as MetodoIndexRouteImport } from './routes/metodo.index'
 import { Route as MetodoSlugRouteImport } from './routes/metodo.$slug'
 import { Route as ApiPublicWebhookMpRouteImport } from './routes/api/public/webhook-mp'
-import { Route as ApiPublicCircularRouteImport } from './routes/api/public/circular'
 
 const TerminosRoute = TerminosRouteImport.update({
   id: '/terminos',
@@ -77,11 +76,6 @@ const ApiPublicWebhookMpRoute = ApiPublicWebhookMpRouteImport.update({
   path: '/api/public/webhook-mp',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicCircularRoute = ApiPublicCircularRouteImport.update({
-  id: '/api/public/circular',
-  path: '/api/public/circular',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -94,7 +88,6 @@ export interface FileRoutesByFullPath {
   '/terminos': typeof TerminosRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
-  '/api/public/circular': typeof ApiPublicCircularRoute
   '/api/public/webhook-mp': typeof ApiPublicWebhookMpRoute
 }
 export interface FileRoutesByTo {
@@ -107,7 +100,6 @@ export interface FileRoutesByTo {
   '/terminos': typeof TerminosRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo': typeof MetodoIndexRoute
-  '/api/public/circular': typeof ApiPublicCircularRoute
   '/api/public/webhook-mp': typeof ApiPublicWebhookMpRoute
 }
 export interface FileRoutesById {
@@ -122,7 +114,6 @@ export interface FileRoutesById {
   '/terminos': typeof TerminosRoute
   '/metodo/$slug': typeof MetodoSlugRoute
   '/metodo/': typeof MetodoIndexRoute
-  '/api/public/circular': typeof ApiPublicCircularRoute
   '/api/public/webhook-mp': typeof ApiPublicWebhookMpRoute
 }
 export interface FileRouteTypes {
@@ -138,7 +129,6 @@ export interface FileRouteTypes {
     | '/terminos'
     | '/metodo/$slug'
     | '/metodo/'
-    | '/api/public/circular'
     | '/api/public/webhook-mp'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -151,7 +141,6 @@ export interface FileRouteTypes {
     | '/terminos'
     | '/metodo/$slug'
     | '/metodo'
-    | '/api/public/circular'
     | '/api/public/webhook-mp'
   id:
     | '__root__'
@@ -165,7 +154,6 @@ export interface FileRouteTypes {
     | '/terminos'
     | '/metodo/$slug'
     | '/metodo/'
-    | '/api/public/circular'
     | '/api/public/webhook-mp'
   fileRoutesById: FileRoutesById
 }
@@ -178,7 +166,6 @@ export interface RootRouteChildren {
   PropiedadIntelectualRoute: typeof PropiedadIntelectualRoute
   ReembolsosRoute: typeof ReembolsosRoute
   TerminosRoute: typeof TerminosRoute
-  ApiPublicCircularRoute: typeof ApiPublicCircularRoute
   ApiPublicWebhookMpRoute: typeof ApiPublicWebhookMpRoute
 }
 
@@ -261,13 +248,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicWebhookMpRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/circular': {
-      id: '/api/public/circular'
-      path: '/api/public/circular'
-      fullPath: '/api/public/circular'
-      preLoaderRoute: typeof ApiPublicCircularRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -293,7 +273,6 @@ const rootRouteChildren: RootRouteChildren = {
   PropiedadIntelectualRoute: PropiedadIntelectualRoute,
   ReembolsosRoute: ReembolsosRoute,
   TerminosRoute: TerminosRoute,
-  ApiPublicCircularRoute: ApiPublicCircularRoute,
   ApiPublicWebhookMpRoute: ApiPublicWebhookMpRoute,
 }
 export const routeTree = rootRouteImport
