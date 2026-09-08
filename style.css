@@ -1,0 +1,4 @@
+body { font-family: Arial; margin: 0; padding: 40px; }
+header { display: flex; justify-content: space-between; }
+.hero h1 { font-size: 50px; }
+a { margin-left: 15px; text-decoration: none; color: #0a3d62; font-weight: bold; }
