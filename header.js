@@ -21,8 +21,8 @@ document.write(`
   </aside>
 
   <header class="topbar">
-    <h2>RIQSIN</h2>
     <button id="openBtn" class="menu-btn">☰</button>
+    <h2>RIQSIN</h2>
   </header>
 
   <script>
