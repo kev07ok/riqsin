@@ -10,9 +10,6 @@ document.write(`
       <a href="/">Inicio</a>
       <a href="/metodo/">Método</a>
       <a href="/investigaciones/">Investigación</a>
-      <a href="/biblioteca/">Biblioteca</a>
-      <a href="/aviso-legal/">Aviso Legal</a>
-      <a href="/terminos/">Términos</a>
     </nav>
     <div class="sidebar-footer">
       <a href="https://instagram.com/kev07_ok" target="_blank">IG Personal</a>
