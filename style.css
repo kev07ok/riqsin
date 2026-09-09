@@ -22,3 +22,8 @@ a { margin-left: 15px; text-decoration: none; color: #111; font-weight: 700; }
 .pilares { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #ddd; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; }
 .card { background: white; padding: 30px; }
 .card h3 { margin-top: 0; }
+.cta { padding: 80px 40px; background: #111; color: white; text-align: center; }
+.cta h2 { font-size: 36px; margin: 0; }
+.cta p { color: #aaa; }
+footer { padding: 40px; text-align: center; font-size: 14px; color: #888; background: white; border-top: 1px solid #eee; }
+footer a { color: #111; }
