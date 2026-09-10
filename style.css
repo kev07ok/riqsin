@@ -129,3 +129,17 @@ footer { background: var(--beige); border-top: 1px solid var(--beige-oscuro); pa
   .footer-grid{ grid-template-columns: 1fr; }
   .hero::before{ font-size: 40vw; }
 }
+
+/* CONTACTO SIMPLE */
+.contacto-hero{ padding: 80px 40px 20px 40px; max-width: 800px; }
+.contacto-hero h1{ font-size: clamp(48px, 8vw, 80px); margin:0; line-height:0.9; }
+.contacto-hero p{ color: var(--dorado); font-weight:700; letter-spacing:1px; text-transform:uppercase; font-size:14px; margin-top:12px; }
+
+.contacto-simple{ padding: 40px; max-width: 800px; display:flex; flex-direction:column; gap:16px; }
+.ig-card{ background:white; border:1px solid var(--beige-oscuro); padding:22px 26px; border-radius:999px; display:flex; justify-content:space-between; align-items:center; text-decoration:none; transition:0.2s; }
+.ig-card span{ font-size:11px; letter-spacing:1.5px; color:var(--dorado); font-weight:700; }
+.ig-card strong{ font-size:18px; color:var(--carbon); }
+.ig-card:hover{ background:var(--carbon); border-color:var(--carbon); }
+.ig-card:hover strong, .ig-card:hover span{ color:white; }
+
+.aviso-progreso{ margin-top:30px; background: var(--beige-oscuro); padding:20px 24px; border-radius:16px; color:#666; font-size:15px; line-height:1.5; }
