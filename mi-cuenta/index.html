@@ -11,8 +11,7 @@
     .riqsin-auth h2 { font-size: 1.1rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 24px; text-align: center; }
     .riqsin-auth input { width: 100%; background: #111; border: 1px solid #333; color: #fff; padding: 14px; margin-bottom: 12px; font-size: 14px; }
     .riqsin-auth button { width: 100%; background: #fff; color: #000; border: none; padding: 14px; text-transform: uppercase; letter-spacing: 0.15em; font-size: 12px; font-weight: 700; cursor: pointer; margin-top: 10px; }
-    .riqsin-auth button:disabled { opacity: 0.5; }
-    .riqsin-auth .secondary { background: transparent; color: #fff; border: 1px solid #333; margin-top: 8px; }
+    .riqsin-auth .secondary { background: transparent; color: #fff; border: 1px solid #333; }
     .riqsin-auth .tabs { display: flex; gap: 1px; background: #222; margin-bottom: 30px; }
     .riqsin-auth .tabs button { background: #111; color: #888; margin:0; }
     .riqsin-auth .tabs button.active { background: #fff; color: #000; }
@@ -23,7 +22,6 @@
 </head>
 <body>
   <script src="/header.js"></script>
-  
   <section class="biblio-hero" id="auth-section">
     <div class="riqsin-auth" id="auth-box">
       <h2>Mi Cuenta RIQSIN</h2>
@@ -37,78 +35,49 @@
       <div id="message" class="riqsin-msg"></div>
     </div>
   </section>
-
   <section id="dashboard">
     <h1 style="font-size: 1.2rem; letter-spacing: 0.2em; text-transform: uppercase;">Bienvenido</h1>
     <p id="user-email" style="color:#888; margin: 15px 0;"></p>
-    <p style="font-size: 14px; line-height: 1.6; color:#aaa;">Acá vas a ver tus compras y descargas de RIQSIN. El sistema de pagos lo conectamos en el próximo paso.</p>
+    <p style="font-size: 14px; color:#aaa;">Ya tenés tu cuenta de RIQSIN activa.</p>
     <button onclick="logout()" style="background:#fff; color:#000; border:none; padding:12px 20px; margin-top:20px; cursor:pointer; text-transform:uppercase; letter-spacing:0.1em; font-size:12px;">Cerrar Sesión</button>
   </section>
-
 <script>
-  // CONFIG - PEGÁ TUS CLAVES COMPLETAS AQUÍ ABAJO
-  const SUPABASE_URL = 'https://jubxykcmbbtlaeinpcxr.supabase.co';
-  const SUPABASE_KEY = 'sb_publishable__h1W8dHtTdsXnHY0lZFWOA_6EjhQJgv'; // <-- PEGA ACA LA CLAVE COMPLETA que empieza con sb_publishable_
-
+  const SUPABASE_URL = 'https://ubxykcmbbitlaeihpcxr.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVieHlrY21iYml0bGFlaWhwY3hyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwNjczNjEsImV4cCI6MjEwNDY0MzM2MX0.GLaHeLyNSLVeD-xvqBmoWScN_fwyiP4xByQJfjHwOiI';
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
   let currentTab = 'login';
-
   function setTab(tab) {
     currentTab = tab;
     document.getElementById('tab-login').classList.toggle('active', tab === 'login');
     document.getElementById('tab-register').classList.toggle('active', tab === 'register');
     document.getElementById('main-btn').innerText = tab === 'login' ? 'Ingresar' : 'Crear Cuenta';
-    document.getElementById('message').innerText = '';
   }
-
   async function handleAuth() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const msg = document.getElementById('message');
     const btn = document.getElementById('main-btn');
     if(!email || !password) { msg.innerText = 'Completá email y contraseña'; msg.className = 'riqsin-msg error'; return; }
-    
-    btn.disabled = true; msg.innerText = 'Procesando...'; msg.className = 'riqsin-msg';
-
+    btn.disabled = true; msg.innerText = 'Procesando...';
     try {
       let result;
-      if(currentTab === 'login') {
-        result = await supabaseClient.auth.signInWithPassword({ email, password });
-      } else {
-        result = await supabaseClient.auth.signUp({ email, password });
-      }
+      if(currentTab === 'login') result = await supabaseClient.auth.signInWithPassword({ email, password });
+      else result = await supabaseClient.auth.signUp({ email, password });
       if(result.error) throw result.error;
-      if(currentTab === 'register') {
-        msg.innerText = 'Cuenta creada. Ya podés ingresar.';
-        setTab('login');
-      } else {
-        checkUser();
-      }
-    } catch(e) {
-      msg.innerText = e.message;
-      msg.className = 'riqsin-msg error';
-    } finally {
-      btn.disabled = false;
-    }
+      if(currentTab === 'register') { msg.innerText = 'Cuenta creada. Ahora ingresá.'; setTab('login'); }
+      else checkUser();
+    } catch(e) { msg.innerText = e.message; msg.className = 'riqsin-msg error'; }
+    finally { btn.disabled = false; }
   }
-
   async function checkUser() {
     const { data: { user } } = await supabaseClient.auth.getUser();
     if(user) {
       document.getElementById('auth-section').style.display = 'none';
       document.getElementById('dashboard').style.display = 'block';
       document.getElementById('user-email').innerText = user.email;
-    } else {
-      document.getElementById('auth-section').style.display = 'block';
-      document.getElementById('dashboard').style.display = 'none';
     }
   }
-
-  async function logout() {
-    await supabaseClient.auth.signOut();
-    checkUser();
-  }
-
+  async function logout() { await supabaseClient.auth.signOut(); location.reload(); }
   checkUser();
 </script>
 </body>
