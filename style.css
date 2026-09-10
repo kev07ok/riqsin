@@ -203,3 +203,34 @@ footer { background: var(--beige); border-top: 1px solid var(--beige-oscuro); pa
   .autor-texto{ padding:40px 30px; }
   .autor-texto h2{ font-size:34px; }
 }
+
+/* RIQSIN INVESTIGACION - SECCION DESTACADA */
+.riqsin-investigacion{ background: var(--carbon); color: white; padding: 80px 40px; position: relative; overflow: hidden; }
+.riqsin-investigacion::before{ content:"CIENCIA"; position:absolute; top:10%; right:-2%; font-size:22vw; font-weight:800; color:white; opacity:0.03; line-height:1; pointer-events:none; }
+
+.investigacion-header{ max-width: 1100px; margin: 0 auto 60px auto; }
+.investigacion-badge{ display:inline-block; background: #1e1e1e; border:1px solid #2a2a2a; color: var(--dorado); font-size:11px; letter-spacing:1.5px; font-weight:700; padding:8px 16px; border-radius:999px; margin-bottom:24px; }
+.investigacion-header h2{ font-size: clamp(32px, 5vw, 54px); line-height:0.9; letter-spacing:-1.5px; margin:0; max-width:700px; }
+
+.investigacion-grid{ display:grid; grid-template-columns: 1.2fr 0.8fr; gap:60px; max-width:1100px; margin:0 auto; }
+.investigacion-main .lead{ font-size:20px; line-height:1.4; color: white; font-weight:500; margin-bottom:24px; }
+.investigacion-main p{ color:#999; line-height:1.7; font-size:16px; margin-bottom:18px; }
+.investigacion-main strong{ color:white; }
+
+.investigacion-side{ display:flex; flex-direction:column; gap:16px; }
+.side-box{ background:#151515; border:1px solid #222; padding:20px 24px; border-radius:16px; }
+.side-box h4{ margin:0 0 8px 0; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--dorado); }
+.side-box p{ margin:0; font-size:15px; line-height:1.4; color:#aaa; }
+.side-box.highlight{ background: var(--dorado); border-color:var(--dorado); }
+.side-box.highlight h4, .side-box.highlight p{ color:var(--carbon); }
+
+.investigacion-footer{ max-width:1100px; margin:60px auto 0 auto; border-top:1px solid #222; padding-top:40px; }
+.investigacion-footer p{ color:#888; line-height:1.7; font-size:15px; max-width:800px; margin-bottom:16px; }
+
+.investigacion-alerta{ margin-top:32px; background:#111; border:1px solid var(--dorado); padding:24px 28px; border-radius:16px; color:#ccc; font-size:14px; line-height:1.6; max-width:800px; }
+.investigacion-alerta strong{ color:var(--dorado); }
+
+@media(max-width: 900px){
+  .investigacion-grid{ grid-template-columns: 1fr; gap:30px; }
+  .riqsin-investigacion{ padding:50px 30px; }
+}
