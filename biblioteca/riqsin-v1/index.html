@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RIQSIN v1 — Fundamentos | Método RIQSIN</title>
   <link rel="stylesheet" href="/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <script src="/header.js"></script>
@@ -12,59 +13,83 @@
   <section class="biblio-hero">
     <a href="/biblioteca/" style="text-decoration:none; font-size:14px; opacity:0.7;">← Volver a Biblioteca</a>
     <span class="eyebrow" style="display:block; margin-top:20px;">Método RIQSIN — v1.0</span>
-    <h1>RIQSIN v1 — Fundamentos del Sistema</h1>
-    <p>Primera versión estable del método. Base teórica, ejercicios prácticos y sistema de registro para trabajar disciplina, hábitos y valores.</p>
+    <h1 id="prod-nombre">RIQSIN v1 — Fundamentos</h1>
+    <p id="prod-desc">Cargando...</p>
   </section>
 
   <section class="biblio-lista" style="max-width:800px; margin: 0 auto;">
     
     <div style="margin-bottom:40px;">
       <h3>¿Para quién es?</h3>
-      <p>Jóvenes de 15 a 30 años que buscan estructurar su disciplina, mejorar hábitos y alinear sus valores con su proyecto de vida. Material base para la investigación UNAB / UNLa sobre ciudadanía juvenil.</p>
+      <p>Jóvenes de 15 a 30 años que buscan estructurar su disciplina, mejorar hábitos y alinear sus valores con su proyecto de vida.</p>
     </div>
 
-    <div style="margin-bottom:40px;">
-      <h3>¿Qué incluye esta versión?</h3>
-      <ul style="line-height:1.8; opacity:0.9;">
-        <li>Marco teórico de RIQSIN (disciplina, hábitos, valores, autoconocimiento)</li>
-        <li>Cuaderno de ejercicios prácticos</li>
-        <li>Sistema de registro y seguimiento circular</li>
-        <li>Guía de propósito y autoevaluación</li>
-      </ul>
-    </div>
-
-    <div style="margin-bottom:40px;">
-      <h3>¿Qué vas a lograr?</h3>
-      <p>Establecer una base sólida de disciplina operativa, identificar hábitos clave a modificar y construir un sistema de valores propio para la toma de decisiones.</p>
-    </div>
-
-    <!-- CAJA DE COMPRA -->
-    <div class="biblio-item" style="display:block; cursor:default; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);">
-      <div class="biblio-item-meta">
-        <span class="meta-tag riqsin">Producto digital</span>
-        <span class="meta-anio">PDF + Sistema</span>
-      </div>
-      <h3>Acceso completo a RIQSIN v1</h3>
-      <p>La compra, descarga y acceso futuro queda guardado en tu cuenta personal. Incluye participación en encuestas para la investigación.</p>
-      
-      <div class="biblio-item-foot" style="margin-top:24px; display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-size:18px; font-weight:bold;">$ 30.000</span>
-        <a href="/mi-cuenta/" style="background:white; color:black; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:bold;">Comprar — Requiere cuenta</a>
-      </div>
+    <div id="caja-compra" class="biblio-item" style="display:block; cursor:default; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);">
+      <p style="text-align:center;">Cargando acceso...</p>
     </div>
 
   </section>
 
-  <section class="biblio-aviso">
-    <p>Al comprar aceptás que el material es de uso personal. La descarga y las versiones futuras que adquieras estarán siempre disponibles en <strong>Mi Cuenta > Mis versiones</strong>.</p>
-  </section>
+<script>
+  const SUPABASE_URL = 'https://ubxykcmbbitlaeihpcxr.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVieHlrY21iYml0bGFlaWhwY3hyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwNjczNjEsImV4cCI6MjEwNDY0MzM2MX0.GLaHeLyNSLVeD-xvqBmoWScN_fwyiP4xByQJfjHwOiI';
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  let productoActual = null;
 
-  <footer>
-    <div class="footer-grid">
-      <div><h4>RIQSIN</h4><p>Método de investigación y desarrollo — UNAB / UNLa</p></div>
-      <div><h4>Secciones</h4><a href="/">Inicio</a><a href="/metodo/">El Método</a><a href="/biblioteca/">Biblioteca</a><a href="/mi-cuenta/">Mi Cuenta</a></div>
-      <div><h4>Contacto</h4><a href="https://instagram.com/metodoriqsin">@metodoriqsin</a></div>
-    </div>
-  </footer>
+  async function init(){
+    const { data: prods } = await supabaseClient.from('productos').select('*').eq('archivo_nombre','riqsin-v1.pdf').limit(1);
+    if(!prods || prods.length === 0) return;
+    productoActual = prods[0];
+    document.getElementById('prod-nombre').innerText = productoActual.nombre;
+    document.getElementById('prod-desc').innerText = productoActual.descripcion;
+
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    const caja = document.getElementById('caja-compra');
+
+    if(!user){
+      caja.innerHTML = `
+        <h3>Acceso completo a ${productoActual.nombre}</h3>
+        <p>Necesitás cuenta para comprar. Precio: $ ${productoActual.precio}</p>
+        <div style="margin-top:24px;"><a href="/mi-cuenta/" style="background:white; color:black; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:bold;">Crear cuenta para comprar</a></div>
+      `;
+      return;
+    }
+
+    const { data: compras } = await supabaseClient.from('compras').select('*').eq('user_id', user.id).eq('producto_id', productoActual.id);
+    const yaCompro = compras && compras.length > 0;
+
+    if(yaCompro){
+      caja.innerHTML = `
+        <div class="biblio-item-meta"><span class="meta-tag riqsin" style="background:#00ff88; color:black;">ACCESO ACTIVO</span></div>
+        <h3>Ya tenés acceso a ${productoActual.nombre}</h3>
+        <p>Tu compra está registrada en Mi Cuenta.</p>
+        <div style="margin-top:24px; display:flex; gap:10px;">
+          <a href="/mi-cuenta/" style="background:white; color:black; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:bold;">Ir a Mis Versiones</a>
+        </div>
+      `;
+    } else {
+      caja.innerHTML = `
+        <h3>Acceso completo a ${productoActual.nombre}</h3>
+        <p>Incluye actualizaciones de la v1 a medida que la termines. Precio lanzamiento: $ ${productoActual.precio}</p>
+        <div style="margin-top:24px; display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:18px; font-weight:bold;">$ ${productoActual.precio.toLocaleString('es-AR')}</span>
+          <button onclick="comprar()" id="btn-comprar" style="background:white; color:black; padding:12px 24px; border-radius:8px; font-weight:bold; border:none; cursor:pointer;">Comprar acceso (prueba)</button>
+        </div>
+        <p style="font-size:12px; opacity:0.6; margin-top:10px;">Por ahora es compra de prueba. Luego conectamos Mercado Pago.</p>
+      `;
+    }
+  }
+
+  async function comprar(){
+    const btn = document.getElementById('btn-comprar');
+    btn.innerText = 'Procesando...'; btn.disabled = true;
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    const { error } = await supabaseClient.from('compras').insert({ user_id: user.id, producto_id: productoActual.id });
+    if(error){ alert('Error: ' + error.message); btn.innerText = 'Comprar acceso (prueba)'; btn.disabled = false; }
+    else { location.reload(); }
+  }
+
+  init();
+</script>
 </body>
 </html>

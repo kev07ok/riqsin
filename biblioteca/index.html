@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Biblioteca - Método RIQSIN</title>
   <link rel="stylesheet" href="/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <script src="/header.js"></script>
@@ -12,29 +13,15 @@
   <section class="biblio-hero">
     <span class="eyebrow">Método RIQSIN</span>
     <h1>Biblioteca</h1>
-    <p>Materiales disponibles del Método RIQSIN. Solo se muestran las versiones habilitadas para adquisición.</p>
+    <p>Materiales disponibles del Método RIQSIN. Solo se muestran las versiones habilitadas.</p>
   </section>
 
-  <section class="biblio-lista">
-    
-    <!-- UNICA CARTA DISPONIBLE - RIQSIN V1 -->
-    <a href="/biblioteca/riqsin-v1/" class="biblio-item">
-      <div class="biblio-item-meta">
-        <span class="meta-tag riqsin">Método RIQSIN</span>
-        <span class="meta-anio">v1.0 — Disponible</span>
-      </div>
-      <h3>RIQSIN v1 — Fundamentos del Sistema</h3>
-      <p>Sistema estructurado de desarrollo personal basado en disciplina, hábitos, valores, autoconocimiento y propósito. Incluye marco teórico, ejercicios prácticos y sistema de registro para jóvenes de 15 a 30 años.</p>
-      <div class="biblio-item-foot">
-        <span>Ver detalle →</span>
-        <span class="estado">Requiere cuenta para comprar</span>
-      </div>
-    </a>
-
+  <section class="biblio-lista" id="lista-productos">
+    <p style="text-align:center; opacity:0.6;">Cargando productos...</p>
   </section>
 
   <section class="biblio-aviso">
-    <p>Para adquirir cualquier material de la biblioteca necesitás tener una cuenta en <strong>Mi Cuenta</strong>. La compra, descarga y encuestas de investigación se gestionan desde ahí. Nuevas versiones aparecerán aquí automáticamente cuando estén disponibles.</p>
+    <p>Para adquirir necesitás tener una cuenta en <strong>Mi Cuenta</strong>. Todo queda guardado ahí.</p>
   </section>
 
   <footer>
@@ -44,5 +31,33 @@
       <div><h4>Contacto</h4><a href="https://instagram.com/metodoriqsin">@metodoriqsin</a></div>
     </div>
   </footer>
+
+<script>
+  const SUPABASE_URL = 'https://ubxykcmbbitlaeihpcxr.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVieHlrY21iYml0bGFlaWhwY3hyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwNjczNjEsImV4cCI6MjEwNDY0MzM2MX0.GLaHeLyNSLVeD-xvqBmoWScN_fwyiP4xByQJfjHwOiI';
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  async function cargarProductos(){
+    const { data, error } = await supabaseClient.from('productos').select('*');
+    const cont = document.getElementById('lista-productos');
+    if(error){ cont.innerHTML = '<p>Error cargando</p>'; return; }
+    
+    cont.innerHTML = data.map(p => `
+      <a href="/biblioteca/riqsin-v1/" class="biblio-item">
+        <div class="biblio-item-meta">
+          <span class="meta-tag riqsin">Método RIQSIN</span>
+          <span class="meta-anio">${p.estado === 'en_desarrollo' ? 'Acceso Anticipado' : 'Disponible'}</span>
+        </div>
+        <h3>${p.nombre}</h3>
+        <p>${p.descripcion}</p>
+        <div class="biblio-item-foot">
+          <span>Ver detalle →</span>
+          <span class="estado">$ ${p.precio.toLocaleString('es-AR')}</span>
+        </div>
+      </a>
+    `).join('');
+  }
+  cargarProductos();
+</script>
 </body>
 </html>
