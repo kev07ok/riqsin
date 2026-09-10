@@ -28,7 +28,7 @@ body {
 .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); opacity: 0; pointer-events: none; transition: 0.3s; z-index: 90; }
 .sidebar-overlay.show { opacity: 1; pointer-events: all; }
 
-/* HERO CON RIQSIN GIGANTE ATRAS */
+/* HERO CON RIQSIN GIGANTE QUE SE MUEVE INFINITO */
 .hero { 
   padding: 100px 40px 80px 40px; 
   position: relative;
@@ -37,26 +37,55 @@ body {
   isolation: isolate;
 }
 .hero::before{
-  content: "RIQSIN";
+  content: "RIQSIN RIQSIN RIQSIN";
   position: absolute;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  left: 0;
+  transform: translateY(-50%);
   font-size: 22vw;
   font-weight: 800;
   color: var(--carbon);
-  opacity: 0.04;
+  opacity: 0.05;
   letter-spacing: -0.05em;
   z-index: -1;
   white-space: nowrap;
-  animation: flotar 8s ease-in-out infinite;
+  animation: moverRiqsin 20s linear infinite;
 }
-@keyframes flotar {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); }
-  50% { transform: translate(-50%, -52%) scale(1.02); }
+@keyframes moverRiqsin {
+  0% { transform: translateY(-50%) translateX(-35%); }
+  100% { transform: translateY(-50%) translateX(0%); }
 }
-.hero h1 { font-size: clamp(40px, 6vw, 72px); line-height: 0.9; margin: 0; position: relative; z-index: 1;}
-.hero p { max-width: 500px; color: #666; font-size: 18px; position: relative; z-index: 1;}
+
+/* ANIMACIONES PARA EL RESTO */
+.hero h1, .hero p, .botones-hero {
+  animation: subir 0.8s ease-out both;
+}
+.hero p { animation-delay: 0.2s; }
+.botones-hero { animation-delay: 0.4s; }
+
+@keyframes subir {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.pilares .card {
+  animation: aparecer 0.6s ease-out both;
+  animation-timeline: view();
+  animation-range: entry 10% cover 30%;
+}
+.pilares .card:nth-child(2){ animation-delay: 0.1s; }
+.pilares .card:nth-child(3){ animation-delay: 0.2s; }
+
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.cta h2, .cta p, .cta .btn {
+  animation: aparecer 0.8s ease-out both;
+  animation-timeline: view();
+  animation-range: entry 20% cover 40%;
+}
 
 /* BOTONES */
 .botones-hero { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; position: relative; z-index: 1; }
