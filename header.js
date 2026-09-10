@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <a href="/metodo/"><span>02</span> El Método</a>
         <a href="/biblioteca/"><span>03</span> Biblioteca</a>
         <a href="/contacto/"><span>04</span> Contacto</a>
+        <a href="/mi-cuenta/"><span>05</span> Mi Cuenta</a>
       </nav>
     </div>
   `;
