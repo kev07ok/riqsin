@@ -20,13 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <a href="/"><span>01</span> Inicio</a>
         <a href="/metodo/"><span>02</span> El Método</a>
         <a href="/contacto/"><span>03</span> Contacto</a>
-        <a href="/circular.pdf" download><span>04</span> Descargar Circular</a>
       </nav>
-    </div>
-    <div class="sidebar-footer">
-      <div class="footer-label">CONECTA</div>
-      <a href="https://instagram.com/metodoriqsin" target="_blank">@metodoriqsin — Oficial</a>
-      <a href="https://instagram.com/kev07_ok" target="_blank">@kev07_ok — Creador</a>
     </div>
   `;
   document.body.appendChild(sidebar);
