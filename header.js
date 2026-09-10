@@ -19,7 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
       <nav class="sidebar-nav">
         <a href="/"><span>01</span> Inicio</a>
         <a href="/metodo/"><span>02</span> El Método</a>
-        <a href="/contacto/"><span>03</span> Contacto</a>
+        <a href="/biblioteca/"><span>03</span> Biblioteca</a>
+        <a href="/contacto/"><span>04</span> Contacto</a>
       </nav>
     </div>
   `;
