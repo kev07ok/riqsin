@@ -43,8 +43,8 @@
     .metodo-intro p{ color:#555; line-height:1.7; font-size:16px; }
 
     .modulos{ max-width:1100px; margin:0 auto; padding:0 40px 60px 40px; display:grid; grid-template-columns: repeat(3, 1fr); gap:1px; background:var(--beige-oscuro); border:1.5px solid var(--beige-oscuro); border-radius:24px; overflow:hidden; }
-    .modulo{ background:white; padding:36px 30px; transition:0.3s; position:relative; }
-    .modulo:hover{ background:#fffcf5; }
+    .modulo{ background:white; padding:36px 30px; transition:0.3s; position:relative; text-decoration:none; color:inherit; display:block; }
+    .modulo:hover{ background:#fffcf5; transform:translateY(-2px); box-shadow:0 10px 30px rgba(0,0,0,0.05); z-index:1; }
     .modulo-num{ font-size:11px; font-weight:700; letter-spacing:1.5px; color:var(--dorado); margin-bottom:12px; display:block; }
     .modulo h3{ font-size:20px; margin:0 0 12px 0; letter-spacing:-0.5px; }
     .modulo p{ font-size:14px; line-height:1.6; color:#666; margin:0 0 18px 0; }
@@ -77,11 +77,11 @@
     <p style="font-size:20px; line-height:1.4; color:var(--carbon); font-weight:600; margin-top:12px;">
       RIQSIN es un sistema estructurado de desarrollo personal que integra el estudio de la disciplina, los hábitos, el comportamiento humano y los valores para construir una metodología aplicable al día a día. No es motivación, es un marco para entenderte y actuar.
     </p>
-    <p>El método se aplica de forma progresiva, con ejercicios, registros y revisiones. Cada pilar tiene su propia sección dentro de la circular, con teoría y práctica.</p>
+    <p>El método se aplica de forma progresiva, con ejercicios, registros y revisiones. Cada pilar tiene su propia sección dentro de la circular, con teoría y práctica. Tocá cada módulo para ver el detalle.</p>
   </section>
 
   <div class="modulos">
-    <div class="modulo">
+    <a href="/metodo/modulo-1/" class="modulo">
       <span class="modulo-num">MÓDULO 01</span>
       <h3>Disciplina</h3>
       <p>La base de todo. Sin disciplina no hay sistema que funcione. Cómo construirla desde lo mínimo.</p>
@@ -90,8 +90,8 @@
         <li>Regla de lo mínimo viable</li>
         <li>Sistema de cumplimiento diario</li>
       </ul>
-    </div>
-    <div class="modulo">
+    </a>
+    <a href="/metodo/modulo-2/" class="modulo">
       <span class="modulo-num">MÓDULO 02</span>
       <h3>Hábitos</h3>
       <p>El comportamiento automatizado. Identificar, eliminar y construir hábitos que te acerquen a tu propósito.</p>
@@ -100,8 +100,8 @@
         <li>Disparadores y recompensas</li>
         <li>Protocolo de reemplazo</li>
       </ul>
-    </div>
-    <div class="modulo">
+    </a>
+    <a href="/metodo/modulo-3/" class="modulo">
       <span class="modulo-num">MÓDULO 03</span>
       <h3>Valores</h3>
       <p>Lo que sostiene las decisiones cuando no hay ganas. Clarificar y ordenar tus valores no negociables.</p>
@@ -110,8 +110,8 @@
         <li>Jerarquía y conflictos</li>
         <li>Código personal</li>
       </ul>
-    </div>
-    <div class="modulo">
+    </a>
+    <a href="/metodo/modulo-4/" class="modulo">
       <span class="modulo-num">MÓDULO 04</span>
       <h3>Autoconocimiento</h3>
       <p>Entender cómo pensás, por qué reaccionás y qué patrones repetís. Sin esto, no hay cambio real.</p>
@@ -120,8 +120,8 @@
         <li>Diario de patrones</li>
         <li>Análisis de comportamiento</li>
       </ul>
-    </div>
-    <div class="modulo">
+    </a>
+    <a href="/metodo/modulo-5/" class="modulo">
       <span class="modulo-num">MÓDULO 05</span>
       <h3>Propósito</h3>
       <p>La dirección. No es algo que se encuentra, es algo que se construye con los 4 anteriores.</p>
@@ -130,8 +130,8 @@
         <li>Objetivos a 12 meses</li>
         <li>Sistema de revisión semanal</li>
       </ul>
-    </div>
-    <div class="modulo" style="background:var(--beige);">
+    </a>
+    <a href="/metodo/modulo-6/" class="modulo" style="background:var(--beige);">
       <span class="modulo-num">MÓDULO 06</span>
       <h3>Mente & Control</h3>
       <p>Cómo funciona tu cerebro. Gestión de impulsos, enfoque y toma de decisiones bajo presión.</p>
@@ -140,7 +140,7 @@
         <li>Control de impulsos</li>
         <li>Enfoque profundo</li>
       </ul>
-    </div>
+    </a>
   </div>
 
   <section class="metodo-cta">
