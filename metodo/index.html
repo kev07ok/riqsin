@@ -3,64 +3,161 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>El Método - RIQSIN</title>
-  <link rel="stylesheet" href="/style.css">
+  <title>El Método RIQSIN - RIQSIN</title>
+  <link rel="stylesheet" href="/style.css?v=6">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+    .metodo-hero{
+      padding: 120px 40px 60px 40px;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      background: var(--beige);
+      border-bottom: 1.5px solid var(--beige-oscuro);
+    }
+    .metodo-hero::before{
+      content: "MÉTODO MÉTODO MÉTODO";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      font-size: 20vw;
+      font-weight: 800;
+      color: var(--carbon);
+      opacity: 0.04;
+      letter-spacing: -0.05em;
+      white-space: nowrap;
+      z-index: -1;
+      animation: moverMetodo 25s linear infinite;
+    }
+    @keyframes moverMetodo{
+      0%{ transform: translateY(-50%) translateX(-40%); }
+      100%{ transform: translateY(-50%) translateX(0%); }
+    }
+    .metodo-hero h1{ font-size: clamp(56px, 9vw, 92px); line-height:0.85; letter-spacing:-3px; margin:10px 0 0 0; animation:subir 0.8s ease both; }
+    .metodo-hero .eyebrow{ color:var(--dorado); font-weight:700; letter-spacing:2px; font-size:11px; text-transform:uppercase; animation:subir 0.6s ease both; }
+    .metodo-hero p.sub{ color:#888; font-size:18px; max-width:600px; margin-top:18px; animation:subir 0.8s 0.2s ease both; }
+
+    .metodo-intro{ max-width:800px; margin:0 auto; padding:60px 40px; }
+    .metodo-intro .label{ color:var(--dorado); font-size:11px; letter-spacing:1.5px; font-weight:700; text-transform:uppercase; }
+    .metodo-intro p{ color:#555; line-height:1.7; font-size:16px; }
+
+    .modulos{ max-width:1100px; margin:0 auto; padding:0 40px 60px 40px; display:grid; grid-template-columns: repeat(3, 1fr); gap:1px; background:var(--beige-oscuro); border:1.5px solid var(--beige-oscuro); border-radius:24px; overflow:hidden; }
+    .modulo{ background:white; padding:36px 30px; transition:0.3s; position:relative; }
+    .modulo:hover{ background:#fffcf5; }
+    .modulo-num{ font-size:11px; font-weight:700; letter-spacing:1.5px; color:var(--dorado); margin-bottom:12px; display:block; }
+    .modulo h3{ font-size:20px; margin:0 0 12px 0; letter-spacing:-0.5px; }
+    .modulo p{ font-size:14px; line-height:1.6; color:#666; margin:0 0 18px 0; }
+    .modulo ul{ margin:0; padding-left:18px; }
+    .modulo ul li{ font-size:13px; color:#555; line-height:1.5; margin-bottom:6px; }
+    .modulo::after{ content:""; position:absolute; bottom:0; left:30px; right:30px; height:3px; background:var(--dorado); transform:scaleX(0); transition:0.3s; transform-origin:left; }
+    .modulo:hover::after{ transform:scaleX(1); }
+
+    .metodo-cta{ background:var(--carbon); color:white; padding:90px 40px; text-align:center; position:relative; overflow:hidden; }
+    .metodo-cta::before{ content:"RIQSIN"; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:28vw; font-weight:800; color:white; opacity:0.03; }
+    .metodo-cta h2{ font-size:42px; letter-spacing:-1px; margin:0; position:relative; z-index:1; }
+    .metodo-cta p{ color:#888; max-width:500px; margin:12px auto 28px auto; position:relative; z-index:1; }
+
+    @keyframes subir{ from{opacity:0; transform:translateY(30px);} to{opacity:1; transform:translateY(0);} }
+    @media(max-width:900px){ .modulos{ grid-template-columns:1fr; } }
+  </style>
 </head>
 <body>
-  <script src="/header.js"></script>
+<script src="/header.js?v=1"></script>
 
+<main>
   <section class="metodo-hero">
     <span class="eyebrow">El sistema</span>
     <h1>El Método<br>RIQSIN</h1>
-    <p>Disciplina. Hábitos. Valores. Autoconocimiento. Propósito.</p>
+    <p class="sub">Disciplina. Hábitos. Valores. Autoconocimiento. Propósito. Mente.</p>
   </section>
 
-  <section class="metodo-contenido">
-    <div class="metodo-bloque">
-      <h2>¿Qué es RIQSIN?</h2>
-      <p>RIQSIN es un sistema estructurado de desarrollo personal que integra el estudio de la disciplina, los hábitos, el comportamiento humano y los valores para construir una metodología aplicable al día a día. No es motivación, es un marco para entenderte y actuar.</p>
-    </div>
-
-    <div class="metodo-pilares-detalle">
-      <div>
-        <h3>01. Disciplina</h3>
-        <p>La base de todo. Sin disciplina no hay sistema que funcione. Cómo construirla desde lo mínimo.</p>
-      </div>
-      <div>
-        <h3>02. Hábitos</h3>
-        <p>El comportamiento automatizado. Identificar, eliminar y construir hábitos que te acerquen a tu propósito.</p>
-      </div>
-      <div>
-        <h3>03. Valores</h3>
-        <p>Lo que sostiene las decisiones cuando no hay ganas. Clarificar y ordenar tus valores no negociables.</p>
-      </div>
-      <div>
-        <h3>04. Autoconocimiento</h3>
-        <p>Entender cómo pensás, por qué reaccionás y qué patrones repetís. Sin esto, no hay cambio real.</p>
-      </div>
-      <div>
-        <h3>05. Propósito</h3>
-        <p>La dirección. No es algo que se encuentra, es algo que se construye con las 4 anteriores.</p>
-      </div>
-    </div>
-
-    <div class="metodo-cierre">
-      <p>El método se aplica de forma progresiva, con ejercicios, registros y revisiones. Cada pilar tiene su propia sección dentro de la circular, con teoría y práctica.</p>
-    </div>
+  <section class="metodo-intro">
+    <span class="label">¿Qué es RIQSIN?</span>
+    <p style="font-size:20px; line-height:1.4; color:var(--carbon); font-weight:600; margin-top:12px;">
+      RIQSIN es un sistema estructurado de desarrollo personal que integra el estudio de la disciplina, los hábitos, el comportamiento humano y los valores para construir una metodología aplicable al día a día. No es motivación, es un marco para entenderte y actuar.
+    </p>
+    <p>El método se aplica de forma progresiva, con ejercicios, registros y revisiones. Cada pilar tiene su propia sección dentro de la circular, con teoría y práctica.</p>
   </section>
 
-  <section class="metodo-a-biblioteca">
-    <h2>¿Listo para aplicarlo?</h2>
-    <p>El método completo está desarrollado en las circulares de RIQSIN. Elegí la versión que más te sirva.</p>
-    <a href="/biblioteca/" class="btn btn-negro" style="border-radius:999px; padding:18px 36px; font-size:18px;">Ir a Biblioteca →</a>
+  <div class="modulos">
+    <div class="modulo">
+      <span class="modulo-num">MÓDULO 01</span>
+      <h3>Disciplina</h3>
+      <p>La base de todo. Sin disciplina no hay sistema que funcione. Cómo construirla desde lo mínimo.</p>
+      <ul>
+        <li>Qué es y qué no es disciplina</li>
+        <li>Regla de lo mínimo viable</li>
+        <li>Sistema de cumplimiento diario</li>
+      </ul>
+    </div>
+    <div class="modulo">
+      <span class="modulo-num">MÓDULO 02</span>
+      <h3>Hábitos</h3>
+      <p>El comportamiento automatizado. Identificar, eliminar y construir hábitos que te acerquen a tu propósito.</p>
+      <ul>
+        <li>Arquitectura de hábitos</li>
+        <li>Disparadores y recompensas</li>
+        <li>Protocolo de reemplazo</li>
+      </ul>
+    </div>
+    <div class="modulo">
+      <span class="modulo-num">MÓDULO 03</span>
+      <h3>Valores</h3>
+      <p>Lo que sostiene las decisiones cuando no hay ganas. Clarificar y ordenar tus valores no negociables.</p>
+      <ul>
+        <li>Inventario de valores</li>
+        <li>Jerarquía y conflictos</li>
+        <li>Código personal</li>
+      </ul>
+    </div>
+    <div class="modulo">
+      <span class="modulo-num">MÓDULO 04</span>
+      <h3>Autoconocimiento</h3>
+      <p>Entender cómo pensás, por qué reaccionás y qué patrones repetís. Sin esto, no hay cambio real.</p>
+      <ul>
+        <li>Mapa de creencias</li>
+        <li>Diario de patrones</li>
+        <li>Análisis de comportamiento</li>
+      </ul>
+    </div>
+    <div class="modulo">
+      <span class="modulo-num">MÓDULO 05</span>
+      <h3>Propósito</h3>
+      <p>La dirección. No es algo que se encuentra, es algo que se construye con los 4 anteriores.</p>
+      <ul>
+        <li>Construcción de propósito</li>
+        <li>Objetivos a 12 meses</li>
+        <li>Sistema de revisión semanal</li>
+      </ul>
+    </div>
+    <div class="modulo" style="background:var(--beige);">
+      <span class="modulo-num">MÓDULO 06</span>
+      <h3>Mente & Control</h3>
+      <p>Cómo funciona tu cerebro. Gestión de impulsos, enfoque y toma de decisiones bajo presión.</p>
+      <ul>
+        <li>Neurociencia básica aplicada</li>
+        <li>Control de impulsos</li>
+        <li>Enfoque profundo</li>
+      </ul>
+    </div>
+  </div>
+
+  <section class="metodo-cta">
+    <h2>¿Listo para empezar?</h2>
+    <p>Toda la teoría, ejercicios y circulares están en la biblioteca. Empezá por la V1.</p>
+    <a href="/biblioteca/" class="btn" style="background:var(--beige); color:var(--carbon) !important; border-color:var(--beige); position:relative; z-index:1;">Ir a Biblioteca →</a>
   </section>
 
-  <footer>
-    <div class="footer-grid">
-      <div><h4>RIQSIN</h4><p>Método de desarrollo personal en investigación.</p></div>
-      <div><h4>Secciones</h4><a href="/">Inicio</a><a href="/metodo/">El Método</a><a href="/biblioteca/">Biblioteca</a><a href="/contacto/">Contacto</a></div>
-      <div><h4>Contacto</h4><a href="https://instagram.com/metodoriqsin">@metodoriqsin</a><a href="https://instagram.com/kev07_ok">@kev07_ok</a></div>
-    </div>
-  </footer>
+</main>
+
+<footer>
+  <div class="footer-grid">
+    <div><h4>RIQSIN</h4><p>© 2026 RIQSIN — Conocete, Controlate y Evoluciona.</p></div>
+    <div><h4>Legal</h4><a href="/aviso-legal/">Aviso Legal</a><a href="/terminos/">Términos y Condiciones</a></div>
+    <div><h4>Contacto</h4><a href="https://instagram.com/kev07_ok" target="_blank">creador</a><a href="https://instagram.com/metodoriqsin" target="_blank">IG oficial</a></div>
+  </div>
+</footer>
+
 </body>
 </html>
