@@ -13,15 +13,15 @@
   <section class="biblio-hero">
     <span class="eyebrow">Método RIQSIN</span>
     <h1>Biblioteca</h1>
-    <p>Materiales disponibles del Método RIQSIN. Solo se muestran las versiones habilitadas.</p>
+    <p>Materiales disponibles del Método RIQSIN.</p>
   </section>
 
   <section class="biblio-lista" id="lista-productos">
-    <p style="text-align:center; opacity:0.6;">Cargando productos...</p>
+    <p style="text-align:center; opacity:0.6;">Cargando...</p>
   </section>
 
   <section class="biblio-aviso">
-    <p>Para adquirir necesitás tener una cuenta en <strong>Mi Cuenta</strong>. Todo queda guardado ahí.</p>
+    <p>Todo lo que compres queda guardado en <strong>Mi Cuenta > Mis versiones</strong>.</p>
   </section>
 
   <footer>
@@ -37,27 +37,45 @@
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVieHlrY21iYml0bGFlaWhwY3hyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwNjczNjEsImV4cCI6MjEwNDY0MzM2MX0.GLaHeLyNSLVeD-xvqBmoWScN_fwyiP4xByQJfjHwOiI';
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  async function cargarProductos(){
-    const { data, error } = await supabaseClient.from('productos').select('*');
+  async function cargarBiblioteca(){
     const cont = document.getElementById('lista-productos');
-    if(error){ cont.innerHTML = '<p>Error cargando</p>'; return; }
     
-    cont.innerHTML = data.map(p => `
-      <a href="/biblioteca/riqsin-v1/" class="biblio-item">
-        <div class="biblio-item-meta">
-          <span class="meta-tag riqsin">Método RIQSIN</span>
-          <span class="meta-anio">${p.estado === 'en_desarrollo' ? 'Acceso Anticipado' : 'Disponible'}</span>
-        </div>
-        <h3>${p.nombre}</h3>
-        <p>${p.descripcion}</p>
-        <div class="biblio-item-foot">
-          <span>Ver detalle →</span>
-          <span class="estado">$ ${p.precio.toLocaleString('es-AR')}</span>
-        </div>
-      </a>
-    `).join('');
+    // 1. Traer productos
+    const { data: productos } = await supabaseClient.from('productos').select('*');
+    if(!productos) return;
+
+    // 2. Ver si hay usuario logueado y que compró
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    let misComprasIds = new Set();
+    if(user){
+      const { data: compras } = await supabaseClient.from('compras').select('producto_id').eq('user_id', user.id);
+      if(compras) misComprasIds = new Set(compras.map(c => c.producto_id));
+    }
+
+    // 3. Renderizar
+    cont.innerHTML = productos.map(p => {
+      const enPosesion = misComprasIds.has(p.id);
+      return `
+        <a href="/biblioteca/riqsin-v1/" class="biblio-item" style="${enPosesion ? 'border-color: #00ff88;' : ''}">
+          <div class="biblio-item-meta">
+            <span class="meta-tag riqsin">Método RIQSIN</span>
+            <span class="meta-anio">${enPosesion ? 'EN POSESIÓN' : 'v1.0 — Disponible'}</span>
+          </div>
+          <h3>${p.nombre}</h3>
+          <p>${p.descripcion}</p>
+          <div class="biblio-item-foot">
+            <span>${enPosesion ? 'Ver en Mis Versiones →' : 'Ver detalle →'}</span>
+            ${enPosesion 
+              ? `<span class="estado" style="background:#00ff88; color:black; padding:4px 10px; border-radius:20px; font-weight:bold; font-size:11px;">EN POSESIÓN</span>`
+              : `<span class="estado">COMPRAR — $ ${p.precio.toLocaleString('es-AR')}</span>`
+            }
+          </div>
+        </a>
+      `;
+    }).join('');
   }
-  cargarProductos();
+
+  cargarBiblioteca();
 </script>
 </body>
 </html>
