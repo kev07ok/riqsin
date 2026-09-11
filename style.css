@@ -179,14 +179,14 @@ footer { background: var(--beige); border-top: 1px solid var(--beige-oscuro); pa
 
 .aviso-progreso{ margin-top:30px; background: var(--beige-oscuro); padding:20px 24px; border-radius:16px; color:#666; font-size:15px; line-height:1.5; }
 
-/* SOBRE EL AUTOR - VERSIÓN CÍRCULO 7 RENGLONES + BOTON RECTANGULAR */
+/* SOBRE EL AUTOR - FIX VACÍO + BADGES GRANDES */
 .sobre-autor{
   display: grid;
   grid-template-columns: 300px 1fr;
   background: white;
   border-top: 1.5px solid var(--beige-oscuro);
   border-bottom: 1.5px solid var(--beige-oscuro);
-  align-items: start;
+  align-items: stretch;
 }
 
 .autor-img{
@@ -194,13 +194,10 @@ footer { background: var(--beige); border-top: 1px solid var(--beige-oscuro); pa
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center; /* centra verticalmente para que no quede vacío abajo */
   gap: 16px;
-  padding: 50px 20px;
+  padding: 40px 20px;
   border-right: 1.5px solid var(--beige-oscuro);
-  min-height: 520px;
-  position: relative;
-  overflow: visible;
 }
 
 .autor-img > div:first-child{
@@ -219,9 +216,7 @@ footer { background: var(--beige); border-top: 1px solid var(--beige-oscuro); pa
   position: static !important;
   width: 100% !important;
   height: 100% !important;
-  inset: auto !important;
   object-fit: cover;
-  object-position: top center;
 }
 
 .autor-img a{
@@ -231,18 +226,31 @@ footer { background: var(--beige); border-top: 1px solid var(--beige-oscuro); pa
   border-radius: 8px !important;
 }
 
-.autor-texto{ padding: 60px 50px; }
-.eyebrow{ font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--dorado); font-weight:700; display:block; margin-bottom:12px; }
-.autor-texto h2{ font-size: 42px; line-height:0.9; margin:0; letter-spacing:-1px; }
-.autor-texto h3{ font-size: 18px; font-weight:400; color:#888; margin:12px 0 24px 0; }
-.autor-badges{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:24px; }
-.autor-badges span{ background: var(--beige); border:1px solid var(--beige-oscuro); padding:6px 12px; border-radius:999px; font-size:11px; font-weight:600; }
+/* BADGES MÁS GRANDES */
+.autor-badges{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 22px 0 28px 0;
+}
+.autor-badges span{
+  background: var(--beige);
+  border: 1.5px solid var(--beige-oscuro);
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--carbon);
+  letter-spacing: 0.2px;
+}
+
+.autor-texto{ padding: 50px 50px; }
 .autor-parrafo-sec{ color:#666 !important; font-size:14px !important; line-height:1.7; margin-top:18px; }
-.autor-quote{ margin:28px 0; padding:22px 26px; background: var(--beige); border-left:2.5px solid var(--dorado); font-size:14px; line-height:1.6; max-width:600px; }
+.autor-quote{ margin:28px 0; padding:22px 26px; background: var(--beige); border-left:2.5px solid var(--dorado); font-size:14px; line-height:1.6; max-width:650px; }
 
 @media(max-width: 900px){
   .sobre-autor{ grid-template-columns: 1fr; }
-  .autor-img{ min-height:auto; border-right:none; border-bottom:1.5px solid var(--beige-oscuro); padding:30px 20px; }
+  .autor-img{ border-right:none; border-bottom:1.5px solid var(--beige-oscuro); padding:30px 20px; }
   .autor-texto{ padding:30px 24px; }
 }
 
