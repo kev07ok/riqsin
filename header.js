@@ -20,8 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
         <a href="/"><span>01</span> Inicio</a>
         <a href="/metodo/"><span>02</span> El Método</a>
         <a href="/biblioteca/"><span>03</span> Biblioteca</a>
-        <a href="/contacto/"><span>04</span> Contacto</a>
-        <a href="/mi-cuenta/"><span>05</span> Mi Cuenta</a>
+        <a href="/investigaciones/"><span>04</span> Investigaciones</a>
+        <a href="/contacto/"><span>05</span> Contacto</a>
+        <a href="/mi-cuenta/"><span>06</span> Mi Cuenta</a>
       </nav>
     </div>
   `;
