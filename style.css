@@ -282,3 +282,114 @@ footer { background: var(--beige); border-top: 1px solid var(--beige-oscuro); pa
   .biblio-lista, .biblio-hero, .biblio-filtros{ padding-left:20px; padding-right:20px; }
   .biblio-item h3{ font-size:19px; }
 }
+
+/* ===== FIX BIBLIOTECA - ESTILO RIQSIN REAL ===== */
+
+/* Botones con contorno - arreglo global */
+.btn, .biblio-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1.5px solid var(--carbon);
+}
+
+.biblio-btn-primary {
+  background: var(--carbon);
+  color: var(--beige) !important;
+  border-color: var(--carbon);
+}
+.biblio-btn-primary:hover {
+  background: var(--dorado);
+  border-color: var(--dorado);
+  color: var(--carbon) !important;
+  transform: translateY(-1px);
+}
+
+.biblio-btn-secundario {
+  background: transparent;
+  color: var(--carbon) !important;
+  border-color: var(--carbon);
+}
+.biblio-btn-secundario:hover {
+  background: var(--carbon);
+  color: var(--beige) !important;
+}
+
+.biblio-btn-posesion {
+  background: var(--dorado);
+  color: var(--carbon) !important;
+  border-color: var(--dorado);
+}
+
+/* Tarjeta biblioteca */
+.biblio-item {
+  background: white;
+  border: 1.5px solid var(--beige-oscuro) !important;
+  border-bottom: 1.5px solid var(--beige-oscuro) !important;
+  margin-bottom: 12px;
+  border-radius: 20px !important;
+  position: relative;
+  overflow: hidden;
+}
+.biblio-item:hover {
+  background: #fffcf5;
+  border-color: var(--dorado) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(17,17,17,0.06);
+}
+
+/* Estados */
+.estado {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.8px !important;
+  padding: 7px 14px !important;
+  border-radius: 999px !important;
+  border: 1.5px solid var(--beige-oscuro);
+  background: white;
+}
+
+.estado-posesion {
+  background: var(--carbon) !important;
+  color: var(--dorado) !important;
+  border-color: var(--carbon) !important;
+}
+
+.estado-comprar {
+  background: var(--beige) !important;
+  color: var(--carbon) !important;
+  border-color: var(--carbon) !important;
+}
+
+/* Mi Cuenta - que no sea negro */
+#dashboard, .riqsin-auth, .version-card {
+  background: white !important;
+  border: 1.5px solid var(--beige-oscuro) !important;
+  color: var(--carbon) !important;
+}
+.riqsin-auth input {
+  background: var(--beige) !important;
+  border: 1.5px solid var(--beige-oscuro) !important;
+  color: var(--carbon) !important;
+  border-radius: 12px;
+}
+.riqsin-auth button {
+  border-radius: 999px !important;
+  border: 1.5px solid var(--carbon) !important;
+}
+
+/* Caja de compra en detalle */
+#biblioteca-detalle-caja, #caja-compra {
+  background: white !important;
+  border: 1.5px solid var(--beige-oscuro) !important;
+  border-radius: 20px !important;
+}

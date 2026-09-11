@@ -39,42 +39,38 @@
 
   async function cargarBiblioteca(){
     const cont = document.getElementById('lista-productos');
-    
-    // 1. Traer productos
     const { data: productos } = await supabaseClient.from('productos').select('*');
-    if(!productos) return;
-
-    // 2. Ver si hay usuario logueado y que compró
+    if(!productos || productos.length === 0){
+      cont.innerHTML = '<p>No hay productos.</p>';
+      return;
+    }
     const { data: { user } } = await supabaseClient.auth.getUser();
     let misComprasIds = new Set();
     if(user){
       const { data: compras } = await supabaseClient.from('compras').select('producto_id').eq('user_id', user.id);
       if(compras) misComprasIds = new Set(compras.map(c => c.producto_id));
     }
-
-    // 3. Renderizar
     cont.innerHTML = productos.map(p => {
       const enPosesion = misComprasIds.has(p.id);
       return `
-        <a href="/biblioteca/riqsin-v1/" class="biblio-item" style="${enPosesion ? 'border-color: #00ff88;' : ''}">
+        <div class="biblio-item" onclick="location.href='/biblioteca/riqsin-v1/'" style="cursor:pointer;">
           <div class="biblio-item-meta">
             <span class="meta-tag riqsin">Método RIQSIN</span>
-            <span class="meta-anio">${enPosesion ? 'EN POSESIÓN' : 'v1.0 — Disponible'}</span>
+            <span class="meta-anio">${enPosesion ? 'EN POSESIÓN' : 'v1.0'}</span>
           </div>
           <h3>${p.nombre}</h3>
           <p>${p.descripcion}</p>
           <div class="biblio-item-foot">
-            <span>${enPosesion ? 'Ver en Mis Versiones →' : 'Ver detalle →'}</span>
+            <span style="font-size:13px; font-weight:700;">${enPosesion ? 'Abrir en Mi Cuenta →' : 'Ver detalle →'}</span>
             ${enPosesion 
-              ? `<span class="estado" style="background:#00ff88; color:black; padding:4px 10px; border-radius:20px; font-weight:bold; font-size:11px;">EN POSESIÓN</span>`
-              : `<span class="estado">COMPRAR — $ ${p.precio.toLocaleString('es-AR')}</span>`
+              ? `<span class="estado estado-posesion">EN POSESIÓN</span>`
+              : `<span class="estado estado-comprar">$ ${p.precio.toLocaleString('es-AR')}</span>`
             }
           </div>
-        </a>
+        </div>
       `;
     }).join('');
   }
-
   cargarBiblioteca();
 </script>
 </body>
