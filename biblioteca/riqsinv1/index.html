@@ -1,134 +1,34 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RIQSIN v1 — Fundamentos | Método RIQSIN</title>
-  <link rel="stylesheet" href="/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RIQSIN v1 — Biblioteca</title>
+<link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <script src="/header.js"></script>
+<script src="/header.js"></script>
 
-  <section class="biblio-hero" style="max-width:900px; margin:0 auto; padding:100px 40px 20px 40px;">
-    <a href="/biblioteca/" style="text-decoration:none; font-size:13px; color:#888;">← Volver a Biblioteca</a>
-    <span class="eyebrow" style="display:block; margin-top:24px; color:#b8985a; font-size:11px; letter-spacing:2px; font-weight:700;">MÉTODO RIQSIN — V1.0</span>
-    <h1 id="prod-nombre" style="font-size:clamp(32px, 5vw, 52px); letter-spacing:-1.5px; line-height:0.9; margin:10px 0;">Cargando...</h1>
-    <p id="prod-desc" style="color:#666; line-height:1.6; max-width:600px;"></p>
-    <p id="prod-estado" style="margin-top:10px; font-size:11px; font-weight:700; letter-spacing:1px;"></p>
-    <p id="debug" style="margin-top:10px; font-size:10px; color:#999; font-family:monospace;"></p>
-  </section>
+<section style="max-width:900px;margin:0 auto;padding:100px 40px 20px;">
+<a href="/biblioteca/" style="text-decoration:none;font-size:13px;color:#888;">← Volver a Biblioteca</a>
+<span style="display:block;margin-top:24px;color:#b8985a;font-size:11px;letter-spacing:2px;font-weight:700;">MÉTODO RIQSIN</span>
+<h1 style="font-size:42px;letter-spacing:-1.5px;line-height:0.9;margin:10px 0;">RIQSIN v1 — Fundamentos</h1>
+<p style="color:#666;max-width:600px;line-height:1.6;">Versión definitiva con sistema completo de disciplina, valores y método. Actualmente en desarrollo.</p>
+</section>
 
-  <section class="biblio-lista" style="max-width:900px; margin:0 auto; padding:20px 40px 80px 40px;">
-    <div>
-      <h3>¿Para quién es?</h3>
-      <p style="color:#555; line-height:1.6; font-size:14px;">Jóvenes de 15 a 30 años que buscan estructurar su disciplina, mejorar hábitos y alinear sus valores con su proyecto de vida. No es motivación, es un sistema.</p>
+<section style="max-width:900px;margin:0 auto;padding:20px 40px 80px;">
+  <div style="background:#f9f6f0;border:1.5px solid #e8e0d0;border-radius:20px;padding:32px;max-width:500px;opacity:0.9;">
+    <span style="background:#e8e0d0;color:#8a7a60;font-size:10px;padding:6px 12px;border-radius:999px;font-weight:700;">EN DESARROLLO</span>
+    <h3 style="margin-top:16px;">RIQSIN v1 Completa</h3>
+    <p style="color:#666;font-size:13px;margin-top:8px;">La versión completa se habilita en el lanzamiento oficial.</p>
+    <div style="margin-top:24px;display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-size:28px;font-weight:800;">$ 15.000</span>
+      <button disabled style="background:#ddd;color:#999;padding:16px 28px;border-radius:12px;font-weight:700;border:none;font-size:15px;">Próximamente</button>
     </div>
-    <div id="caja-compra" style="background:white; border:1.5px solid #e8e0d0; border-radius:20px; padding:28px; margin-top:30px;">
-      <p style="text-align:center; color:#999;">Cargando acceso...</p>
-    </div>
-  </section>
+    <p style="margin-top:16px;font-size:12px;color:#999;font-weight:700;">● Mientras tanto podés probar el sistema con la Prueba Piloto por $10</p>
+    <a href="/biblioteca/piloto/" style="display:inline-block;margin-top:12px;color:#b8985a;font-weight:700;text-decoration:none;font-size:13px;">Probar piloto por $10 →</a>
+  </div>
+</section>
 
-<script>
-  const SUPABASE_URL = 'https://ubxykcmbbitlaeihpcxr.supabase.co';
-  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVieHlrY21iYml0bGFlaWhwY3hyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwNjczNjEsImV4cCI6MjEwNDY0MzM2MX0.GLaHeLyNSLVeD-xvqBmoWScN_fwyiP4xByQJfjHwOiI';
-  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-  let productoActual = null;
-
-  async function init(){
-    // Saca el slug de la URL: /biblioteca/riqsinv1/ -> riqsinv1
-    const partes = window.location.pathname.split('/').filter(p => p);
-    const slugUrl = partes[partes.length - 1].toLowerCase(); // riqsinv1
-    document.getElementById('debug').innerText = `Buscando: ${slugUrl}...`;
-
-    // BUSCA INTELIGENTE: busca por archivo_nombre que contenga el slug, sin importar guiones
-    let { data: prods, error } = await supabaseClient.from('productos').select('*').ilike('archivo_nombre', `%${slugUrl}%`);
-
-    // Si no encuentra, prueba con guion: riqsinv1 -> riqsin-v1
-    if((!prods || prods.length === 0) && slugUrl.includes('riqsin')){
-      const conGuion = slugUrl.replace('riqsin', 'riqsin-');
-      const r2 = await supabaseClient.from('productos').select('*').ilike('archivo_nombre', `%${conGuion}%`);
-      prods = r2.data;
-    }
-
-    // ULTIMO FALLBACK: si sigue sin encontrar, trae el primer producto que exista
-    if(!prods || prods.length === 0){
-      const r3 = await supabaseClient.from('productos').select('*').limit(1);
-      prods = r3.data;
-      document.getElementById('debug').innerText += ` (fallback al primero)`;
-    }
-
-    if(error){
-      document.getElementById('prod-nombre').innerText = 'Error: ' + error.message;
-      document.getElementById('debug').innerText = JSON.stringify(error);
-      return;
-    }
-
-    if(!prods || prods.length === 0){
-      document.getElementById('prod-nombre').innerText = 'Producto no encontrado';
-      document.getElementById('debug').innerText = `No hay productos en la tabla. Slug URL: ${slugUrl}`;
-      return;
-    }
-
-    productoActual = prods[0];
-    document.getElementById('prod-nombre').innerText = productoActual.nombre;
-    document.getElementById('prod-desc').innerText = productoActual.descripcion;
-    document.getElementById('debug').innerText = `Encontrado: ${productoActual.archivo_nombre} | estado: ${productoActual.estado}`;
-
-    const estadoEl = document.getElementById('prod-estado');
-    const esDisponible = productoActual.estado === 'disponible' || productoActual.estado === 'publicado';
-    estadoEl.innerText = esDisponible? `● DISPONIBLE` : `● ${productoActual.estado.toUpperCase()} — NO DISPONIBLE PARA VENTA`;
-    estadoEl.style.color = esDisponible? '#2e7d32' : '#999';
-
-    const { data: { user } } = await supabaseClient.auth.getUser();
-    const caja = document.getElementById('caja-compra');
-
-    if(!user){
-      caja.innerHTML = `
-        <h3>Acceso a ${productoActual.nombre}</h3>
-        <p style="color:#666; font-size:14px;">Necesitás cuenta para comprar.</p>
-        <div style="margin-top:20px; display:flex; justify-content:space-between; align-items:center;">
-          <span style="font-weight:800; font-size:20px;">$ ${productoActual.precio.toLocaleString('es-AR')}</span>
-          <a href="/mi-cuenta/" style="background:#111; color:#f5f1e8; padding:14px 24px; border-radius:10px; text-decoration:none; font-weight:700;">Crear cuenta</a>
-        </div>
-      `;
-      return;
-    }
-
-    const { data: compras } = await supabaseClient.from('compras').select('*').eq('user_id', user.id).eq('producto_id', productoActual.id);
-    const yaCompro = compras && compras.length > 0;
-
-    if(yaCompro){
-      caja.innerHTML = `
-        <span style="background:#e8f5e9; color:#2e7d32; font-size:10px; font-weight:700; padding:6px 12px; border-radius:999px;">ACCESO ACTIVO</span>
-        <h3 style="margin-top:12px;">Ya tenés acceso a ${productoActual.nombre}</h3>
-        <p style="color:#666; font-size:14px;">Tu compra está registrada.</p>
-        <div style="margin-top:20px;"><a href="/mi-cuenta/" style="background:#111; color:#f5f1e8; padding:14px 24px; border-radius:10px; text-decoration:none; font-weight:700;">Ir a Mis versiones →</a></div>
-      `;
-    } else {
-      if(!esDisponible){
-        caja.innerHTML = `<h3>${productoActual.nombre} — En desarrollo</h3><p style="color:#666; font-size:14px;">Estamos terminando esta versión. Cuando lo pongas en 'disponible' en Supabase se habilita solo.</p><p style="margin-top:12px; font-size:12px; color:#999;">Precio: $ ${productoActual.precio.toLocaleString('es-AR')}</p>`;
-      } else {
-        caja.innerHTML = `<h3>Acceso completo a ${productoActual.nombre}</h3><p style="color:#666; font-size:14px;">Incluye PDF + actualizaciones.</p><div style="margin-top:20px; display:flex; justify-content:space-between; align-items:center;"><span style="font-size:22px; font-weight:800;">$ ${productoActual.precio.toLocaleString('es-AR')}</span><button onclick="comprarMP()" id="btn-comprar" style="background:#111; color:#f5f1e8; padding:14px 24px; border-radius:10px; font-weight:700; border:none; cursor:pointer;">Comprar con Mercado Pago →</button></div>`;
-      }
-    }
-  }
-
-  async function comprarMP(){
-    const btn = document.getElementById('btn-comprar');
-    btn.innerText = 'Redirigiendo...'; btn.disabled = true;
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    const res = await fetch(`${SUPABASE_URL}/functions/v1/crear-pago-mp`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
-      body: JSON.stringify({ producto_id: productoActual.id })
-    });
-    const data = await res.json();
-    if(data.init_point) window.location.href = data.init_point;
-    else { alert('Error: ' + (data.error || JSON.stringify(data))); btn.innerText = 'Comprar con Mercado Pago →'; btn.disabled = false; }
-  }
-  init();
-</script>
 <script src="/footer.js?v=1"></script>
 </body>
 </html>

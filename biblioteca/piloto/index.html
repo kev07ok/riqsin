@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Piloto — RIQSIN</title>
+<link rel="stylesheet" href="/style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<script src="/header.js"></script>
+
+<section style="max-width:900px;margin:0 auto;padding:100px 40px 20px;">
+<a href="/biblioteca/" style="text-decoration:none;font-size:13px;color:#888;">← Volver a Biblioteca</a>
+<span style="display:block;margin-top:24px;color:#b8985a;font-size:11px;letter-spacing:2px;font-weight:700;">PRUEBA PILOTO • $10</span>
+<h1 style="font-size:42px;letter-spacing:-1.5px;line-height:0.9;margin:10px 0;">RIQSIN — Prueba Piloto</h1>
+<p style="color:#666;max-width:600px;line-height:1.6;">Esta versión es para probar que el sistema de compra automática funciona. Pagás $10 y se te habilita el PDF al instante en Mi Cuenta.</p>
+</section>
+
+<section style="max-width:900px;margin:0 auto;padding:20px 40px 80px;">
+  <div id="box" style="background:white;border:1.5px solid #b8985a;border-radius:20px;padding:32px;max-width:500px;">
+    <span style="background:#111;color:#f5f1e8;font-size:10px;padding:6px 12px;border-radius:999px;font-weight:700;">DISPONIBLE AHORA</span>
+    <h3 style="margin-top:16px;">Acceso Piloto</h3>
+    <p style="color:#666;font-size:13px;margin-top:8px;">PDF de prueba • Entrega automática</p>
+    <div style="margin-top:24px;display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-size:28px;font-weight:800;">$ 10</span>
+      <button onclick="comprar()" id="btn" style="background:#b8985a;color:white;padding:16px 28px;border-radius:12px;font-weight:700;border:none;cursor:pointer;font-size:15px;">Comprar por $10 →</button>
+    </div>
+    <p id="estado" style="margin-top:16px;font-size:12px;font-weight:700;"></p>
+  </div>
+</section>
+
+<script>
+const SUPABASE_URL='https://ubxykcmbbitlaeihpcxr.supabase.co';
+const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVieHlrY21iYml0bGFlaWhwY3hyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwNjczNjEsImV4cCI6MjEwNDY0MzM2MX0.GLaHeLyNSLVeD-xvqBmoWScN_fwyiP4xByQJfjHwOiI';
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const ARCHIVO='pruebapiloto.pdf';
+
+async function init(){
+  const {data:prods}=await supabaseClient.from('productos').select('*').eq('archivo_nombre',ARCHIVO).limit(1);
+  const prod=prods?.[0];
+  if(!prod){ document.getElementById('estado').innerText='Error: no existe producto con archivo_nombre = '+ARCHIVO; return; }
+  window.producto=prod;
+  const {data:{user}}=await supabaseClient.auth.getUser();
+  if(!user){ document.getElementById('estado').innerText='Necesitás iniciar sesión para comprar'; return; }
+  const {data:compras}=await supabaseClient.from('compras').select('*').eq('user_id',user.id).eq('producto_id',prod.id);
+  if(compras && compras.length>0){
+    document.getElementById('box').innerHTML=`<span style="background:#e8f5e9;color:#2e7d32;font-size:10px;padding:6px 12px;border-radius:999px;font-weight:700;">✓ ACCESO ACTIVO</span><h3 style="margin-top:16px;">¡Ya tenés el piloto!</h3><p style="color:#666;font-size:13px;">Se habilitó en tu cuenta.</p><div style="margin-top:20px;"><a href="/mi-cuenta/" style="background:#111;color:#f5f1e8;padding:14px 24px;border-radius:10px;text-decoration:none;font-weight:700;">Ir a Mi Cuenta →</a></div>`;
+  }
+}
+async function comprar(){
+  const prod=window.producto;
+  if(!prod) return alert('Producto no cargado');
+  const btn=document.getElementById('btn'); btn.innerText='Redirigiendo a Mercado Pago...'; btn.disabled=true;
+  const {data:{session}}=await supabaseClient.auth.getSession();
+  if(!session){ alert('Inicia sesión'); btn.innerText='Comprar por $10 →'; btn.disabled=false; return; }
+  const res=await fetch(`${SUPABASE_URL}/functions/v1/crear-pago-mp`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${session.access_token}`},body:JSON.stringify({producto_id:prod.id})});
+  const d=await res.json();
+  if(d.init_point) window.location.href=d.init_point;
+  else{alert('Error: '+(d.error||JSON.stringify(d))); btn.innerText='Comprar por $10 →'; btn.disabled=false;}
+}
+init();
+</script>
+<script src="/footer.js?v=1"></script>
+</body>
+</html>
