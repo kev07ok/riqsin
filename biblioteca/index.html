@@ -6,6 +6,25 @@
   <title>Biblioteca - Método RIQSIN</title>
   <link rel="stylesheet" href="/style.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    .biblio-hero{ max-width:1100px; margin:0 auto; padding:100px 40px 30px 40px; }
+    .biblio-hero h1{ font-size:clamp(40px, 6vw, 64px); line-height:0.9; letter-spacing:-2.5px; margin:10px 0 0 0; }
+    .biblio-lista{ max-width:1100px; margin:0 auto; padding:20px 40px 80px 40px; display:grid; grid-template-columns:repeat(3, 1fr); gap:1px; background:var(--beige-oscuro); border:1.5px solid var(--beige-oscuro); border-radius:24px; overflow:hidden; }
+    .biblio-item{ background:white; padding:28px; position:relative; transition:0.2s; display:flex; flex-direction:column; min-height:320px; cursor:pointer; }
+    .biblio-item:hover{ background:#fffcf5; }
+    .biblio-item.no-activo{ background:#faf6ef; opacity:0.6; pointer-events:none; }
+    .biblio-item-meta{ display:flex; justify-content:space-between; margin-bottom:14px; }
+    .meta-tag{ font-size:10px; font-weight:700; letter-spacing:1px; padding:5px 10px; border-radius:999px; background:var(--carbon); color:var(--dorado); }
+    .meta-anio{ font-size:10px; font-weight:700; color:#999; letter-spacing:1px; text-transform:uppercase; }
+    .biblio-item h3{ font-size:20px; letter-spacing:-0.5px; margin:0 0 10px 0; }
+    .biblio-item p{ font-size:13px; color:#666; line-height:1.5; flex-grow:1; margin:0 0 20px 0; }
+    .biblio-item-foot{ display:flex; justify-content:space-between; align-items:center; margin-top:auto; }
+    .estado{ font-size:11px; font-weight:700; padding:6px 12px; border-radius:999px; }
+    .estado-posesion{ background:#e8f5e9; color:#2e7d32; }
+    .estado-comprar{ background:var(--carbon); color:var(--beige); }
+    .estado-prox{ background:var(--beige-oscuro); color:#999; }
+    @media(max-width:900px){ .biblio-lista{ grid-template-columns:1fr; } }
+  </style>
 </head>
 <body>
   <script src="/header.js"></script>
@@ -13,14 +32,14 @@
   <section class="biblio-hero">
     <span class="eyebrow">Método RIQSIN</span>
     <h1>Biblioteca</h1>
-    <p>Materiales disponibles del Método RIQSIN.</p>
+    <p>Materiales disponibles. Cambiá nombre y descripción en Supabase y se actualiza solo.</p>
   </section>
 
   <section class="biblio-lista" id="lista-productos">
-    <p style="text-align:center; opacity:0.6;">Cargando...</p>
+    <p style="text-align:center; opacity:0.6; grid-column:1/-1; padding:40px;">Cargando...</p>
   </section>
 
-  <section class="biblio-aviso">
+  <section class="biblio-aviso" style="max-width:1100px; margin:0 auto; padding:0 40px 40px 40px; text-align:center; font-size:13px; color:#999;">
     <p>Todo lo que compres queda guardado en <strong>Mi Cuenta > Mis versiones</strong>.</p>
   </section>
 
@@ -33,9 +52,10 @@
 
   async function cargarBiblioteca(){
     const cont = document.getElementById('lista-productos');
-    const { data: productos } = await supabaseClient.from('productos').select('*');
+    const { data: productos } = await supabaseClient.from('productos').select('*').order('precio', {ascending: true});
+    
     if(!productos || productos.length === 0){
-      cont.innerHTML = '<p>No hay productos.</p>';
+      cont.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:40px;">No hay productos.</p>';
       return;
     }
     const { data: { user } } = await supabaseClient.auth.getUser();
@@ -44,21 +64,28 @@
       const { data: compras } = await supabaseClient.from('compras').select('producto_id').eq('user_id', user.id);
       if(compras) misComprasIds = new Set(compras.map(c => c.producto_id));
     }
+
     cont.innerHTML = productos.map(p => {
       const enPosesion = misComprasIds.has(p.id);
+      // TU LOGICA: si estado = en_desarrollo -> no vendible. Si estado = disponible -> vendible
+      const disponible = p.estado === 'disponible' || p.estado === 'publicado' || p.estado === 'activo';
+      const slug = p.archivo_nombre ? p.archivo_nombre.replace('.pdf','') : 'riqsin-v1';
+
       return `
-        <div class="biblio-item" onclick="location.href='/biblioteca/riqsin-v1/'" style="cursor:pointer;">
+        <div class="biblio-item ${!disponible ? 'no-activo' : ''}" onclick="${disponible ? `location.href='/biblioteca/${slug}/'` : ''}">
           <div class="biblio-item-meta">
             <span class="meta-tag riqsin">Método RIQSIN</span>
-            <span class="meta-anio">${enPosesion ? 'EN POSESIÓN' : 'v1.0'}</span>
+            <span class="meta-anio">${!disponible ? p.estado.replace('_',' ') : (enPosesion ? 'EN POSESIÓN' : 'v1.0')}</span>
           </div>
           <h3>${p.nombre}</h3>
           <p>${p.descripcion}</p>
           <div class="biblio-item-foot">
-            <span style="font-size:13px; font-weight:700;">${enPosesion ? 'Abrir en Mi Cuenta →' : 'Ver detalle →'}</span>
-            ${enPosesion 
-              ? `<span class="estado estado-posesion">EN POSESIÓN</span>`
-              : `<span class="estado estado-comprar">$ ${p.precio.toLocaleString('es-AR')}</span>`
+            <span style="font-size:13px; font-weight:700;">${!disponible ? 'Aún no disponible' : (enPosesion ? 'Abrir en Mi Cuenta →' : 'Ver detalle →')}</span>
+            ${!disponible 
+              ? `<span class="estado estado-prox">${p.estado.replace('_',' ').toUpperCase()}</span>`
+              : (enPosesion 
+                ? `<span class="estado estado-posesion">EN POSESIÓN</span>`
+                : `<span class="estado estado-comprar">$ ${p.precio.toLocaleString('es-AR')}</span>`)
             }
           </div>
         </div>
