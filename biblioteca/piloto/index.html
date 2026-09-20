@@ -2,64 +2,132 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Piloto — RIQSIN</title>
+<title>Cargando producto — RIQSIN</title>
 <link rel="stylesheet" href="/style.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{ --beige:#f5f1e8; --line:#e8e0d0; --gold:#b8985a; --black:#111; }
+body{background:var(--beige);margin:0;}
+.wrap{max-width:980px;margin:0 auto;padding:100px 24px 80px;}
+.card{border:1.5px solid var(--line);border-radius:24px;padding:32px;background:white;}
+.btn{background:var(--black);color:var(--beige);padding:14px 22px;border-radius:12px;font-weight:800;border:0;cursor:pointer;width:100%;font-size:15px;transition:.2s;}
+.btn:hover{transform:translateY(-1px);box-shadow:0 10px 20px rgba(0,0,0,.12);}
+.btn:disabled{opacity:.5}
+.badge{font-size:10px;padding:6px 12px;border-radius:999px;font-weight:800;letter-spacing:.6px;background:var(--black);color:var(--beige);}
+.muted{color:#8a7a60;font-size:13px;line-height:1.6;}
+.skeleton{background:linear-gradient(90deg,#eee8d8 25%,#f5f1e8 50%,#eee8d8 75%);background-size:200% 100%;animation: shimmer 1.2s infinite;border-radius:12px;height:20px;}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+</style>
 </head>
 <body>
 <script src="/header.js"></script>
-
-<section style="max-width:900px;margin:0 auto;padding:100px 40px 20px;">
-<a href="/biblioteca/" style="text-decoration:none;font-size:13px;color:#888;">← Volver a Biblioteca</a>
-<span style="display:block;margin-top:24px;color:#b8985a;font-size:11px;letter-spacing:2px;font-weight:700;">PRUEBA PILOTO • $10</span>
-<h1 style="font-size:42px;letter-spacing:-1.5px;line-height:0.9;margin:10px 0;">RIQSIN — Prueba Piloto</h1>
-<p style="color:#666;max-width:600px;line-height:1.6;">Esta versión es para probar que el sistema de compra automática funciona. Pagás $10ARS y se te habilita el PDF al instante en Mi Cuenta.</p>
-</section>
-
-<section style="max-width:900px;margin:0 auto;padding:20px 40px 80px;">
-  <div id="box" style="background:white;border:1.5px solid #b8985a;border-radius:20px;padding:32px;max-width:500px;">
-    <span style="background:#111;color:#f5f1e8;font-size:10px;padding:6px 12px;border-radius:999px;font-weight:700;">DISPONIBLE AHORA</span>
-    <h3 style="margin-top:16px;">Acceso Piloto</h3>
-    <p style="color:#666;font-size:13px;margin-top:8px;">PDF de prueba • Entrega automática</p>
-    <div style="margin-top:24px;display:flex;justify-content:space-between;align-items:center;">
-      <span style="font-size:28px;font-weight:800;">$ 10</span>
-      <button onclick="comprar()" id="btn" style="background:#b8985a;color:white;padding:16px 28px;border-radius:12px;font-weight:700;border:none;cursor:pointer;font-size:15px;">Comprar por $10 →</button>
-    </div>
-    <p id="estado" style="margin-top:16px;font-size:12px;font-weight:700;"></p>
+<div class="wrap" id="app">
+  <a href="/biblioteca/" style="font-size:12px;color:#8a7a60;text-decoration:none;">← Volver a biblioteca</a>
+  <div style="margin-top:18px;">
+    <span style="color:var(--gold);font-size:11px;letter-spacing:2px;font-weight:800;">BIBLIOTECA RIQSIN / PRODUCTO</span>
+    <h1 id="titulo" style="font-size:48px;letter-spacing:-1.8px;line-height:.9;margin:10px 0;"><span class="skeleton" style="display:inline-block;width:300px;height:40px;"></span></h1>
+    <p id="sub" class="muted"><span class="skeleton" style="display:inline-block;width:400px;"></span></p>
   </div>
-</section>
 
+  <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:24px;margin-top:32px;">
+    <div class="card">
+      <div style="aspect-ratio: 1.6/1; background:#f9f6f0; border-radius:16px; display:grid; place-items:center; border:1px solid var(--line);">
+        <span style="font-size:48px;">📄</span>
+      </div>
+      <ul style="margin:20px 0 0;padding-left:18px;color:#444;line-height:1.8;font-size:14px;">
+        <li>Entrega automática e inmediata</li>
+        <li>PDF descargable desde tu biblioteca</li>
+        <li>Acceso de por vida</li>
+      </ul>
+      <p id="archivo-label" class="muted" style="margin-top:16px;font-size:11px;"></p>
+    </div>
+    <div class="card" style="height:fit-content;">
+      <span class="badge">DISPONIBLE • ENTREGA INMEDIATA</span>
+      <h3 id="p-nombre" style="margin:16px 0 8px;font-size:22px;line-height:1.1;">Cargando...</h3>
+      <p id="p-desc" class="muted"></p>
+      <div style="margin:22px 0;display:flex;justify-content:space-between;align-items:center;">
+        <span id="p-precio" style="font-size:28px;font-weight:900;letter-spacing:-.5px;">$ ...</span>
+      </div>
+      <button id="btn-comprar" class="btn">Comprar y descargar</button>
+      <p id="msg" class="muted" style="margin-top:12px;font-size:12px;"></p>
+    </div>
+  </div>
+</div>
+<script src="/footer.js?v=1"></script>
 <script>
-const SUPABASE_URL='https://ubxykcmbbitlaeihpcxr.supabase.co';
-const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVieHlrY21iYml0bGFlaWhwY3hyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwNjczNjEsImV4cCI6MjEwNDY0MzM2MX0.GLaHeLyNSLVeD-xvqBmoWScN_fwyiP4xByQJfjHwOiI';
-const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-const ARCHIVO='pruebapiloto.pdf';
+// === CONFIGURACION AUTOMATICA - NO TENES QUE TOCAR NADA ===
+const SUPABASE_URL = "https://ubxykcmbbiitlaeihpqxr.supabase.co";
+const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVieHlrY21iYml0bGFlaWhwY3hyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwNjczNjEsImV4cCI6MjEwNDY0MzM2MX0.GLaHeLyNSLVeD-xvqBmoWScN_fwyiP4xByQJfjHwOiI";
+const supa = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+// Detecta el nombre del archivo desde la URL
+// Ej: /biblioteca/trackerv1/  ->  trackerv1.pdf
+// Ej: /biblioteca/enfoque/   ->  enfoque.pdf
+function getArchivoFromURL(){
+  const parts = window.location.pathname.split('/').filter(Boolean);
+  let slug = parts[parts.length-1] || 'trackerv1';
+  // si es producto.html o index.html, agarra el anterior
+  if(slug.includes('.html')) slug = parts[parts.length-2] || 'trackerv1';
+  if(!slug.endsWith('.pdf')) slug = slug + '.pdf';
+  return slug;
+}
+
+let productoActual = null;
 
 async function init(){
-  const {data:prods}=await supabaseClient.from('productos').select('*').eq('archivo_nombre',ARCHIVO).limit(1);
-  const prod=prods?.[0];
-  if(!prod){ document.getElementById('estado').innerText='Error: no existe producto con archivo_nombre = '+ARCHIVO; return; }
-  window.producto=prod;
-  const {data:{user}}=await supabaseClient.auth.getUser();
-  if(!user){ document.getElementById('estado').innerText='Necesitás iniciar sesión para comprar'; return; }
-  const {data:compras}=await supabaseClient.from('compras').select('*').eq('user_id',user.id).eq('producto_id',prod.id);
-  if(compras && compras.length>0){
-    document.getElementById('box').innerHTML=`<span style="background:#e8f5e9;color:#2e7d32;font-size:10px;padding:6px 12px;border-radius:999px;font-weight:700;">✓ ACCESO ACTIVO</span><h3 style="margin-top:16px;">¡Ya tenés el piloto!</h3><p style="color:#666;font-size:13px;">Se habilitó en tu cuenta.</p><div style="margin-top:20px;"><a href="/mi-cuenta/" style="background:#111;color:#f5f1e8;padding:14px 24px;border-radius:10px;text-decoration:none;font-weight:700;">Ir a Mi Cuenta →</a></div>`;
+  const ARCHIVO_NOMBRE = getArchivoFromURL();
+  document.getElementById('archivo-label').innerText = ARCHIVO_NOMBRE;
+
+  const { data, error } = await supa.from('productos').select('*').eq('archivo_nombre', ARCHIVO_NOMBRE).eq('estado','disponible').single();
+
+  if(error){
+    document.getElementById('titulo').innerText = "Producto no encontrado";
+    document.getElementById('sub').innerText = `No encontré ${ARCHIVO_NOMBRE} en Supabase. Revisá que el nombre del archivo sea idéntico y que estado='disponible'.`;
+    document.getElementById('p-nombre').innerText = ARCHIVO_NOMBRE;
+    document.getElementById('msg').innerText = "Error: " + error.message;
+    return;
   }
+
+  productoActual = data;
+  document.title = data.nombre + " — RIQSIN";
+  document.getElementById('titulo').innerText = data.nombre;
+  document.getElementById('sub').innerText = data.descripcion;
+  document.getElementById('p-nombre').innerText = data.nombre;
+  document.getElementById('p-desc').innerText = data.descripcion;
+  document.getElementById('p-precio').innerText = "$ " + Number(data.precio).toLocaleString('es-AR');
 }
-async function comprar(){
-  const prod=window.producto;
-  if(!prod) return alert('Producto no cargado');
-  const btn=document.getElementById('btn'); btn.innerText='Redirigiendo a Mercado Pago...'; btn.disabled=true;
-  const {data:{session}}=await supabaseClient.auth.getSession();
-  if(!session){ alert('Inicia sesión'); btn.innerText='Comprar por $10 →'; btn.disabled=false; return; }
-  const res=await fetch(`${SUPABASE_URL}/functions/v1/crear-pago-mp`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${session.access_token}`},body:JSON.stringify({producto_id:prod.id})});
-  const d=await res.json();
-  if(d.init_point) window.location.href=d.init_point;
-  else{alert('Error: '+(d.error||JSON.stringify(d))); btn.innerText='Comprar por $10 →'; btn.disabled=false;}
-}
+
+document.getElementById('btn-comprar').onclick = async () => {
+  if(!productoActual){ alert("Producto no cargado aún"); return; }
+  const btn = document.getElementById('btn-comprar');
+  const msg = document.getElementById('msg');
+  btn.disabled = true; btn.innerText = "Procesando...";
+  try{
+    // 1. Registrar compra
+    const { error: errCompra } = await supa.from('compras').insert({
+      producto_id: productoActual.id,
+      estado: 'pagado'
+    });
+    if(errCompra) throw errCompra;
+
+    // 2. Descargar
+    const { data: fileData, error: errFile } = await supa.storage.from('productos').download(productoActual.archivo_nombre);
+    if(errFile) throw errFile;
+
+    const url = URL.createObjectURL(fileData);
+    const a = document.createElement('a');
+    a.href = url; a.download = productoActual.archivo_nombre; a.click();
+    URL.revokeObjectURL(url);
+
+    msg.innerText = "¡Listo! Descarga iniciada. Quedó guardado en tu biblioteca.";
+    btn.innerText = "Descargado ✓";
+  }catch(e){
+    msg.innerText = "Error: " + e.message;
+    btn.disabled = false; btn.innerText = "Comprar y descargar";
+  }
+};
+
 init();
 </script>
-<script src="/footer.js?v=1"></script>
 </body>
 </html>
