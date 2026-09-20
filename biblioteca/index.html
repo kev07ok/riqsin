@@ -4,7 +4,6 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Biblioteca — RIQSIN</title>
 <link rel="stylesheet" href="/style.css">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 .biblio-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:900px;margin:0 auto;padding:20px 40px 80px;}
 @media(max-width:700px){.biblio-grid{grid-template-columns:1fr;}}
@@ -14,19 +13,17 @@
 .badge{font-size:10px;padding:6px 12px;border-radius:999px;font-weight:700;letter-spacing:.5px;}
 .badge-piloto{background:#111;color:#f5f1e8;}
 .badge-v1{background:#e8e0d0;color:#8a7a60;}
+.badge-nuevo{background:#b8985a;color:white;}
 </style>
 </head>
 <body>
 <script src="/header.js"></script>
-
 <section style="max-width:900px;margin:0 auto;padding:100px 40px 20px;">
 <span style="color:#b8985a;font-size:11px;letter-spacing:2px;font-weight:700;">BIBLIOTECA RIQSIN</span>
 <h1 style="font-size:42px;letter-spacing:-1.5px;line-height:0.9;margin:10px 0;">Elige tu acceso</h1>
-<p style="color:#666;max-width:600px;line-height:1.6;">Prueba piloto para validar el sistema de compra automática y la V1 completa.</p>
+<p style="color:#666;max-width:600px;line-height:1.6;">Prueba piloto, tracker de hábitos y la V1 en desarrollo.</p>
 </section>
-
 <div class="biblio-grid">
-  <!-- PILOTO -->
   <a href="/biblioteca/piloto/" class="card disponible">
     <span class="badge badge-piloto">PRUEBA PILOTO • DISPONIBLE</span>
     <h3 style="margin-top:16px;font-size:22px;">RIQSIN — Prueba Piloto</h3>
@@ -36,20 +33,26 @@
       <span style="background:#b8985a;color:white;padding:10px 18px;border-radius:10px;font-weight:700;font-size:13px;">Ver →</span>
     </div>
   </a>
-
-  <!-- V1 -->
-  <a href="/biblioteca/v1/" class="card">
-    <span class="badge badge-v1">V1 REAL • EN DESARROLLO</span>
-    <h3 style="margin-top:16px;font-size:22px;">RIQSIN v1 — Fundamentos</h3>
-    <p style="color:#666;font-size:13px;line-height:1.5;margin-top:8px;">Versión definitiva con sistema completo de disciplina, valores y método.</p>
+  <a href="/biblioteca/trackerv1/" class="card disponible">
+    <span class="badge badge-nuevo">NUEVO • DISPONIBLE</span>
+    <h3 style="margin-top:16px;font-size:22px;">Tracker de Hábitos RIQSIN - 30 Días</h3>
+    <p style="color:#666;font-size:13px;line-height:1.5;margin-top:8px;">Plantilla minimalista apaisada. 6 hábitos editables, 30 días en 1 página. Marcá con ✓ todos los días.</p>
     <div style="margin-top:24px;display:flex;justify-content:space-between;align-items:center;">
-      <span style="font-size:22px;font-weight:800;">$ 15.000</span>
+      <span style="font-size:22px;font-weight:800;">$ 1.500</span>
+      <span style="background:#b8985a;color:white;padding:10px 18px;border-radius:10px;font-weight:700;font-size:13px;">Ver →</span>
+    </div>
+  </a>
+  <a href="/biblioteca/v1/" class="card">
+    <span class="badge badge-v1">V1 • EN DESARROLLO</span>
+    <h3 style="margin-top:16px;font-size:22px;">RIQSIN v.1</h3>
+    <p style="color:#666;font-size:13px;line-height:1.5;margin-top:8px;"><Samp></Samp>sistema completo de disciplina, valores y método.</p>
+    <div style="margin-top:24px;display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-size:22px;font-weight:800;">$ 30.000</span>
       <span style="background:#ddd;color:#999;padding:10px 18px;border-radius:10px;font-weight:700;font-size:13px;">Ver →</span>
     </div>
     <p style="margin-top:12px;font-size:11px;color:#999;font-weight:700;">● EN DESARROLLO</p>
   </a>
 </div>
-
 <script src="/footer.js?v=1"></script>
 </body>
 </html>
