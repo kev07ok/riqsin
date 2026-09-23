@@ -4,6 +4,8 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Biblioteca — RIQSIN</title>
 <link rel="stylesheet" href="/style.css">
+<!-- // LIBRERIA PARA CONECTAR A SUPABASE - No tocar -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{ --beige:#f5f1e8; --line:#e8e0d0; --gold:#b8985a; --black:#111; }
 body{background:var(--beige);margin:0;}
@@ -15,6 +17,8 @@ body{background:var(--beige);margin:0;}
 .card:hover{transform:translateY(-6px); border-color:#b8985a; box-shadow:0 18px 40px rgba(0,0,0,.08);}
 .badge{font-size:10px;padding:6px 12px;border-radius:999px;font-weight:800;letter-spacing:.6px;width:fit-content;background:#111;color:#f5f1e8;}
 .price{font-size:22px;font-weight:900;}
+.skeleton{ min-width:320px; height:180px; background:#eee; border-radius:22px; animation: pulse 1.2s infinite; }
+@keyframes pulse{0%{opacity:.6}50%{opacity:1}100%{opacity:.6}}
 </style>
 </head>
 <body>
@@ -23,38 +27,119 @@ body{background:var(--beige);margin:0;}
   <span style="color:#b8985a;font-size:11px;letter-spacing:2px;font-weight:800;">BIBLIOTECA RIQSIN</span>
   <h1 style="font-size:54px;letter-spacing:-2px;line-height:.85;margin:12px 0 0;">Todo tu sistema.<br>En un lugar.</h1>
   <p style="color:#666;max-width:560px;line-height:1.6;margin-top:14px;">Tocá y entrá directo.</p>
+  <p id="status" style="font-size:12px;color:#b8985a;margin-top:8px;"></p>
 
   <h2 style="margin:48px 0 16px;font-size:28px;letter-spacing:-1px;">Versiones de RIQSIN</h2>
-  <div class="row">
-    <a href="/biblioteca/piloto/" class="card">
-      <span class="badge">DISPONIBLE</span>
-      <div>
-        <h3 style="margin:16px 0 8px;font-size:20px;">RIQSIN — Prueba Piloto</h3>
-        <p style="color:#666;font-size:13px;line-height:1.5;">La versión inicial para probar el sistema.</p>
-      </div>
-      <div style="margin-top:22px;display:flex;justify-content:space-between;align-items:center;">
-        <span class="price">$10</span>
-        <span style="background:#b8985a;color:white;padding:10px 16px;border-radius:10px;font-weight:800;font-size:12px;">Ver →</span>
-      </div>
-    </a>
-  </div>
+  <div id="row-versiones" class="row"><div class="skeleton"></div><div class="skeleton"></div></div>
 
   <h2 style="margin:48px 0 16px;font-size:28px;letter-spacing:-1px;">Herramientas</h2>
-  <div class="row">
-    <a href="/biblioteca/trackerv1/" class="card">
-      <span class="badge">DISPONIBLE</span>
+  <div id="row-herramientas" class="row"><div class="skeleton"></div></div>
+</div>
+
+<script src="/footer.js?v=1"></script>
+<script>
+// ============================================================================
+// // CONFIGURACION DE SUPABASE - Ya está lista con tu clave
+// ============================================================================
+const SUPABASE_URL = "https://ubxykcmbbiitlaeihpqxr.supabase.co"; // // URL de tu proyecto Supabase - No tocar
+const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVieHlrY21iYml0bGFlaWhwY3hyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwNjczNjEsImV4cCI6MjEwNDY0MzM2MX0.GLaHeLyNSLVeD-xvqBmoWScN_fwyiP4xByQJfjHwOiI"; // // Tu clave anon publica - Ya puesta
+
+// // Crea la conexion a Supabase
+const supa = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+// ============================================================================
+// // FUNCION QUE CREA CADA CARD - No tocar
+// // Esta funcion agarra un producto de la tabla y lo convierte en la card que ves
+// ============================================================================
+function cardHTML(p){
+  // // p.archivo_nombre es el nombre del pdf en Storage, ej: piloto.pdf o trackerv1.pdf
+  // // De ahi saca el slug para armar el link /biblioteca/piloto/ o /biblioteca/trackerv1/
+  let slug = p.archivo_nombre.replace('.pdf','').split('_')[0].toLowerCase();
+  if(slug.includes('tracker')) slug = 'trackerv1';
+  if(slug.includes('piloto')) slug = 'piloto';
+  if(slug === 'v1') slug = 'v1';
+  
+  const url = `/biblioteca/${slug}/`; // // A donde te lleva cuando tocas la card
+
+  return `
+    <a href="${url}" class="card">
+      <span class="badge">${(p.estado||'disponible').toUpperCase()}</span>
       <div>
-        <h3 style="margin:16px 0 8px;font-size:20px;">RIQSIN — Tracker v1</h3>
-        <p style="color:#666;font-size:13px;line-height:1.5;">Tu sistema mensual de hábitos y foco.</p>
+        <h3 style="margin:16px 0 8px;font-size:20px;">${p.nombre}</h3>
+        <p style="color:#666;font-size:13px;line-height:1.5;">${p.descripcion||'Incluido en tu sistema RIQSIN.'}</p>
       </div>
       <div style="margin-top:22px;display:flex;justify-content:space-between;align-items:center;">
-        <span class="price">$1.500</span>
+        <span class="price">$ ${p.precio}</span>
         <span style="background:#b8985a;color:white;padding:10px 16px;border-radius:10px;font-weight:800;font-size:12px;">Ver →</span>
       </div>
     </a>
-  </div>
+  `;
+}
 
-</div>
-<script src="/footer.js?v=1"></script>
+// ============================================================================
+// // FUNCION QUE CARGA LOS PRODUCTOS - No tocar
+// // Busca en tu tabla 'productos' todos los que tengan estado = disponible
+// ============================================================================
+async function cargar(){
+  const status = document.getElementById('status');
+  try{
+    // // Aca hace la consulta a Supabase - Trae todos los productos disponibles
+    const { data, error } = await supa.from('productos').select('*').eq('estado','disponible').order('precio',{ascending:true});
+    if(error) throw error;
+    if(!data || data.length===0) throw new Error('No hay productos en la tabla');
+
+    // // Separa los productos por categoria
+    // // Si en tu tabla tenes una columna 'categoria' con valores 'versiones' o 'herramientas', la usa
+    // // Si no, separa por nombre: si dice tracker va a Herramientas, si no va a Versiones
+    const versiones = data.filter(p => {
+      const cat = (p.categoria||'').toLowerCase();
+      if(cat) return cat.includes('version');
+      return !p.nombre.toLowerCase().includes('tracker');
+    });
+    const herramientas = data.filter(p => {
+      const cat = (p.categoria||'').toLowerCase();
+      if(cat) return cat.includes('herramienta') || cat.includes('tracker');
+      return p.nombre.toLowerCase().includes('tracker');
+    });
+
+    // // Pinta las cards en cada fila
+    document.getElementById('row-versiones').innerHTML = versiones.map(cardHTML).join('') || '<p style="color:#999;padding:12px;">No hay versiones</p>';
+    document.getElementById('row-herramientas').innerHTML = herramientas.map(cardHTML).join('') || '<p style="color:#999;padding:12px;">No hay herramientas</p>';
+    status.innerText = '';
+
+  }catch(e){
+    console.error(e);
+    status.innerText = 'Error: ' + e.message;
+    // // Fallback por si Supabase falla, para que no quede en blanco
+    document.getElementById('row-versiones').innerHTML = `<p style="color:#999;">Error conectando: ${e.message}</p>`;
+  }
+}
+cargar();
+</script>
+
+<!--
+================================================================================
+ // COMO AGREGAR UN PRODUCTO NUEVO - COPIA Y PEGA ESTO:
+
+ 1. Subí tu PDF a Supabase > Storage > productos
+    Ej: mi-nuevo-producto.pdf
+
+ 2. Andá a Supabase > Table Editor > productos > Insert row y pegá esto:
+
+    nombre: RIQSIN — Mi Nuevo Producto
+    descripcion: Lo que hace este producto
+    precio: 3500
+    archivo_nombre: mi-nuevo-producto.pdf   // <-- TIENE QUE SER IGUAL AL PDF QUE SUBISTE
+    estado: disponible
+    categoria: versiones  // <-- o herramientas
+
+ 3. Listo. Aparece solo en la biblioteca. No toques este archivo.
+
+ 4. Si querés que tenga su propia página /biblioteca/mi-nuevo-producto/
+    Duplicá la carpeta /biblioteca/piloto/ y renombrala a /biblioteca/mi-nuevo-producto/
+    (La pagina universal que te pasé después lee el nombre de la carpeta y trae el producto solo)
+
+================================================================================
+-->
 </body>
 </html>

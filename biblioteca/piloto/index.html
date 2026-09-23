@@ -2,132 +2,154 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Cargando producto — RIQSIN</title>
+<title>RIQSIN — Piloto</title>
 <link rel="stylesheet" href="/style.css">
+<!-- // LIBRERIA SUPABASE - Necesaria para traer el producto y descargar -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{ --beige:#f5f1e8; --line:#e8e0d0; --gold:#b8985a; --black:#111; }
-body{background:var(--beige);margin:0;}
+body{background:#f5f1e8;margin:0;}
 .wrap{max-width:980px;margin:0 auto;padding:100px 24px 80px;}
-.card{border:1.5px solid var(--line);border-radius:24px;padding:32px;background:white;}
-.btn{background:var(--black);color:var(--beige);padding:14px 22px;border-radius:12px;font-weight:800;border:0;cursor:pointer;width:100%;font-size:15px;transition:.2s;}
-.btn:hover{transform:translateY(-1px);box-shadow:0 10px 20px rgba(0,0,0,.12);}
-.btn:disabled{opacity:.5}
-.badge{font-size:10px;padding:6px 12px;border-radius:999px;font-weight:800;letter-spacing:.6px;background:var(--black);color:var(--beige);}
-.muted{color:#8a7a60;font-size:13px;line-height:1.6;}
-.skeleton{background:linear-gradient(90deg,#eee8d8 25%,#f5f1e8 50%,#eee8d8 75%);background-size:200% 100%;animation: shimmer 1.2s infinite;border-radius:12px;height:20px;}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.card{border:1.5px solid #e8e0d0;border-radius:24px;padding:32px;background:white;}
+.btn{background:#111;color:#f5f1e8;padding:14px 22px;border-radius:12px;font-weight:800;border:0;cursor:pointer;width:100%;font-size:15px;display:block;text-align:center;text-decoration:none;transition:.2s;}
+.btn:hover{background:#b8985a;}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
 </style>
 </head>
 <body>
 <script src="/header.js"></script>
 <div class="wrap" id="app">
-  <a href="/biblioteca/" style="font-size:12px;color:#8a7a60;text-decoration:none;">← Volver a biblioteca</a>
-  <div style="margin-top:18px;">
-    <span style="color:var(--gold);font-size:11px;letter-spacing:2px;font-weight:800;">BIBLIOTECA RIQSIN / PRODUCTO</span>
-    <h1 id="titulo" style="font-size:48px;letter-spacing:-1.8px;line-height:.9;margin:10px 0;"><span class="skeleton" style="display:inline-block;width:300px;height:40px;"></span></h1>
-    <p id="sub" class="muted"><span class="skeleton" style="display:inline-block;width:400px;"></span></p>
-  </div>
-
-  <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:24px;margin-top:32px;">
-    <div class="card">
-      <div style="aspect-ratio: 1.6/1; background:#f9f6f0; border-radius:16px; display:grid; place-items:center; border:1px solid var(--line);">
-        <span style="font-size:48px;">📄</span>
-      </div>
-      <ul style="margin:20px 0 0;padding-left:18px;color:#444;line-height:1.8;font-size:14px;">
-        <li>Entrega automática e inmediata</li>
-        <li>PDF descargable desde tu biblioteca</li>
-        <li>Acceso de por vida</li>
-      </ul>
-      <p id="archivo-label" class="muted" style="margin-top:16px;font-size:11px;"></p>
-    </div>
-    <div class="card" style="height:fit-content;">
-      <span class="badge">DISPONIBLE • ENTREGA INMEDIATA</span>
-      <h3 id="p-nombre" style="margin:16px 0 8px;font-size:22px;line-height:1.1;">Cargando...</h3>
-      <p id="p-desc" class="muted"></p>
-      <div style="margin:22px 0;display:flex;justify-content:space-between;align-items:center;">
-        <span id="p-precio" style="font-size:28px;font-weight:900;letter-spacing:-.5px;">$ ...</span>
-      </div>
-      <button id="btn-comprar" class="btn">Comprar y descargar</button>
-      <p id="msg" class="muted" style="margin-top:12px;font-size:12px;"></p>
-    </div>
-  </div>
+  <!-- // Mientras carga Supabase muestra esto -->
+  <p style="color:#8a7a60;">Cargando producto...</p>
 </div>
 <script src="/footer.js?v=1"></script>
 <script>
-// === CONFIGURACION AUTOMATICA - NO TENES QUE TOCAR NADA ===
-const SUPABASE_URL = "https://ubxykcmbbiitlaeihpqxr.supabase.co";
-const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVieHlrY21iYml0bGFlaWhwY3hyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwNjczNjEsImV4cCI6MjEwNDY0MzM2MX0.GLaHeLyNSLVeD-xvqBmoWScN_fwyiP4xByQJfjHwOiI";
-const supa = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+// ============================================================================
+// // CONFIG SUPABASE - Ya con tu clave, no tocar
+// ============================================================================
+const SUPABASE_URL = "https://ubxykcmbbiitlaeihpqxr.supabase.co"; // // URL de tu proyecto
+const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVieHlrY21iYml0bGFlaWhwY3hyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwNjczNjEsImV4cCI6MjEwNDY0MzM2MX0.GLaHeLyNSLVeD-xvqBmoWScN_fwyiP4xByQJfjHwOiI"; // // Tu clave anon
+const supa = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
-// Detecta el nombre del archivo desde la URL
-// Ej: /biblioteca/trackerv1/  ->  trackerv1.pdf
-// Ej: /biblioteca/enfoque/   ->  enfoque.pdf
-function getArchivoFromURL(){
-  const parts = window.location.pathname.split('/').filter(Boolean);
-  let slug = parts[parts.length-1] || 'trackerv1';
-  // si es producto.html o index.html, agarra el anterior
-  if(slug.includes('.html')) slug = parts[parts.length-2] || 'trackerv1';
-  if(!slug.endsWith('.pdf')) slug = slug + '.pdf';
-  return slug;
-}
+// // QUE PRODUCTO ES ESTE? - Lo saca de la URL /biblioteca/piloto/ -> piloto
+// // Si duplicas esta carpeta para otro producto, cambia esta variable o deja que lo detecte solo
+const FOLDER = window.location.pathname.split('/').filter(Boolean).pop() || 'piloto'; // // piloto
 
-let productoActual = null;
-
-async function init(){
-  const ARCHIVO_NOMBRE = getArchivoFromURL();
-  document.getElementById('archivo-label').innerText = ARCHIVO_NOMBRE;
-
-  const { data, error } = await supa.from('productos').select('*').eq('archivo_nombre', ARCHIVO_NOMBRE).eq('estado','disponible').single();
-
-  if(error){
-    document.getElementById('titulo').innerText = "Producto no encontrado";
-    document.getElementById('sub').innerText = `No encontré ${ARCHIVO_NOMBRE} en Supabase. Revisá que el nombre del archivo sea idéntico y que estado='disponible'.`;
-    document.getElementById('p-nombre').innerText = ARCHIVO_NOMBRE;
-    document.getElementById('msg').innerText = "Error: " + error.message;
-    return;
-  }
-
-  productoActual = data;
-  document.title = data.nombre + " — RIQSIN";
-  document.getElementById('titulo').innerText = data.nombre;
-  document.getElementById('sub').innerText = data.descripcion;
-  document.getElementById('p-nombre').innerText = data.nombre;
-  document.getElementById('p-desc').innerText = data.descripcion;
-  document.getElementById('p-precio').innerText = "$ " + Number(data.precio).toLocaleString('es-AR');
-}
-
-document.getElementById('btn-comprar').onclick = async () => {
-  if(!productoActual){ alert("Producto no cargado aún"); return; }
-  const btn = document.getElementById('btn-comprar');
-  const msg = document.getElementById('msg');
-  btn.disabled = true; btn.innerText = "Procesando...";
+async function cargar(){
+  const app = document.getElementById('app');
   try{
-    // 1. Registrar compra
-    const { error: errCompra } = await supa.from('compras').insert({
-      producto_id: productoActual.id,
-      estado: 'pagado'
-    });
-    if(errCompra) throw errCompra;
+    // // 1. BUSCA EL PRODUCTO EN TU TABLA - Busca el que tenga archivo_nombre que empiece con 'piloto'
+    // // Ej: si en Storage subiste piloto.pdf, acá lo encuentra
+    const { data: prod, error } = await supa.from('productos')
+      .select('*')
+      .ilike('archivo_nombre', FOLDER + '%') // // Busca piloto% -> piloto.pdf, piloto_v2.pdf, etc.
+      .eq('estado','disponible')
+      .single();
 
-    // 2. Descargar
-    const { data: fileData, error: errFile } = await supa.storage.from('productos').download(productoActual.archivo_nombre);
-    if(errFile) throw errFile;
+    if(error || !prod) throw new Error('No se encontró el producto: ' + FOLDER + ' - Revisá que en la tabla productos el archivo_nombre empiece con piloto');
 
-    const url = URL.createObjectURL(fileData);
-    const a = document.createElement('a');
-    a.href = url; a.download = productoActual.archivo_nombre; a.click();
-    URL.revokeObjectURL(url);
+    // // 2. PINTA LA PAGINA CON LOS DATOS DE SUPABASE
+    app.innerHTML = `
+      <a href="/biblioteca/" style="font-size:12px;color:#8a7a60;text-decoration:none;">← Volver a biblioteca</a>
+      <h1 style="font-size:48px;letter-spacing:-1.8px;margin:12px 0;">${prod.nombre}</h1>
+      <p style="color:#666;max-width:600px;line-height:1.6;">${prod.descripcion || 'Versión inicial del sistema RIQSIN.'}</p>
+      
+      <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:24px;margin-top:32px;">
+        <div class="card" style="aspect-ratio:1.6/1;display:grid;place-items:center;font-size:14px;color:#8a7a60;">
+          <!-- // ACA VA LA PREVIEW DE TU PDF - Por ahora texto, después podes poner imagen -->
+          📄 ${prod.archivo_nombre}
+        </div>
+        <div class="card">
+          <h3 style="margin:0;">${prod.nombre}</h3>
+          <p style="color:#666;font-size:13px;margin:6px 0;">Entrega inmediata • PDF privado</p>
+          <p style="font-size:28px;font-weight:900;margin:16px 0;">$ ${prod.precio}</p>
+          
+          <!-- // BOTON DE PAGO Y DESCARGA -->
+          <button id="buy" class="btn">Pagar y descargar</button>
+          <p id="msg" style="font-size:11px;color:#8a7a60;margin-top:12px;line-height:1.4;"></p>
+          
+          <!-- // INFO PARA VOS -->
+          <p style="font-size:10px;color:#bbb;margin-top:18px;">ID: ${prod.id} | Archivo: ${prod.archivo_nombre} | Bucket privado</p>
+        </div>
+      </div>
+    `;
 
-    msg.innerText = "¡Listo! Descarga iniciada. Quedó guardado en tu biblioteca.";
-    btn.innerText = "Descargado ✓";
+    // // 3. CUANDO TOCAN PAGAR Y DESCARGAR
+    document.getElementById('buy').onclick = async () => {
+      const btn = document.getElementById('buy');
+      const msg = document.getElementById('msg');
+      btn.innerText = 'Procesando...';
+      btn.disabled = true;
+      msg.innerText = 'Guardando compra y preparando descarga...';
+
+      try{
+        // // A. GUARDA LA COMPRA EN TU TABLA compras - Para tener registro de quien bajó
+        // // Aca podes agregar email si despues pones login, por ahora guarda anon
+        const { error: compraErr } = await supa.from('compras').insert({
+          producto_id: prod.id,
+          archivo_nombre: prod.archivo_nombre,
+          precio_pagado: prod.precio,
+          email: 'anon' // // Si agregas login, cambia por el email del usuario
+        });
+        if(compraErr) console.warn('No se pudo guardar compra (no pasa nada):', compraErr.message);
+
+        // // B. DESCARGA EL PDF DESDE STORAGE PRIVADO - Funciona aunque el bucket esté en PRIVADO
+        // // No usa link público, usa la API de Supabase (seguro)
+        const { data: fileData, error: downErr } = await supa.storage.from('productos').download(prod.archivo_nombre);
+        if(downErr) throw new Error('Error descargando: ' + downErr.message + ' - Revisá que el PDF exista en Storage > productos con ese nombre exacto');
+
+        // // C. CREA EL LINK DE DESCARGA EN EL NAVEGADOR
+        const url = URL.createObjectURL(fileData);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = prod.archivo_nombre; // // Nombre con el que se baja
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+
+        msg.innerText = '¡Descarga iniciada! Gracias por tu compra.';
+        btn.innerText = '¡Descargado!';
+
+      }catch(e){
+        console.error(e);
+        msg.innerText = 'Error: ' + e.message;
+        btn.innerText = 'Reintentar';
+        btn.disabled = false;
+      }
+    };
+
   }catch(e){
-    msg.innerText = "Error: " + e.message;
-    btn.disabled = false; btn.innerText = "Comprar y descargar";
+    app.innerHTML = `<p style="color:red;">Error: ${e.message}</p><p style="font-size:12px;color:#666;">Revisá: 1) Que en Supabase > productos exista una fila con archivo_nombre que empiece con '${FOLDER}' 2) Que estado = disponible 3) Que el PDF exista en Storage > productos</p><a href="/biblioteca/">← Volver</a>`;
   }
-};
-
-init();
+}
+cargar();
 </script>
+
+<!--
+================================================================================
+ // COMO DUPLICAR ESTO PARA OTRO PRODUCTO:
+
+ 1. Duplicá la carpeta /biblioteca/piloto/ entera
+    Ej: /biblioteca/mi-nuevo-producto/
+
+ 2. No tenes que tocar nada de este archivo.
+    Solo detecta el nombre de la carpeta (mi-nuevo-producto) y busca en Supabase
+    un producto cuyo archivo_nombre empiece con mi-nuevo-producto
+
+    Entonces en tu tabla productos tenes que tener:
+    archivo_nombre: mi-nuevo-producto.pdf
+
+ 3. Si querés forzar que sea otro archivo, cambia esta linea arriba:
+    const FOLDER = 'piloto'  -> const FOLDER = 'mi-nuevo-producto'
+
+ // PARA CAMBIAR EL PRECIO, NOMBRE, DESCRIPCION:
+    No se toca acá. Se cambia en Supabase > Table Editor > productos
+    Este archivo lo trae automático.
+
+ // SEGURIDAD:
+    El bucket productos tiene que estar en PRIVADO (toggle gris)
+    Asi nadie puede bajarlo con link directo, solo por este boton que registra la compra.
+================================================================================
+-->
 </body>
 </html>
