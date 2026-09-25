@@ -1,16 +1,44 @@
-<script src="/header.js"></script>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Biblioteca — RIQSIN</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{ --beige:#f5f1e8; --line:#e8e0d0; --gold:#b8985a; --black:#111; }
+  body{background:var(--beige);color:var(--black);font-family:'Inter',system-ui,sans-serif;}
+  a{color:inherit;text-decoration:none}
+  .topbar{position:fixed;top:0;left:0;right:0;height:64px;background:rgba(245,241,232,.95);backdrop-filter:blur(12px);border-bottom:1.5px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100;}
+  .wrap{max-width:720px;margin:0 auto;padding:110px 24px 80px;}
+  .card{ background:white; border:1.5px solid var(--line); border-radius:22px; padding:28px; display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; transition:.2s;}
+  .card:hover{transform:translateY(-3px);border-color:var(--gold);box-shadow:0 12px 30px rgba(0,0,0,.07);}
+  .badge{font-size:10px;padding:6px 10px;border-radius:999px;font-weight:800;letter-spacing:.6px;background:var(--black);color:var(--beige);display:inline-block;}
+  .price{font-size:22px;font-weight:900;}
+  @media(max-width:600px){.card{flex-direction:column;align-items:flex-start;gap:14px}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="/" style="font-weight:900;font-size:20px;letter-spacing:-1px;">RIQSIN</a>
+  <div style="display:flex;gap:20px;font-size:13px;font-weight:600;">
+    <a href="/">Inicio</a>
+    <a href="/biblioteca/" style="color:var(--gold)">Biblioteca</a>
+  </div>
+</div>
 
 <div class="wrap">
   <span style="color:var(--gold);font-size:11px;letter-spacing:2px;font-weight:800;">BIBLIOTECA RIQSIN</span>
   <h1 style="font-size:52px;letter-spacing:-2px;line-height:.9;margin:12px 0 0;">Todo tu sistema.<br>En un lugar.</h1>
-  <p style="color:#666;max-width:560px;line-height:1.6;margin-top:14px;margin-bottom:40px;">Tocá y entrá directo.</p>
+  <p style="color:#666;line-height:1.6;margin:14px 0 40px;">Tocá y entrá directo.</p>
 
-  <!-- COPIA Y PEGA ESTE BLOQUE PARA AGREGAR PRODUCTOS -->
   <a href="/biblioteca/piloto/" class="card">
     <div>
       <span class="badge">DISPONIBLE</span>
       <h3 style="margin:14px 0 6px;font-size:20px;">Piloto — Prueba</h3>
-      <p style="color:#666;font-size:13px;margin:0;">Manual piloto de RIQSIN. Versión de prueba.</p>
+      <p style="color:#666;font-size:13px;">Manual piloto de RIQSIN.</p>
     </div>
     <div style="text-align:right;">
       <div class="price">$ 1500</div>
@@ -22,7 +50,7 @@
     <div>
       <span class="badge">DISPONIBLE</span>
       <h3 style="margin:14px 0 6px;font-size:20px;">Tracker V1</h3>
-      <p style="color:#666;font-size:13px;margin:0;">Plantilla de seguimiento diaria.</p>
+      <p style="color:#666;font-size:13px;">Plantilla de seguimiento diaria.</p>
     </div>
     <div style="text-align:right;">
       <div class="price">$ 2500</div>
@@ -30,21 +58,9 @@
     </div>
   </a>
 
-  <!-- HASTA ACA - BORRA LO DE ABAJO SI NO QUERES V1 -->
-  <a href="/biblioteca/v1/" class="card" style="opacity:.6;">
-    <div>
-      <span class="badge">ARCHIVO</span>
-      <h3 style="margin:14px 0 6px;font-size:20px;">RIQSIN V1</h3>
-      <p style="color:#666;font-size:13px;margin:0;">Borrá este bloque si no querés V1.</p>
-    </div>
-    <div style="text-align:right;">
-      <div class="price">$ 4500</div>
-      <div style="background:#111;color:white;padding:10px 18px;border-radius:10px;font-weight:800;font-size:12px;margin-top:8px;display:inline-block;">Ver →</div>
-    </div>
-  </a>
-
 </div>
 
-<script src="/footer.js?v=1"></script>
+<div style="text-align:center;padding:40px 24px;border-top:1.5px solid var(--line);color:#999;font-size:12px;">RIQSIN — 2026</div>
+
 </body>
 </html>
