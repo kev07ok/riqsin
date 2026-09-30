@@ -4,36 +4,50 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Biblioteca RIQSIN</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  @keyframes pulse {0%,100%{opacity:1} 50%{opacity:0.5}}
+  @keyframes shimmer {0%{transform:translateX(-100%)} 100%{transform:translateX(100%)}}
+  @keyframes dot {0%,80%,100%{opacity:0.3; transform:scale(0.8)} 40%{opacity:1; transform:scale(1)}}
+</style>
 </head>
 <body style="margin:0;padding-top:64px;background:#f5f1e8;color:#111;font-family:Inter,sans-serif;">
 
-<script src="/header.js"></script>
+<script src="/header.js?v=1"></script>
 
-<div style="max-width:640px;margin:0 auto;padding:80px 24px;text-align:center;">
+<div style="max-width:680px;margin:0 auto;padding:100px 24px 80px;text-align:center;">
 
-  <div style="display:inline-block;padding:6px 14px;border:1px solid #e8e0d0;background:#fff;border-radius:999px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#6b6252;">
-    En construcción
+  <!-- badge -->
+  <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border:1px solid #e8e0d0;background:#fff;border-radius:999px;">
+    <span style="width:6px;height:6px;border-radius:50%;background:#b8985a;animation:pulse 1.5s infinite;display:inline-block;"></span>
+    <span style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#6b6252;font-family:Geist Mono;font-weight:500;">En construcción</span>
   </div>
 
-  <h1 style="font-size:36px;font-weight:700;line-height:1.1;margin:24px 0 0 0;">
-    Biblioteca RIQSIN
-  </h1>
-
-  <h2 style="font-size:22px;font-weight:600;margin:20px 0 0 0;">
-    Los productos están en curso
-  </h2>
-
-  <p style="font-size:16px;line-height:1.6;color:#4a443c;margin:16px 0 0 0;">
+  <h1 style="font-size:42px;font-weight:700;line-height:0.95;margin:28px 0 0 0;letter-spacing:-0.04em;">Biblioteca<br>RIQSIN</h1>
+  
+  <h2 style="font-size:22px;font-weight:600;margin:22px 0 0 0;letter-spacing:-0.02em;">Los productos están en curso</h2>
+  
+  <p style="font-size:15px;line-height:1.6;color:#4a443c;margin:16px auto 0;max-width:440px;">
     Estamos terminando de cargar los protocolos. En los próximos días vas a poder comprar y descargar todo desde tu cuenta.
   </p>
 
-  <div style="margin-top:32px;background:#fff;border:1.5px solid #e8e0d0;border-radius:16px;padding:20px;text-align:left;">
+  <!-- animacion barra -->
+  <div style="margin:40px auto 0;max-width:360px;">
+    <div style="height:2px;background:#e8e0d0;border-radius:999px;overflow:hidden;position:relative;">
+      <div style="position:absolute;inset:0;width:40%;background:linear-gradient(90deg,transparent,#b8985a,transparent);animation:shimmer 1.6s infinite;"></div>
+    </div>
+    <div style="margin-top:14px;display:flex;justify-content:center;gap:6px;">
+      <span style="width:6px;height:6px;border-radius:50%;background:#b8985a;animation:dot 1.4s infinite;"></span>
+      <span style="width:6px;height:6px;border-radius:50%;background:#b8985a;animation:dot 1.4s infinite 0.2s;"></span>
+      <span style="width:6px;height:6px;border-radius:50%;background:#b8985a;animation:dot 1.4s infinite 0.4s;"></span>
+    </div>
+  </div>
+
+  <!-- card -->
+  <div style="margin-top:40px;background:#fff;border:1.5px solid #e8e0d0;border-radius:16px;padding:20px;text-align:left;">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
       <span style="width:8px;height:8px;border-radius:50%;background:#b8985a;display:inline-block;"></span>
-      <span style="font-size:13px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:#6b6252;">
-        Qué esperar
-      </span>
+      <span style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#6b6252;font-family:Geist Mono;">Qué esperar</span>
     </div>
     <p style="margin:0;font-size:14px;line-height:1.6;color:#4a443c;">
       La biblioteca incluirá protocolos descargables, guías y recursos. Todo quedará disponible en tu cuenta una vez finalizada la carga.
@@ -41,16 +55,12 @@
   </div>
 
   <div style="margin-top:28px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-    <a href="/" style="display:inline-block;padding:12px 22px;background:#111;color:#fff;text-decoration:none;border-radius:10px;font-size:14px;font-weight:600;">
-      Volver al inicio
-    </a>
-    <a href="/mi-cuenta/" style="display:inline-block;padding:12px 22px;background:#fff;color:#111;text-decoration:none;border:1.5px solid #e8e0d0;border-radius:10px;font-size:14px;font-weight:600;">
-      Ir a mi cuenta
-    </a>
+    <a href="/" style="display:inline-block;padding:12px 22px;background:#111;color:#fff;text-decoration:none;border-radius:10px;font-size:14px;font-weight:600;">Volver al inicio</a>
+    <a href="/mi-cuenta/" style="display:inline-block;padding:12px 22px;background:#fff;color:#111;text-decoration:none;border:1.5px solid #e8e0d0;border-radius:10px;font-size:14px;font-weight:600;">Ir a mi cuenta</a>
   </div>
 
 </div>
 
-<script src="/footer.js"></script>
+<script src="/footer.js?v=1"></script>
 </body>
 </html>
