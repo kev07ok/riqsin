@@ -1,66 +1,234 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Investigaciones - Método RIQSIN</title>
-  <link rel="stylesheet" href="/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Investigaciones — RIQSIN</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --beige:#f5f1e8;
+    --beige-oscuro:#e8e0d0;
+    --carbon:#111;
+    --dorado:#b8985a;
+    --texto:#4a443c;
+  }
+  body{margin:0;background:var(--beige);color:var(--carbon);font-family:Inter,sans-serif;}
+  
+  /* GRID DE CARPETAS */
+  .carpeta{margin-top:56px;}
+  .carpeta-label{
+    display:flex;align-items:center;gap:10px;
+    font-family:Geist Mono; font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--dorado); font-weight:600; margin-bottom:16px;
+  }
+  .carpeta-label::before{
+    content:""; width:28px; height:1px; background:var(--dorado); display:inline-block;
+  }
+
+  /* GRID CARDS */
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+  }
+  @media(max-width:1100px){ .cards{grid-template-columns:repeat(3,1fr);} }
+  @media(max-width:800px){ .cards{grid-template-columns:repeat(2,1fr);} }
+  @media(max-width:520px){ .cards{grid-template-columns:1fr;} }
+
+  .card{
+    background:#fff;
+    border:1.5px solid var(--beige-oscuro);
+    border-radius:16px;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    transition:transform 0.2s, border-color 0.2s;
+  }
+  .card:hover{transform:translateY(-3px); border-color:#d6cec0;}
+  
+  .card-img{
+    height:150px;
+    background:#ece6d9;
+    position:relative;
+    overflow:hidden;
+  }
+  .card-img img{width:100%; height:100%; object-fit:cover; display:block;}
+  .card-img::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.06) 100%);
+  }
+  .card-body{
+    padding:16px 16px 14px;
+    display:flex;
+    flex-direction:column;
+    flex:1;
+  }
+  .card-title{
+    font-size:15px; font-weight:700; line-height:1.3; margin:0;
+    letter-spacing:-0.02em;
+  }
+  .card-desc{
+    font-size:13px; line-height:1.5; color:var(--texto);
+    margin:8px 0 0 0;
+    display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
+    flex:1;
+  }
+  .card-btn{
+    margin-top:14px;
+    display:inline-flex; align-items:center; justify-content:center;
+    width:100%;
+    padding:10px 0;
+    background:var(--carbon);
+    color:var(--beige) !important;
+    border-radius:8px;
+    text-decoration:none;
+    font-size:12px; font-weight:700; letter-spacing:0.03em;
+    border:1.5px solid var(--carbon);
+  }
+  .card-btn:hover{background:#222;}
+
+  .proximamente{
+    margin-top:48px;
+    padding:20px;
+    border:1.5px dashed #d6cec0;
+    border-radius:14px;
+    text-align:center;
+    font-family:Geist Mono;
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:#9a9388;
+    background:#fdfbf6;
+  }
+</style>
 </head>
-<body>
-<script src="/header.js"></script>
+<body style="padding-top:64px;">
 
-<section class="biblio-hero" style="padding-bottom: 30px;">
-  <span class="eyebrow">Archivo RIQSIN</span>
-  <h1>Investigaciones</h1>
-  <p style="max-width: 650px;">Linea de investigación de RIQSIN. Trabajo de campo, entrevistas, análisis de discurso y análisis de datos bajo un enfoque metodológico estructurado.</p>
-</section>
+<script src="/header.js?v=1"></script>
 
-<section style="max-width:1100px; margin:0 auto; padding: 0 40px 40px 40px;">
-  <div style="background:white; border:1.5px solid var(--beige-oscuro); border-radius:24px; padding:32px; display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap;">
-    <div>
-      <h4 style="margin:0 0 8px 0; font-size:11px; letter-spacing:1.5px; color:var(--dorado);">ESTADO DEL ARCHIVO</h4>
-      <p style="margin:0; color:var(--carbon); font-weight:600;">Esta es la página oficial de investigaciones de RIQSIN. Acá se publican los informes, avances y papers.</p>
-      <p style="margin:8px 0 0 0; color:#888; font-size:14px; line-height:1.5;">Por ahora hay 1 investigación activa. Las investigaciones serán publicadas una vez finalizadas y revisadas.</p>
-    </div>
-    <div style="background:var(--beige); border:1px solid var(--beige-oscuro); padding:10px 16px; border-radius:999px; font-size:12px; font-weight:700; color:var(--carbon);">1 EN CURSO • 0 PUBLICADAS</div>
+<div style="max-width:1200px;margin:0 auto;padding:60px 24px 80px;">
+
+  <div style="max-width:700px;">
+    <span style="font-family:Geist Mono;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dorado);font-weight:600;">● EN DESARROLLO</span>
+    <h1 style="font-size:42px;font-weight:700;letter-spacing:-0.04em;line-height:0.95;margin:14px 0 0 0;">Investigaciones<br>RIQSIN</h1>
+    <p style="margin:16px 0 0 0;font-size:15px;line-height:1.6;color:var(--texto);">
+      Archivo de líneas de investigación en desarrollo. Cada carpeta agrupa estudios vinculados a disciplina, hábitos, valores y ciudadanía.
+    </p>
   </div>
-</section>
 
-<section style="max-width:1100px; margin:0 auto; padding:0 40px 80px 40px;">
-  <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:16px;">
-    
-    <!-- CARD 1 - LA ÚNICA ACTIVA -->
-    <div style="background:white; border:1.5px solid var(--carbon); border-radius:20px; padding:28px; display:flex; flex-direction:column; justify-content:space-between; min-height:320px; position:relative; overflow:hidden;">
-      <div style="position:absolute; top:0; left:0; width:100%; height:4px; background:var(--dorado);"></div>
-      <div>
-        <div style="display:flex; gap:8px; margin-bottom:16px;">
-          <span style="font-size:10px; letter-spacing:1px; font-weight:700; background:var(--carbon); color:var(--dorado); padding:6px 10px; border-radius:999px;">EN PROCESO</span>
-          <span style="font-size:10px; letter-spacing:1px; font-weight:700; background:var(--beige); color:var(--carbon); padding:6px 10px; border-radius:999px; border:1px solid var(--beige-oscuro);">2024-2026</span>
+  <!-- CARPETA 1: DISCIPLINA -->
+  <div class="carpeta">
+    <div class="carpeta-label">Carpeta 01 — Disciplina</div>
+    <div class="cards">
+      
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=600&auto=format&fit=crop" alt=""></div>
+        <div class="card-body">
+          <h3 class="card-title">Disciplina y toma de decisiones</h3>
+          <p class="card-desc">Explora cómo la disciplina diaria influye en la toma de decisiones en jóvenes argentinos.</p>
+          <a href="/investigaciones/disciplina-decisiones/" class="card-btn">Ver →</a>
         </div>
-        <h3 style="font-size:20px; line-height:1.2; letter-spacing:-0.5px; margin:0 0 12px 0; color:var(--carbon);">Juventud y Ciudadanía</h3>
-        <p style="font-size:14px; line-height:1.6; color:#666; margin:0;">Línea de investigación inicial del Método RIQSIN. Cómo influencia la disciplina, los valores y los ideales a los jóvenes de 14 a 30 años en su ciudadania...</p>
       </div>
-      <div style="margin-top:24px; border-top:1px solid var(--beige-oscuro); padding-top:16px; display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-size:12px; color:#999;">Avance 10%</span>
+
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=600&auto=format&fit=crop" alt=""></div>
+        <div class="card-body">
+          <h3 class="card-title">Rutinas y constancia</h3>
+          <p class="card-desc">Análisis de rutinas estructuradas y su relación con la constancia a mediano plazo.</p>
+          <a href="/investigaciones/rutinas-constancia/" class="card-btn">Ver →</a>
+        </div>
       </div>
-    </div>
 
-    <!-- CARD 2 - VACÍA PARA QUE SE VEA LA GRILLA -->
-    <div style="background:var(--beige); border:1.5px dashed var(--beige-oscuro); border-radius:20px; padding:28px; display:flex; align-items:center; justify-content:center; min-height:320px; opacity:0.6;">
-      <span style="font-size:12px; letter-spacing:1px; color:#aaa; font-weight:600;">PRÓXIMAMENTE</span>
     </div>
-
-    <div style="background:var(--beige); border:1.5px dashed var(--beige-oscuro); border-radius:20px; padding:28px; display:flex; align-items:center; justify-content:center; min-height:320px; opacity:0.6;">
-      <span style="font-size:12px; letter-spacing:1px; color:#aaa; font-weight:600;">PRÓXIMAMENTE</span>
-    </div>
-
   </div>
 
-  <div style="margin-top:24px; background:var(--beige-oscuro); padding:20px 24px; border-radius:16px; color:#888; font-size:14px; line-height:1.5; text-align:center;">
-    El archivo se va a ir completando. Cada investigación, cuando se publique, va a tener su PDF, su resumen y su versión para descargar en Biblioteca si aplica.
-  </div>
-</section>
+  <!-- CARPETA 2: HÁBITOS -->
+  <div class="carpeta">
+    <div class="carpeta-label">Carpeta 02 — Hábitos</div>
+    <div class="cards">
+      
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?q=80&w=600&auto=format&fit=crop" alt=""></div>
+        <div class="card-body">
+          <h3 class="card-title">Hábitos y responsabilidad</h3>
+          <p class="card-desc">Estudio sobre la formación de hábitos y la asunción de responsabilidades cotidianas.</p>
+          <a href="#" class="card-btn">Ver →</a>
+        </div>
+      </div>
 
-  <script src="/footer.js?v=1"></script>
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1494172961521-33799ddd43a5?q=80&w=600&auto=format&fit=crop" alt=""></div>
+        <div class="card-body">
+          <h3 class="card-title">Hábitos digitales</h3>
+          <p class="card-desc">Impacto de los hábitos digitales en la concentración y el comportamiento social.</p>
+          <a href="#" class="card-btn">Ver →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CARPETA 3: VALORES -->
+  <div class="carpeta">
+    <div class="carpeta-label">Carpeta 03 — Valores y Propósito</div>
+    <div class="cards">
+      
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=600&auto=format&fit=crop" alt=""></div>
+        <div class="card-body">
+          <h3 class="card-title">Valores y proyecto de vida</h3>
+          <p class="card-desc">Relación entre claridad de valores y construcción de proyecto personal en jóvenes.</p>
+          <a href="#" class="card-btn">Ver →</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=600&auto=format&fit=crop" alt=""></div>
+        <div class="card-body">
+          <h3 class="card-title">Propósito y motivación</h3>
+          <p class="card-desc">Cómo el propósito influye en la motivación sostenida y la dirección personal.</p>
+          <a href="#" class="card-btn">Ver →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CARPETA 4: CIUDADANÍA -->
+  <div class="carpeta">
+    <div class="carpeta-label">Carpeta 04 — Ciudadanía</div>
+    <div class="cards">
+      
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?q=80&w=600&auto=format&fit=crop" alt=""></div>
+        <div class="card-body">
+          <h3 class="card-title">Participación ciudadana joven</h3>
+          <p class="card-desc">Análisis de formas de participación y compromiso ciudadano en jóvenes de 14 a 30 años.</p>
+          <a href="#" class="card-btn">Ver →</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=600&auto=format&fit=crop" alt=""></div>
+        <div class="card-body">
+          <h3 class="card-title">Disciplina y ciudadanía</h3>
+          <p class="card-desc">Exploración inicial sobre si disciplina, hábitos y valores se asocian con conductas ciudadanas.</p>
+          <a href="#" class="card-btn">Ver →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="proximamente">Más investigaciones próximamente — archivo en construcción</div>
+
+  <div style="margin-top:32px; padding:18px; background:#fdfbf6; border:1.5px solid var(--beige-oscuro); border-radius:12px; font-size:13px; line-height:1.6; color:var(--texto);">
+    <strong>Transparencia:</strong> RIQSIN no se presenta como teoría validada, sino como propuesta metodológica en desarrollo, susceptible de revisión científica.
+  </div>
+
+</div>
+
+<script src="/footer.js?v=1"></script>
 </body>
 </html>
