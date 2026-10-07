@@ -599,3 +599,185 @@ footer { background: var(--beige); border-top: 1px solid var(--beige-oscuro); pa
   transform:translateX(-100%);
   animation:shimmerMove 3s infinite;
   }
+
+  /* BIBLIOTECA RIQSIN - CSS separado */
+
+.page-biblio{
+  margin:0;
+  padding-top:64px;
+  background:#f5f1e8;
+  color:#111;
+  font-family:Inter,sans-serif;
+}
+
+.biblio-wrap{
+  max-width:680px;
+  margin:0 auto;
+  padding:100px 24px 80px;
+  text-align:center;
+}
+
+.biblio-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 14px;
+  border:1px solid #e8e0d0;
+  background:#fff;
+  border-radius:999px;
+}
+
+.biblio-dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#b8985a;
+  animation:pulseBiblio 1.5s infinite;
+  display:inline-block;
+}
+
+.biblio-badge-text{
+  font-size:11px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:#6b6252;
+  font-family:Geist Mono;
+  font-weight:500;
+}
+
+.biblio-title{
+  font-size:42px;
+  font-weight:700;
+  line-height:0.95;
+  margin:28px 0 0 0;
+  letter-spacing:-0.04em;
+}
+
+.biblio-subtitle{
+  font-size:22px;
+  font-weight:600;
+  margin:22px 0 0 0;
+  letter-spacing:-0.02em;
+}
+
+.biblio-desc{
+  font-size:15px;
+  line-height:1.6;
+  color:#4a443c;
+  margin:16px auto 0;
+  max-width:440px;
+}
+
+.biblio-progress-wrap{
+  margin:40px auto 0;
+  max-width:360px;
+}
+
+.biblio-bar{
+  height:2px;
+  background:#e8e0d0;
+  border-radius:999px;
+  overflow:hidden;
+  position:relative;
+}
+
+.biblio-shimmer{
+  position:absolute;
+  inset:0;
+  width:40%;
+  background:linear-gradient(90deg,transparent,#b8985a,transparent);
+  animation:shimmerBiblio 1.6s infinite;
+}
+
+.biblio-dots{
+  margin-top:14px;
+  display:flex;
+  justify-content:center;
+  gap:6px;
+}
+
+.biblio-dots span{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#b8985a;
+  animation:dotBiblio 1.4s infinite;
+}
+.biblio-dots span:nth-child(2){ animation-delay:0.2s; }
+.biblio-dots span:nth-child(3){ animation-delay:0.4s; }
+
+.biblio-card{
+  margin-top:40px;
+  background:#fff;
+  border:1.5px solid #e8e0d0;
+  border-radius:16px;
+  padding:20px;
+  text-align:left;
+}
+
+.biblio-card-head{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+.biblio-card-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#b8985a;
+  display:inline-block;
+}
+
+.biblio-card-label{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:#6b6252;
+  font-family:Geist Mono;
+}
+
+.biblio-card-text{
+  margin:0;
+  font-size:14px;
+  line-height:1.6;
+  color:#4a443c;
+}
+
+.biblio-actions{
+  margin-top:28px;
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+.btn-primary{
+  display:inline-block;
+  padding:12px 22px;
+  background:#111;
+  color:#fff;
+  text-decoration:none;
+  border-radius:10px;
+  font-size:14px;
+  font-weight:600;
+}
+
+.btn-secondary{
+  display:inline-block;
+  padding:12px 22px;
+  background:#fff;
+  color:#111;
+  text-decoration:none;
+  border:1.5px solid #e8e0d0;
+  border-radius:10px;
+  font-size:14px;
+  font-weight:600;
+}
+
+/* animaciones */
+@keyframes pulseBiblio{ 0%,100%{ opacity:1 } 50%{ opacity:0.5 } }
+@keyframes shimmerBiblio{ 0%{ transform:translateX(-100%) } 100%{ transform:translateX(100%) } }
+@keyframes dotBiblio{ 0%,80%,100%{ opacity:0.3; transform:scale(0.8) } 40%{ opacity:1; transform:scale(1) } }
